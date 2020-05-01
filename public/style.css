@@ -28,17 +28,50 @@ main,
 }
 
 /* -------------------------- /welcome ------------------------------------------------------- */
+/*
+Backdrop blur filter idea from:
+https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in-css--cms-32535
+*/
+
 .welcome-component {
     /* border: 2px red solid; */
     background-image: url("back-large.jpg");
     background-size: cover;
-    color: white;
+    color: whitesmoke;
+
+    /* backdrop blur code below */
+    background-attachment: fixed;
 }
+
 .welcome-backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
     border-radius: 20px;
+    background-color: black;
     padding: 10px 100px;
+
+    /* backdrop blur code below */
+    /* box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 1); */
+    position: relative;
+    background: inherit;
+    overflow: hidden;
+    z-index: 5;
 }
+
+/* backdrop blur code below */
+.welcome-backdrop:before {
+    content: "";
+    position: absolute;
+    background: inherit;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 1px 1px 10000px 1px rgba(0, 0, 0, 0.6),
+        inset -1px -1px 1000px 1px rgba(0, 0, 0, 0.6);
+    filter: blur(1px);
+    margin: -5px;
+    z-index: -5;
+}
+
 .welcome-component h1 {
     /* border: 1px red solid; */
     text-align: center;
@@ -63,13 +96,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     margin: 20px 50px 40px;
     padding: 20px 0px 0px;
     /* box-shadow: 1px 1px 1px grey; */
-}
-
-.form h3 {
-    /* border: 1px solid red; */
-    /* margin: 0; */
-    color: grey;
-    font-weight: 400;
 }
 
 .input-field-div {
@@ -114,19 +140,19 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .form button {
-    border: 1px rgb(96, 96, 96) solid;
+    border: none;
+    /* border: 1px rgba(245, 245, 245, 0.295) solid; */
     border-top: none;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background: linear-gradient(to bottom, #393939 0%, #151515 100%);
     filter: contrast(150%);
-    color: white;
+    color: whitesmoke;
     width: 100%;
     margin: 20px 0 0;
     padding: 10px;
     font-size: 20px;
     cursor: pointer;
-    /* ---- Experiment ----- */
 }
 .form button:hover {
     filter: contrast(80%);
@@ -145,4 +171,23 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /* -------------------------- /register /login specifics ------------------------------------------------------- */
 
 .register-form {
+}
+
+.form h3 {
+    /* border: 1px solid red; */
+    margin: 0 0 10px;
+    color: grey;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.toggle-reg-log {
+    /* border: 1px red solid; */
+    color: rgb(162, 162, 162);
+    font-size: 16px;
+    margin: 0;
+}
+.toggle-reg-log span {
+    text-decoration: underline;
+    cursor: pointer;
 }

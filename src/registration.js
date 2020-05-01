@@ -47,6 +47,9 @@ export default class Registration extends React.Component {
             //error-message logic: if both conditions are true, it will render the second condition (second codition is always truthy since it is a string, so it's basically saying "if this.state.error is truthy, render the div")
             <div className="register-form form">
                 <h3>Sign Up</h3>
+                <p className="toggle-reg-log">
+                    or <span>Login</span>
+                </p>
 
                 <div className="input-field-div">
                     {/* <p className="input-label">First Name:</p> */}
