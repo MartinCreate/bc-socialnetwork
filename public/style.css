@@ -1,7 +1,148 @@
+html,
 body {
-    background-color: wheat;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    /* background-color: wheat; */
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+    height: 100%;
 }
 
+main,
+.welcome-component {
+    height: 100%;
+    width: 100%;
+}
+
+.welcome-component,
+.welcome-backdrop,
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------------------------- /welcome ------------------------------------------------------- */
+.welcome-component {
+    /* border: 2px red solid; */
+    background-image: url("back-large.jpg");
+    background-size: cover;
+    color: white;
+}
+.welcome-backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+    padding: 10px 100px;
+}
+.welcome-component h1 {
+    /* border: 1px red solid; */
+    text-align: center;
+    font-size: 50px;
+    margin: 30px 0 0;
+}
+
+.subTitle {
+    font-size: 25px;
+}
+
+/* -------------------------- Form ------------------------------------------------------- */
+/*
+Input field focus border-animation from (effect 2):
+https://codepen.io/Takumari85/pen/RaYwpJ
+*/
+
+.form {
+    background-color: whitesmoke;
+    border-radius: 10px;
+    font-size: 20px;
+    margin: 20px 50px 40px;
+    padding: 20px 0px 0px;
+    /* box-shadow: 1px 1px 1px grey; */
+}
+
+.form h3 {
+    /* border: 1px solid red; */
+    /* margin: 0; */
+    color: grey;
+    font-weight: 400;
+}
+
+.input-field-div {
+    /* border: 1px blue solid; */
+    margin: 15px 50px;
+    position: relative;
+}
+
+/* .input-label {
+    margin: 0;
+} */
+
+.input-field-div input {
+    border: none;
+    border-bottom: 1px lightgrey solid;
+    font-size: 20px;
+    background-color: rgba(240, 255, 255, 0);
+    height: 30px;
+    width: 300px;
+}
+.input-field-div input:focus {
+    outline: none;
+}
+
+.input-field-div input:focus ~ .focus-border {
+    width: 100%;
+    transition: 0.4s;
+    left: 0;
+}
+.focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: grey;
+    transition: 0.4s;
+}
+
+.input-field-div input::placeholder {
+    font-size: 16px;
+}
+
+.form button {
+    border: 1px rgb(96, 96, 96) solid;
+    border-top: none;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: linear-gradient(to bottom, #393939 0%, #151515 100%);
+    filter: contrast(150%);
+    color: white;
+    width: 100%;
+    margin: 20px 0 0;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    /* ---- Experiment ----- */
+}
+.form button:hover {
+    filter: contrast(80%);
+}
+.form button:focus {
+    outline: none;
+    filter: contrast(100%);
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin: 10px;
+}
+
+/* -------------------------- /register /login specifics ------------------------------------------------------- */
+
 .register-form {
-    background-color: thistle;
 }

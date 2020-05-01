@@ -4,9 +4,12 @@ import Registration from "./registration";
 
 export default function Welcome() {
     return (
-        <div>
-            <h1>I AM the welcome component!</h1>
-            <Registration />
+        <div className="welcome-component">
+            <div className="welcome-backdrop">
+                <h1>Welcome to JamSession!</h1>
+                <p className="subTitle">Connect with musicians in your area!</p>
+                <Registration />
+            </div>
         </div>
     );
 }

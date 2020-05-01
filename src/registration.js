@@ -45,31 +45,58 @@ export default class Registration extends React.Component {
         return (
             //onChange: "every time smt changes in the input field, run this function and pass it the event object
             //error-message logic: if both conditions are true, it will render the second condition (second codition is always truthy since it is a string, so it's basically saying "if this.state.error is truthy, render the div")
-            <div className="register-form">
-                {this.state.error && <div>Oops, smt went wrong!</div>}
-                <h3>I am the Registration Component!</h3>
-                <input
-                    name="first"
-                    placeholder="first"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    name="last"
-                    placeholder="last"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    name="email"
-                    placeholder="email"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <input
-                    name="password"
-                    placeholder="password"
-                    type="password"
-                    onChange={(e) => this.handleChange(e)}
-                />
-                <button onClick={() => this.submit()}>Register!</button>
+            <div className="register-form form">
+                <h3>Sign Up</h3>
+
+                <div className="input-field-div">
+                    {/* <p className="input-label">First Name:</p> */}
+                    <input
+                        name="first"
+                        placeholder="First Name"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <span className="focus-border"></span>
+                </div>
+
+                <div className="input-field-div">
+                    {/* <p className="input-label">Last Name:</p> */}
+                    <input
+                        name="last"
+                        placeholder="Last Name"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <span className="focus-border"></span>
+                </div>
+
+                <div className="input-field-div">
+                    {/* <p className="input-label">Email:</p> */}
+                    <input
+                        name="email"
+                        placeholder="Email"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <span className="focus-border"></span>
+                </div>
+
+                <div className="input-field-div">
+                    {/* <p className="input-label">Password:</p> */}
+                    <input
+                        name="password"
+                        placeholder="Password"
+                        type="password"
+                        onChange={(e) => this.handleChange(e)}
+                    />
+                    <span className="focus-border"></span>
+                </div>
+
+                {this.state.error && (
+                    <div className="error-message">
+                        Oops, something went wrong! <br /> Please fill out every
+                        field
+                    </div>
+                )}
+                <button onClick={() => this.submit()}>Register</button>
+                {/* <div className="ex">Example</div> */}
             </div>
         );
     }
