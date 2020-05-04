@@ -9,18 +9,3 @@ compare = promisify(compare); //compare takes two arguments, plain text and a ha
 module.exports.compare = compare;
 module.exports.hash = (plainTxtPw) =>
     genSalt().then((salt) => hash(plainTxtPw, salt));
-
-// //////--------------------------EXAMPLE OF FUNCTIONALITIES FROM IN CLASS------------------------------//
-// genSalt()
-//     .then((salt) => {
-//         // console.log(salt);
-//         return hash("superSafePassword", salt);
-//     })
-//     .then((hashedPassword) => {
-//         // console.log("hased and salted PW: ", hashedPassword);
-//         //returns properly hashed PW
-//         return compare("superSafePassword", hashedPassword);
-//     })
-//     .then((matchValueOfCompare) => {
-//         // console.log("matchValueOfCompare: ", matchValueOfCompare);
-//     });

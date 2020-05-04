@@ -16,7 +16,6 @@ module.exports.submitRegistration = (first, last, email, password) => {
     );
 };
 
-////--POST
 module.exports.login = (loginEmail) => {
     return db.query(
         `
