@@ -64,9 +64,6 @@ module.exports.updatePassword = (email, password) => {
     );
 };
 
-////---Selecting generated code for resetting Password
-// SELECT * FROM reset_codes WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY id DESC LIMIT 1;
-
 //////////////////////////////////FROM Petition:   ///////////////////////////////////////////////////////////////
 
 // ////--GET

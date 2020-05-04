@@ -199,12 +199,13 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 
 /* -------------------------- /register /login specifics ------------------------------------------------------- */
 
-.register-form {
-}
-
-.toggle-reg-log {
+.toggle-comps {
     /* border: 1px red solid; */
     color: rgb(162, 162, 162);
     font-size: 16px;
-    margin: 0;
+    margin: 0 0 20px;
+}
+
+#to-reset {
+    color: grey;
 }

@@ -48,7 +48,7 @@ export default class Login extends React.Component {
             //error-message logic: if both conditions are true, it will render the second condition (second codition is always truthy since it is a string, so it's basically saying "if this.state.error is truthy, render the div")
             <div className="login-form form">
                 <h3>Sign In</h3>
-                <p className="toggle-reg-log">
+                <p className="toggle-comps">
                     or <Link to="/">Register</Link>
                 </p>
 
@@ -70,8 +70,12 @@ export default class Login extends React.Component {
                     />
                     <span className="focus-border"></span>
                 </div>
-                <p className="toggle-reg-log">
-                    Forgot Password? <Link to="/reset">Reset</Link> Password
+                <p className="toggle-comps">
+                    Forgot Password?{" "}
+                    <Link to="/reset" id="to-reset">
+                        Reset
+                    </Link>{" "}
+                    Password
                 </p>
                 {this.state.error && (
                     <div className="error-message">

@@ -66,7 +66,7 @@ export default class ResetPassword extends React.Component {
                     <div className="reset-form form">
                         <h3>Reset Password</h3>
 
-                        <p className="toggle-reg-log">
+                        <p className="toggle-comps">
                             Back to <Link to="/login">Login</Link>
                         </p>
 
@@ -111,6 +111,7 @@ export default class ResetPassword extends React.Component {
                             <input
                                 name="newPassword"
                                 placeholder="New Password"
+                                type="password"
                                 onChange={(e) => this.handleChange(e)}
                             />
                             <span className="focus-border"></span>
@@ -126,12 +127,6 @@ export default class ResetPassword extends React.Component {
                             Reset Password
                         </button>
                     </div>
-
-                    // <div>
-                    //     <input name="code" />
-                    //     <input name="password" />
-                    //     <button>Submit</button>
-                    // </div>
                 )}
                 {this.state.step == 3 && (
                     <div className="reset-form form">
@@ -144,12 +139,6 @@ export default class ResetPassword extends React.Component {
                             new password.
                         </p>
                     </div>
-
-                    // <div>
-                    //     <input name="code" />
-                    //     <input name="password" />
-                    //     <button>Submit</button>
-                    // </div>
                 )}
             </div>
         );
