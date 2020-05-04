@@ -109,9 +109,6 @@ app.post("/register", (req, res) => {
                 res.json({ success: false });
             });
     });
-
-    //set a cookie (i.e. req.session.userId = db query response id)
-    //send back res.json({success: true})
 });
 
 ////------------------------------- /login route ---------------------------------------------- //
@@ -147,7 +144,7 @@ app.post("/login", (req, res) => {
         });
 });
 
-////------------------------------- /reset routes ---------------------------------------------- //
+////------------------------------- /reset password routes ---------------------------------------------- //
 app.post("/reset-pword/one", (req, res) => {
     db.checkUser(req.body.email)
         .then(({ rows }) => {
