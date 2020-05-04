@@ -27,6 +27,14 @@ main,
     justify-content: center;
 }
 
+/*logo:
+https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&fontsize=100&fontname=sansserif+bold&textColor=%23000&outlineColor=%23fff&backgroundRadio=0&backgroundColor=%23089ae2#enterText
+*/
+
+#logo {
+    height: 100px;
+}
+
 /* -------------------------- /welcome ------------------------------------------------------- */
 /*
 Backdrop blur filter idea from:
@@ -37,7 +45,7 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
     /* border: 2px red solid; */
     background-image: url("back-large.jpg");
     background-size: cover;
-    color: whitesmoke;
+    color: white;
 
     /* backdrop blur code below */
     background-attachment: fixed;
@@ -45,7 +53,7 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
 
 .welcome-backdrop {
     border-radius: 20px;
-    background-color: black;
+    /* background-color: white; */
     padding: 10px 100px;
 
     /* backdrop blur code below */
@@ -56,8 +64,8 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
     z-index: 5;
 }
 
-/* backdrop blur code below */
 .welcome-backdrop:before {
+    /* backdrop blur code below */
     content: "";
     position: absolute;
     background: inherit;
@@ -65,9 +73,9 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
     left: 0;
     right: 0;
     bottom: 0;
-    box-shadow: inset 1px 1px 10000px 1px rgba(0, 0, 0, 0.6),
-        inset -1px -1px 1000px 1px rgba(0, 0, 0, 0.6);
-    filter: blur(1px);
+    box-shadow: inset 1px 1px 10000px 1px rgb(0, 0, 0),
+        inset -1px -1px 1000px 1px rgba(0, 0, 0);
+    filter: blur(15px);
     margin: -5px;
     z-index: -5;
 }
@@ -96,6 +104,21 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     margin: 20px 50px 40px;
     padding: 20px 0px 0px;
     /* box-shadow: 1px 1px 1px grey; */
+}
+
+.form h3 {
+    /* border: 1px solid red; */
+    margin: 0 0 10px;
+    color: grey;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.form-desc {
+    color: grey;
+    max-width: 400px;
+    text-align: center;
+    margin: 20px 50px 50px;
 }
 
 .input-field-div {
@@ -146,7 +169,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     background: linear-gradient(to bottom, #393939 0%, #151515 100%);
-    filter: contrast(150%);
+    filter: contrast(80%);
     color: whitesmoke;
     width: 100%;
     margin: 20px 0 0;
@@ -155,11 +178,11 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     cursor: pointer;
 }
 .form button:hover {
-    filter: contrast(80%);
+    filter: contrast(100%);
 }
 .form button:focus {
     outline: none;
-    filter: contrast(100%);
+    filter: contrast(150%);
 }
 
 .error-message {
@@ -168,17 +191,15 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     margin: 10px;
 }
 
+.success {
+    color: green;
+    font-size: 30px;
+    margin: 20px;
+}
+
 /* -------------------------- /register /login specifics ------------------------------------------------------- */
 
 .register-form {
-}
-
-.form h3 {
-    /* border: 1px solid red; */
-    margin: 0 0 10px;
-    color: grey;
-    font-size: 30px;
-    font-weight: 400;
 }
 
 .toggle-reg-log {
@@ -186,8 +207,4 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     color: rgb(162, 162, 162);
     font-size: 16px;
     margin: 0;
-}
-.toggle-reg-log span {
-    text-decoration: underline;
-    cursor: pointer;
 }

@@ -3,18 +3,17 @@ import axios from "./axios"; //the ./ means use the axios from the same director
 // import { Link } is used wherever you use Link to render a component through a new url Path
 import { Link } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
-            //demoing error
             error: false,
         };
     }
 
     handleChange(e) {
-        console.log("e.target.value: ", e.target.value);
-        console.log("e.target.name: ", e.target.name);
+        // console.log("e.target.value: ", e.target.value);
+        // console.log("e.target.name: ", e.target.name);
 
         this.setState(
             {
@@ -25,11 +24,11 @@ export default class Registration extends React.Component {
     }
 
     submit() {
-        console.log("this.state in submit(): ", this.state);
-        axios.post("/register", this.state).then(({ data }) => {
-            console.log("data: ", data);
+        // console.log("this.state in submit(): ", this.state);
+        axios.post("/login", this.state).then(({ data }) => {
+            // console.log("data: ", data);
             if (data.success) {
-                console.log("Registration Success!");
+                console.log("Login Success!");
                 this.setState({
                     error: false,
                 });
@@ -47,29 +46,11 @@ export default class Registration extends React.Component {
         return (
             //onChange: "every time smt changes in the input field, run this function and pass it the event object
             //error-message logic: if both conditions are true, it will render the second condition (second codition is always truthy since it is a string, so it's basically saying "if this.state.error is truthy, render the div")
-            <div className="register-form form">
-                <h3>Sign Up</h3>
+            <div className="login-form form">
+                <h3>Sign In</h3>
                 <p className="toggle-reg-log">
-                    or <Link to="/login">Login</Link>
+                    or <Link to="/">Register</Link>
                 </p>
-
-                <div className="input-field-div">
-                    <input
-                        name="first"
-                        placeholder="First Name"
-                        onChange={(e) => this.handleChange(e)}
-                    />
-                    <span className="focus-border"></span>
-                </div>
-
-                <div className="input-field-div">
-                    <input
-                        name="last"
-                        placeholder="Last Name"
-                        onChange={(e) => this.handleChange(e)}
-                    />
-                    <span className="focus-border"></span>
-                </div>
 
                 <div className="input-field-div">
                     <input
@@ -89,14 +70,15 @@ export default class Registration extends React.Component {
                     />
                     <span className="focus-border"></span>
                 </div>
-
+                <p className="toggle-reg-log">
+                    Forgot Password? <Link to="/reset">Reset</Link> Password
+                </p>
                 {this.state.error && (
                     <div className="error-message">
-                        Oops, something went wrong! <br /> Please fill out every
-                        field
+                        Oops, something went wrong! <br /> Please try again
                     </div>
                 )}
-                <button onClick={() => this.submit()}>Register</button>
+                <button onClick={() => this.submit()}>Login</button>
             </div>
         );
     }

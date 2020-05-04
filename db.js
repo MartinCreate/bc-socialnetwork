@@ -16,14 +16,56 @@ module.exports.submitRegistration = (first, last, email, password) => {
     );
 };
 
-// ////--GET
-// module.exports.loginAttempt = (loginEmail) => {
-//     return db.query(
-//         `
-//     SELECT password, id FROM users WHERE email = $1`,
-//         [loginEmail]
-//     );
-// };
+////--POST
+module.exports.login = (loginEmail) => {
+    return db.query(
+        `
+    SELECT password, id FROM users WHERE email = $1`,
+        [loginEmail]
+    );
+};
+
+////// --------------------------------/reset-password ------------------------------------------------//
+////--POST
+module.exports.checkUser = (loginEmail) => {
+    return db.query(
+        `
+    SELECT id, email, first, last FROM users WHERE email = $1`,
+        [loginEmail]
+    );
+};
+
+module.exports.saveCode = (email, code) => {
+    return db.query(
+        `
+    INSERT INTO reset_codes (email, code)
+    VALUES ($1, $2)`,
+        [email, code]
+    );
+};
+
+module.exports.getCode = () => {
+    return db.query(
+        `
+        SELECT * FROM reset_codes
+        WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '20 minutes'
+        ORDER BY id DESC
+        LIMIT 1`
+    );
+};
+
+module.exports.updatePassword = (email, password) => {
+    return db.query(
+        `
+        UPDATE users
+        SET password = $2
+        WHERE email = $1`,
+        [email, password]
+    );
+};
+
+////---Selecting generated code for resetting Password
+// SELECT * FROM reset_codes WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes' ORDER BY id DESC LIMIT 1;
 
 //////////////////////////////////FROM Petition:   ///////////////////////////////////////////////////////////////
 

@@ -1,9 +1,12 @@
+// import HelloWorld from "./helloworld"; // since we exported using default in helloworld.js, we don't need the curly brackets here
+// // ReactDOM.render(<HelloWorld />, document.querySelector("main"));
 import React from "react";
 import ReactDOM from "react-dom"; //activates react
-import HelloWorld from "./helloworld"; // since we exported using default in helloworld.js, we don't need the curly brackets here
-// ReactDOM.render(<HelloWorld />, document.querySelector("main"));
-
 import Welcome from "./welcome";
+
+//for logout
+import { HashRouter, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 let elem;
 
@@ -13,7 +16,13 @@ const userIsLoggedIn = location.pathname != "/welcome";
 console.log("location.pathname: ", location.pathname);
 
 if (userIsLoggedIn) {
-    elem = <h1>I will be the logo...</h1>;
+    elem = (
+        <div>
+            {/* <h1>I will be the logo...</h1> */}
+            <img src="./logo4.png" alt="amjam logo" id="logo" />
+            <a href="/logout">Logout</a>
+        </div>
+    );
 } else {
     elem = <Welcome />;
 }

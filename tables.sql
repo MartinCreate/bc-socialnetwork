@@ -1,5 +1,5 @@
 
--- DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users, reset_codes;
 CREATE TABLE users(
       id SERIAL PRIMARY KEY,
       first VARCHAR(255) NOT NULL CHECK (first != '' AND first != ' '),
@@ -9,6 +9,12 @@ CREATE TABLE users(
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
+CREATE TABLE reset_codes(
+      id SERIAL PRIMARY KEY,
+      email VARCHAR NOT NULL,
+      code VARCHAR NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 
 -- -- psql -d socialmedia -f tables.sql
