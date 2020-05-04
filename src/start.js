@@ -4,10 +4,6 @@ import React from "react";
 import ReactDOM from "react-dom"; //activates react
 import Welcome from "./welcome";
 
-//for logout
-import { HashRouter, Route } from "react-router-dom";
-import { Link } from "react-router-dom";
-
 let elem;
 
 //if location.pathname is not /welcome, then (as the server must have determined) the user must be logged in
