@@ -1,3 +1,8 @@
+//AWS Bucketname: martinpaul-msg-socialnetwork
+/* To check the images on aws, go to
+https://s3.console.aws.amazon.com/s3/buckets/martinpaul-msg-socialnetwork/
+*/
+
 const express = require("express");
 const app = express();
 const db = require("./db");
@@ -7,6 +12,35 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const c = require("crypto-random-string");
 const { sendEmail } = require("./ses");
+
+const s3 = require("./s3");
+//////////////////////// DON'T TOUCH below - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
+//npm packages we installed
+const multer = require("multer"); //saves our files to our harddrive
+const uidSafe = require("uid-safe"); //creates random string to give each file a unique name
+//core node module
+const path = require("path");
+
+const diskStorage = multer.diskStorage({
+    //where on harddrive files will be saved
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    //makes sure each file we upload has a different name. uidSafe creates a random 24-character name
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        }); //this adds the original filepath and extention to the 24-character-random-name
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152, //limits uploaded filesize to be 2mb max
+    },
+});
+//////////////////////// DON'T TOUCH above - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
 
 ////------------------------------- MIDDLEWARE ---------------------------------------------- //
 app.use((req, res, next) => {
@@ -32,7 +66,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-//React-specific code. if-block runs when we're running the application locally
+//React-specific code. if-block runs when We're running the application locally
 //app.use runs whenever we receive a request for bundle.js and passes on the request to port 8081, which means our second server (bundle-server) takes care of the quest, handles it, then sends it back to our html through bundle.js
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -49,6 +83,8 @@ if (process.env.NODE_ENV != "production") {
 ////------------------------------- ROUTES ---------------------------------------------- //
 
 app.get("/welcome", (req, res) => {
+    console.log("We're in /welcome!");
+
     //if user is logged in (i.e. has userId cookie), send to home, else send to sign/registration page
     if (req.session.userId) {
         res.redirect("/");
@@ -58,11 +94,33 @@ app.get("/welcome", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
+    console.log("We're in /logout!");
+
     req.session = null;
     res.redirect("/");
 });
 
+////------------------------------- /user route ---------------------------------------------- //
+app.get("/user", (req, res) => {
+    console.log("We're in /user!");
+    console.log("req.session.userId: ", req.session.userId);
+
+    db.getUserInfo(req.session.userId)
+        .then(({ rows }) => {
+            console.log("rows: ", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("ERROR in /user getUserInfo: ", err);
+        });
+});
+
+////------------------------------- * route ---------------------------------------------- //
+
 app.get("*", function (req, res) {
+    console.log("We're in * !");
+    console.log("req.session.userId: ", req.session.userId);
+
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
@@ -71,48 +129,70 @@ app.get("*", function (req, res) {
 });
 
 ////------------------------------- /register route ---------------------------------------------- //
-app.post("/register", (req, res) => {
-    console.log("req.body: ", req.body);
-    const bod = req.body;
+// app.post("/register", (req, res) => {
+//     console.log("We're in /register!");
 
-    //if bod.password is undefined, then 'hashedP' should be undefined
-    const hashP = new Promise(function (resolve) {
-        if (bod.password) {
-            hash(bod.password).then((actualHashedP) => {
-                resolve(actualHashedP);
-            });
-        } else {
-            resolve(bod.password);
+//     const bod = req.body;
+
+//     //if bod.password is undefined, then 'hashedP' should be undefined
+//     const hashP = new Promise(function (resolve) {
+//         if (bod.password) {
+//             hash(bod.password).then((actualHashedP) => {
+//                 resolve(actualHashedP);
+//             });
+//         } else {
+//             resolve(bod.password);
+//         }
+//     });
+
+//     hashP.then((hashedP) => {
+//         db.submitRegistration(bod.first, bod.last, bod.email, hashedP)
+//             .then(({ rows }) => {
+//                 console.log("Register Successful");
+//                 req.session.userId = rows[0].id;
+//             })
+//             .then(() => {
+//                 // console.log("Cookies leaving /register: ", req.session);
+//                 res.json({ success: true });
+//             })
+//             .catch((err) => {
+//                 console.log("ERROR in POST /register, submitReg", err);
+//                 res.json({ success: false });
+//             });
+//     });
+// });
+
+////rewriting app.post('/register',...) with async & await
+app.post("/register", async (req, res) => {
+    console.log("We're in /register!");
+    const { first, last, email, password } = req.body;
+
+    if (password == "" || !password) {
+        return res.json({ success: false });
+    } else {
+        try {
+            const hashedP = await hash(password);
+            const resp = await db.submitRegistration(
+                first,
+                last,
+                email,
+                hashedP
+            );
+            const id = resp.rows[0].id;
+
+            req.session.userId = id;
+            res.json({ success: true });
+        } catch (e) {
+            console.log("ERROR in /register: ", e);
+            res.json({ success: false });
         }
-    });
-
-    hashP.then((hashedP) => {
-        db.submitRegistration(bod.first, bod.last, bod.email, hashedP)
-            .then(({ rows }) => {
-                console.log("Register Successful");
-                console.log("rows: ", rows);
-                //resetCookies
-                // const { csrfSecret } = req.session;
-                // req.session = {};
-                // req.session.csrfSecret = csrfSecret;
-
-                //userId and login Cookie
-                req.session.userId = rows[0].id;
-                // req.session.loggedIn = true;
-            })
-            .then(() => {
-                // console.log("Cookies leaving /register: ", req.session);
-                res.json({ success: true });
-            })
-            .catch((err) => {
-                console.log("ERROR in POST /register, submitReg", err);
-                res.json({ success: false });
-            });
-    });
+    }
 });
 
 ////------------------------------- /login route ---------------------------------------------- //
 app.post("/login", (req, res) => {
+    console.log("We're in /login!");
+
     db.login(req.body.email)
         .then(({ rows }) => {
             compare(req.body.password, rows[0].password)
@@ -195,9 +275,6 @@ app.post("/reset-pword/two", (req, res) => {
                 throw Error;
             }
 
-            console.log("rows[0].code: ", rows[0].code);
-            console.log("req.body: ", req.body);
-
             if (bod.code == rows[0].code) {
                 hash(bod.newPassword).then((hashedP) => {
                     db.updatePassword(bod.email, hashedP)
@@ -221,6 +298,39 @@ app.post("/reset-pword/two", (req, res) => {
             res.json({ success: false });
         });
 });
+
+////------------------------------- /upload-image route ---------------------------------------------- //
+//uploader.single('propertyKey from formData') runs the multer code from the boilerplate above
+app.post("/upload-profile", uploader.single("file"), s3.upload, (req, res) => {
+    const { user_id } = req.body;
+
+    if (req.file) {
+        db.updateImgUrl(
+            //this url is copied from aws page of image (without the id-characters at the end)
+            "https://martinpaul-msg-socialnetwork.s3.eu-central-1.amazonaws.com/" +
+                req.file.filename,
+            user_id
+        )
+            .then(({ rows }) => {
+                const resp = rows[0];
+                res.json({
+                    resp,
+                });
+            })
+            .catch((err) => {
+                console.log("ERROR in updateImgUrl: ", err);
+                res.json({
+                    success: false,
+                });
+            });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+////-------------------------------  Port ---------------------------------------------- //
 
 app.listen(8080, function () {
     console.log("social media server listening...");

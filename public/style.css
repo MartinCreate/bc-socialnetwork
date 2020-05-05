@@ -26,6 +26,7 @@ main,
     align-items: center;
     justify-content: center;
 }
+/* -------------------------- logged in ------------------------------------------------------- */
 
 /*logo:
 https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&fontsize=100&fontname=sansserif+bold&textColor=%23000&outlineColor=%23fff&backgroundRadio=0&backgroundColor=%23089ae2#enterText
@@ -33,6 +34,18 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 
 #logo {
     height: 100px;
+}
+
+.profile-pic {
+    height: 150px;
+}
+
+.prof-pic-div {
+    border: 2px green solid;
+}
+
+.upload-modal {
+    border: 1px blue solid;
 }
 
 /* -------------------------- /welcome ------------------------------------------------------- */

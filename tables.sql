@@ -6,6 +6,7 @@ CREATE TABLE users(
       last VARCHAR(255) NOT NULL CHECK (last != '' AND last != ' '),
       email VARCHAR(255) NOT NULL CHECK (email != '' AND email != ' ') UNIQUE,
       password VARCHAR(255) NOT NULL CHECK (password != '' AND password != ' '),
+      image_url TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
  );
 
