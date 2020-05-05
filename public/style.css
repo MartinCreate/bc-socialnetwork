@@ -26,26 +26,144 @@ main,
     align-items: center;
     justify-content: center;
 }
+
+#logout {
+    /* border: 1px red solid; */
+}
 /* -------------------------- logged in ------------------------------------------------------- */
+
+#app-component {
+    background-color: lightgrey;
+    height: 100%;
+    position: relative;
+}
 
 /*logo:
 https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&fontsize=100&fontname=sansserif+bold&textColor=%23000&outlineColor=%23fff&backgroundRadio=0&backgroundColor=%23089ae2#enterText
 */
 
+#logo-div {
+    display: inline-block;
+    text-align: center;
+}
+
 #logo {
     height: 100px;
+    width: auto;
+}
+
+#prof-pic-container {
+    border: 2px rgb(85, 85, 85) solid;
+    border-radius: 10px;
+    margin: 20px;
+    float: right;
+    cursor: pointer;
+}
+#prof-pic-container:hover {
+    background-color: white;
+}
+
+#prof-pic-div {
+    text-align: center;
 }
 
 .profile-pic {
-    height: 150px;
+    /* border-bottom: 2px rgb(85, 85, 85) solid; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 5px;
+    background-color: whitesmoke;
+    /* padding: 10px; */
+    max-height: 150px;
+    max-width: 200px;
+    object-fit: contain;
 }
 
-.prof-pic-div {
-    border: 2px green solid;
+#prof-pic-div p {
+    /* border: 1px red solid; */
+    margin: 0;
 }
 
-.upload-modal {
+/* ------------------ Upload Profile Pic Modal ------------------ */
+#upload-container {
     border: 1px blue solid;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#upload-modal-div {
+    border: 2px grey solid;
+    border-radius: 20px;
+    background-color: whitesmoke;
+    padding: 50px;
+    text-align: center;
+    position: relative;
+}
+
+/* #choose-image {
+    border: 1px black solid;
+    width: auto;
+} */
+.uploader-text {
+    margin: 50px;
+}
+
+#choose-image {
+    /* Hide actual (unstylable) 'choose file' button */
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+#choose-img-label {
+    /* border: 2px grey solid; */
+    color: white;
+    background-color: rgb(70, 70, 70);
+    font-size: 20px;
+    padding: 6px;
+    margin-bottom: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+#choose-img-label:hover {
+    background-color: rgb(130, 130, 130);
+}
+
+#submit-image {
+    border: 2px grey solid;
+    margin: 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+}
+#submit-image:hover {
+    background-color: rgb(60, 60, 60);
+    color: white;
+}
+
+#x-upload {
+    /* border: 1px red solid; */
+    color: grey;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    top: -10px;
+    right: 15px;
+    cursor: pointer;
+}
+#x-upload:hover {
+    color: black;
 }
 
 /* -------------------------- /welcome ------------------------------------------------------- */

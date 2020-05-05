@@ -8,8 +8,21 @@ export default class Uploader extends React.Component {
     }
 
     componentDidMount() {
+        var self = this;
         // console.log("this.props.id: ", this.props.id);
         // console.log("uploader mounted!");
+
+        //Closing with click outside of modal. (had to do mousedown, because stopPropagation with "click" made X unclickable)
+        document
+            .getElementById("upload-container")
+            .addEventListener("mousedown", function () {
+                self.props.toggleModal();
+            });
+        document
+            .getElementById("upload-modal-div")
+            .addEventListener("mousedown", function (e) {
+                e.stopPropagation();
+            });
     }
 
     //demo
@@ -44,17 +57,54 @@ export default class Uploader extends React.Component {
             });
     }
 
+    chooseImgButton() {
+        var self = this;
+        /* idea for code below, from:
+                https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/
+                */
+        var input = document.getElementById("choose-image");
+        var label = document.getElementById("choose-img-label");
+        var labelVal = input.innerHTML;
+
+        if (!self.chooseImgHasEvent) {
+            input.addEventListener("change", function (e) {
+                var fileName = "";
+                fileName = e.target.value;
+
+                if (fileName) {
+                    //fileName had C:/fakepath/ at the beginning, so I slice it off here
+                    fileName = fileName.slice(12);
+                    label.innerHTML = fileName;
+                } else {
+                    label.innerHTML = labelVal;
+                }
+                self.chooseImgHasEvent = true;
+            });
+            console.log(
+                "This should only show up once, for the first uploaded image of the session"
+            );
+        }
+        //---- idea for code above is from tympanus.net article ---------- //
+    }
+
     render() {
         return (
-            <div className="upload-modal">
-                <h2 className="uploader-text">
-                    This is my uploader component!!
-                </h2>
-                <h3 onClick={() => this.methodInUploader()}>
+            <div id="upload-modal-div">
+                <p onClick={() => this.props.toggleModal()} id="x-upload">
+                    X
+                </p>
+                <h2 className="uploader-text">Upload profile picture</h2>
+                {/* <h3 onClick={() => this.methodInUploader()}>
                     Click here to run methodInUploader
-                </h3>
+                </h3> */}
 
-                {/* <label @click="chooseImgButton" for="choose-image" id='choose-img-label'>Choose an image ...</label> */}
+                <label
+                    onClick={() => this.chooseImgButton()}
+                    htmlFor="choose-image"
+                    id="choose-img-label"
+                >
+                    Choose image ...
+                </label>
                 <input
                     onChange={(e) => this.handleImgFile(e)}
                     type="file"
@@ -62,7 +112,8 @@ export default class Uploader extends React.Component {
                     id="choose-image"
                     accept="image/*"
                 />
-                <button onClick={(e) => this.submitImage(e)}>
+                <br />
+                <button onClick={(e) => this.submitImage(e)} id="submit-image">
                     Submit Image
                 </button>
             </div>

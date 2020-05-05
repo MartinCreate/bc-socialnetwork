@@ -7,6 +7,7 @@ export default class App extends React.Component {
     constructor() {
         super();
         this.setImgUrl = this.setImgUrl.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.state = {
             uploaderIsVisible: false,
         };
@@ -47,12 +48,15 @@ export default class App extends React.Component {
     render() {
         //you pass information from parent to child through attributes in the child's html tag as seen in <Present/> below
         return (
-            <div>
-                <h1>Hello from App</h1>
-                <div
-                    onClick={() => this.toggleModal()}
-                    className="prof-pic-div"
-                >
+            <div id="app-component">
+                <div id="logo-div">
+                    <img src="./logo4.png" alt="amjam logo" id="logo" />
+                    <br />
+                    <a href="/logout" id="logout">
+                        Logout
+                    </a>
+                </div>
+                <div onClick={() => this.toggleModal()} id="prof-pic-container">
                     <Present
                         first={this.state.first}
                         last={this.state.last}
@@ -60,16 +64,15 @@ export default class App extends React.Component {
                     />
                 </div>
                 {this.state.uploaderIsVisible && (
-                    <Uploader
-                        methodInApp={this.methodInApp}
-                        setImgUrl={this.setImgUrl}
-                        id={this.state.id}
-                    />
+                    <div id="upload-container">
+                        <Uploader
+                            // methodInApp={this.methodInApp}
+                            setImgUrl={this.setImgUrl}
+                            toggleModal={this.toggleModal}
+                            id={this.state.id}
+                        />
+                    </div>
                 )}
-                <div>
-                    <img src="./logo4.png" alt="amjam logo" id="logo" />
-                    <a href="/logout">Logout</a>
-                </div>
             </div>
         );
     }

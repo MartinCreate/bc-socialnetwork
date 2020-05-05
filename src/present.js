@@ -8,17 +8,15 @@ export default function Present({ first, last, imageUrl }) {
     imageUrl = imageUrl || "default.png"; //get a picture to use as your default and call it default.png or whatever the file extension is
 
     return (
-        <div>
-            <h2>
-                Present component, my name is {first} {last}!
-            </h2>
-
+        <div id="prof-pic-div">
             <img
                 src={imageUrl}
                 className="profile-pic"
                 alt={`${first} ${last}'s profile picture`}
             />
-            {/* get the alt above to work */}
+            <p>
+                {first} {last}
+            </p>
         </div>
     );
 }
