@@ -57,6 +57,13 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     height: 80px;
     width: auto;
 }
+
+/* ----------------------------------- PROFILE COMPONENT ------------------------------------------------------------------------- */
+
+#profile-component {
+    display: flex;
+}
+
 /* -------------------------------- Profile Picture -------------------------------- */
 
 /* ------------- Profile Picture in app.js ---------------- */
@@ -114,15 +121,55 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     object-fit: contain;
 }
 
-/* #prof-pic-div p {
-    margin: 0;
-} */
+/* -------------------------------- Bio -------------------------------- */
 
-#bio-editor {
-    border: 1px blue solid;
+#bio-div {
+    /* border: 1px purple solid; */
+    padding: 20px;
 }
 
-/* ------------------ Upload Profile Pic Modal ------------------ */
+#bio-editor {
+    /* border: 1px blue solid; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#bio-text {
+    /* border: 1px grey solid; */
+    background-color: rgb(225, 225, 225);
+    border-radius: 5px;
+    padding: 15px;
+}
+
+#bio-textarea {
+    width: 30vw;
+    height: 250px;
+}
+
+.bio-button {
+    /* border: 1px red solid; */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#submit-and-cancel-bio {
+    /* border: 1px green solid; */
+    width: 100%;
+    /* display: flex; */
+}
+
+#cancel {
+    /* border: 1px red solid; */
+    display: inline-block;
+}
+
+#submit-bio {
+    /* border: 1px blue solid; */
+    float: right;
+}
+
+/* --------------------------- Upload Profile Pic Modal ------------------ */
 #upload-container {
     border: 1px blue solid;
     background-color: rgba(0, 0, 0, 0.5);

@@ -27,8 +27,7 @@ export default function Profile({
     // };
 
     return (
-        <div>
-            <p>Profile Component</p>
+        <div id="profile-component">
             <div id="pic-inProfile">
                 <ProfilePic
                     toggleModal={toggleModal}
@@ -39,10 +38,14 @@ export default function Profile({
                 {/* Reacty styling: Move the line below into <ProfilePic /> */}
                 {/* styles={stylesProf} */}
             </div>
-            {first} {last}
-            <div id="bio-editor">
-                <h1>I am the BioEditor</h1>
-                <BioEditor id={id} bio={bio} updateBio={updateBio} />
+            <div id="bio-div">
+                <h1>Profile</h1>
+                <h2>
+                    {first} {last}
+                </h2>
+                <div id="bio-editor">
+                    <BioEditor id={id} bio={bio} updateBio={updateBio} />
+                </div>
             </div>
         </div>
     );

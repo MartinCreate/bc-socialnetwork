@@ -9,7 +9,7 @@ export default class BioEditor extends React.Component {
     constructor() {
         super();
         this.state = {
-            editingMode: false,
+            editingMode: true,
         };
     }
 
@@ -51,39 +51,47 @@ export default class BioEditor extends React.Component {
         if (this.state.editingMode) {
             return (
                 <>
+                    <div id="submit-and-cancel-bio">
+                        <p
+                            onClick={() => {
+                                this.toggleMode();
+                            }}
+                            id="cancel"
+                            className="bio-button"
+                        >
+                            Cancel
+                        </p>
+                        <p
+                            onClick={() => {
+                                this.submitBio();
+                                this.toggleMode();
+                            }}
+                            id="submit-bio"
+                            className="bio-button"
+                        >
+                            Submit Bio
+                        </p>
+                    </div>
                     <textarea
                         onChange={(e) => this.tempBio(e)}
                         defaultValue={this.props.bio}
+                        id="bio-textarea"
                     />
-                    <p
-                        onClick={() => {
-                            this.submitBio();
-                            this.toggleMode();
-                        }}
-                    >
-                        Submit Bio
-                    </p>
-                    <p
-                        onClick={() => {
-                            this.toggleMode();
-                        }}
-                    >
-                        Cancel
-                    </p>
                 </>
             );
         } else if (this.props.bio) {
             return (
                 <>
-                    <p>{this.props.bio}</p>
-
                     <p
                         onClick={() => {
                             this.toggleMode();
                         }}
+                        id="edit-bio"
+                        className="bio-button"
                     >
                         Edit Bio
                     </p>
+                    <p id="bio-text">{this.props.bio}</p>
                 </>
             );
         } else {
