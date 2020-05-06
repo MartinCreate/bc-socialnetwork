@@ -27,7 +27,6 @@ export default function Profile({
     // };
 
     return (
-        //you can do <React.Fragment></> by just doing <> </>, which means you don't have to have a div that contains everything
         <div>
             <p>Profile Component</p>
             <div id="pic-inProfile">

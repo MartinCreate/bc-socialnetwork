@@ -2,9 +2,9 @@ import React from "react";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import axios from "./axios";
-//new below
 import Profile from "./profile";
 
+//reacty styling
 // const stylesApp = {
 //     backgroundColor: "blue",
 // };
@@ -44,23 +44,15 @@ export default class App extends React.Component {
                 id: data.id,
                 imageUrl: data.image_url,
                 bio: data.bio,
-                // bio: "A wild Test-Bio has appeared!",
             });
         });
     }
 
     toggleModal() {
-        // console.log("toggleModal is running!");
         this.setState({
-            //the value in the line below reads: 'whatever the value is in uploaderIsVisible, change it to the opposite'
             uploaderIsVisible: !this.state.uploaderIsVisible,
         });
     }
-
-    //demo
-    // methodInApp(imgUrl) {
-    //     console.log("I'm running in App! arg: ", arg);
-    // }
 
     setImgUrl(imgUrl) {
         this.setState({
@@ -69,11 +61,10 @@ export default class App extends React.Component {
         });
     }
 
-    updateBio(e) {
-        // console.log("updateBio e.taget.value: ", e.target.value);
-        console.log("e: ", e);
+    updateBio(draft) {
+        console.log("draft: ", draft);
         this.setState({
-            bio: e.target.value || e,
+            bio: draft,
         });
     }
 
@@ -108,7 +99,6 @@ export default class App extends React.Component {
                 {this.state.uploaderIsVisible && (
                     <div id="upload-container">
                         <Uploader
-                            // methodInApp={this.methodInApp}
                             setImgUrl={this.setImgUrl}
                             toggleModal={this.toggleModal}
                             id={this.state.id}
@@ -116,7 +106,6 @@ export default class App extends React.Component {
                     </div>
                 )}
 
-                {/* NEW below  */}
                 <Profile
                     toggleModal={this.toggleModal}
                     id={this.state.id}
@@ -125,7 +114,6 @@ export default class App extends React.Component {
                     imageUrl={this.state.imageUrl}
                     bio={this.state.bio}
                     updateBio={this.updateBio}
-                    cancelBio={this.cancelBio}
                 />
             </div>
         );

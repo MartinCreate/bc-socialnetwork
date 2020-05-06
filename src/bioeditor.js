@@ -26,8 +26,8 @@ export default class BioEditor extends React.Component {
     }
 
     submitBio() {
-        let updateBioInfo = { id: this.props.id, newBio: this.props.bio };
-        console.log("updateBioInfo: ", updateBioInfo);
+        let updateBioInfo = { id: this.props.id, newBio: this.state.draftBio };
+        this.props.updateBio(this.state.draftBio);
 
         axios
             .post("/update-bio", updateBioInfo)
@@ -40,8 +40,11 @@ export default class BioEditor extends React.Component {
             });
     }
 
-    cancelEdit() {
-        this.props.cancelBio(this.state.originalBio);
+    tempBio(e) {
+        console.log("draftBio in tempBio: ", this.state.draftBio);
+        this.setState({
+            draftBio: e.target.value,
+        });
     }
 
     render() {
@@ -49,7 +52,7 @@ export default class BioEditor extends React.Component {
             return (
                 <>
                     <textarea
-                        onChange={(e) => this.props.updateBio(e)}
+                        onChange={(e) => this.tempBio(e)}
                         defaultValue={this.props.bio}
                     />
                     <p
@@ -63,7 +66,6 @@ export default class BioEditor extends React.Component {
                     <p
                         onClick={() => {
                             this.toggleMode();
-                            this.cancelEdit();
                         }}
                     >
                         Cancel
@@ -86,7 +88,6 @@ export default class BioEditor extends React.Component {
             );
         } else {
             return (
-                // <div id="bio-editor-inside">
                 <>
                     <p
                         onClick={() => {
@@ -96,42 +97,7 @@ export default class BioEditor extends React.Component {
                         Add Bio
                     </p>
                 </>
-                // </div>
             );
         }
-
-        // return (
-        //     <div id="bio-editor">
-        //         <h1>I am the BioEditor</h1>
-
-        //         {!this.props.bio && (
-        //             <p
-        //                 onClick={() => {
-        //                     this.toggleMode();
-        //                 }}
-        //             >
-        //                 Add Bio
-        //             </p>
-        //         )}
-        //         {this.props.bio && (
-        //             <div>
-        //                 {this.props.bio}
-        //                 <p
-        //                     onClick={() => {
-        //                         this.toggleMode();
-        //                     }}
-        //                 >
-        //                     Edit Bio
-        //                 </p>
-        //             </div>
-        //         )}
-        //         {this.state.editingMode && (
-        //             <div>
-        //                 <textarea defaultValue={this.props.bio} />
-        //                 <p>Submit Bio</p>
-        //             </div>
-        //         )}
-        //     </div>
-        // );
     }
 }
