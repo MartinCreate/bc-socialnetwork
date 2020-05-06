@@ -39,10 +39,10 @@ export default function Profile({
                 {/* styles={stylesProf} */}
             </div>
             <div id="bio-div">
-                <h1>Profile</h1>
-                <h2>
+                <h1>
                     {first} {last}
-                </h2>
+                </h1>
+                <h3>Profile</h3>
                 <div id="bio-editor">
                     <BioEditor id={id} bio={bio} updateBio={updateBio} />
                 </div>

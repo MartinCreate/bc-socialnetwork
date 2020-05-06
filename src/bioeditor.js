@@ -9,7 +9,7 @@ export default class BioEditor extends React.Component {
     constructor() {
         super();
         this.state = {
-            editingMode: true,
+            editingMode: false,
         };
     }
 
@@ -101,6 +101,7 @@ export default class BioEditor extends React.Component {
                         onClick={() => {
                             this.toggleMode();
                         }}
+                        className="bio-button"
                     >
                         Add Bio
                     </p>
