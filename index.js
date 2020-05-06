@@ -107,6 +107,8 @@ app.get("/user", (req, res) => {
 
     db.getUserInfo(req.session.userId)
         .then(({ rows }) => {
+            console.log("We're in /user! getUserInfo");
+
             console.log("rows: ", rows);
             res.json(rows[0]);
         })
@@ -327,6 +329,24 @@ app.post("/upload-profile", uploader.single("file"), s3.upload, (req, res) => {
         res.json({
             success: false,
         });
+    }
+});
+
+////------------------------------- /update-bio route ---------------------------------------------- //
+app.post("/update-bio", async (req, res) => {
+    console.log("We're in /update-bio");
+
+    const { newBio, id } = req.body;
+    console.log("req.body: ", req.body);
+    console.log("newBio: ", newBio);
+    try {
+        const resp = await db.updateBio(newBio, id);
+        console.log("resp in /update-bio: ", resp);
+        // const biores = resp.rows[0].bio;
+        res.json({ success: true });
+    } catch (e) {
+        console.log("ERROR in /update-bio: ", e);
+        res.json({ success: false });
     }
 });
 

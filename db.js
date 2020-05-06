@@ -83,6 +83,17 @@ module.exports.updateImgUrl = (imgUrl, id) => {
     );
 };
 
+module.exports.updateBio = (biotext, id) => {
+    return db.query(
+        `
+        UPDATE users
+        SET bio = $1
+        WHERE id = $2
+        RETURNING bio`,
+        [biotext, id]
+    );
+};
+
 //////////////////////////////////FROM Petition:   ///////////////////////////////////////////////////////////////
 
 // ////--GET

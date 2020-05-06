@@ -1,8 +1,6 @@
-// import HelloWorld from "./helloworld"; // since we exported using default in helloworld.js, we don't need the curly brackets here
-// // ReactDOM.render(<HelloWorld />, document.querySelector("main"));
 import React from "react";
 import ReactDOM from "react-dom"; //activates react
-import Welcome from "./welcome";
+import Welcome from "./welcome"; // since we exported using default in welcome.js, we don't need the curly brackets here
 import App from "./app";
 
 let elem;
@@ -14,13 +12,6 @@ console.log("location.pathname: ", location.pathname);
 
 if (userIsLoggedIn) {
     elem = <App />;
-    // elem = (
-    //     <div>
-    //         {/* <h1>I will be the logo...</h1> */}
-    //         <img src="./logo4.png" alt="amjam logo" id="logo" />
-    //         <a href="/logout">Logout</a>
-    //     </div>
-    // );
 } else {
     elem = <Welcome />;
 }

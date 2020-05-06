@@ -94,9 +94,6 @@ export default class Uploader extends React.Component {
                     X
                 </p>
                 <h2 className="uploader-text">Upload profile picture</h2>
-                {/* <h3 onClick={() => this.methodInUploader()}>
-                    Click here to run methodInUploader
-                </h3> */}
 
                 <label
                     onClick={() => this.chooseImgButton()}

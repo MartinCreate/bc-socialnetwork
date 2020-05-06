@@ -4,26 +4,30 @@ import React from "react";
 //---(counts for class aswell. we don't need to pass props as an argument like we're doing here)
 //we can destructure to avoid some repetitive props.whatever. whe just have to know what props we want in advance
 
-export default function Present({ first, last, imageUrl }) {
+export default function ProfilePic({
+    toggleModal,
+    first,
+    last,
+    imageUrl,
+    // styles,
+}) {
     imageUrl = imageUrl || "default.png"; //get a picture to use as your default and call it default.png or whatever the file extension is
 
     return (
-        <div id="prof-pic-div">
+        // <div onClick={() => toggleModal()} style={{...styles}} >
+        <div onClick={() => toggleModal()} id="prof-pic-div">
             <img
                 src={imageUrl}
                 className="profile-pic"
                 alt={`${first} ${last}'s profile picture`}
             />
-            <p>
-                {first} {last}
-            </p>
         </div>
     );
 }
 
 // //non-destructured version of above code, below
-// export default function Present(props) {
-//     console.log("props in Present: ", props);
+// export default function ProfilePic(props) {
+//     console.log("props in ProfilePic: ", props);
 
 //     return (
 //         <div>

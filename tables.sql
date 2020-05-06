@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS users, reset_codes;
 CREATE TABLE users(
       id SERIAL PRIMARY KEY,
@@ -7,8 +6,9 @@ CREATE TABLE users(
       email VARCHAR(255) NOT NULL CHECK (email != '' AND email != ' ') UNIQUE,
       password VARCHAR(255) NOT NULL CHECK (password != '' AND password != ' '),
       image_url TEXT,
+      bio VARCHAR(5000),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
- );
+      );
 
 CREATE TABLE reset_codes(
       id SERIAL PRIMARY KEY,
