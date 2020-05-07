@@ -94,6 +94,15 @@ module.exports.updateBio = (biotext, id) => {
     );
 };
 
+////// --------------------------------/other-user/:id ------------------------------------------------//
+module.exports.getOtherUserInfo = (id) => {
+    return db.query(
+        `
+    SELECT id, first, last, email, image_url, bio, created_at FROM users WHERE id = $1`,
+        [id]
+    );
+};
+
 //////////////////////////////////FROM Petition:   ///////////////////////////////////////////////////////////////
 
 // ////--GET

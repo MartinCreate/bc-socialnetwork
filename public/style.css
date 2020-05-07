@@ -67,7 +67,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 /* -------------------------------- Profile Picture -------------------------------- */
 
 /* ------------- Profile Picture in app.js ---------------- */
-#header #prof-pic-div {
+#header .prof-pic-div {
     border: 2px rgb(85, 85, 85) solid;
     border-radius: 10px;
     margin: 10px;
@@ -77,7 +77,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     height: 100px;
     padding: 5px;
 }
-#header #prof-pic-div:hover {
+#header .prof-pic-div:hover {
     background-color: rgb(150, 150, 150);
 }
 
@@ -95,7 +95,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 
 /* ------------- Profile Picture in profile.js ---------------- */
 
-#pic-inProfile #prof-pic-div {
+#pic-inProfile .prof-pic-div {
     border: 2px rgb(85, 85, 85) solid;
     border-radius: 10px;
     margin: 10px;
@@ -105,7 +105,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     width: 250px;
     padding: 5px;
 }
-#pic-inProfile #prof-pic-div:hover {
+#pic-inProfile .prof-pic-div:hover {
     background-color: rgb(150, 150, 150);
 }
 
@@ -119,6 +119,13 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     width: 250px;
     /* max-width: 200px; */
     object-fit: contain;
+}
+
+#pic-inProfile .other-prof {
+    cursor: default;
+}
+#pic-inProfile .other-prof:hover {
+    background-color: lightgrey;
 }
 
 /* -------------------------------- Bio -------------------------------- */

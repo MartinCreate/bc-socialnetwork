@@ -1,5 +1,4 @@
 import React from "react";
-import Profile from "./profile";
 import axios from "./axios";
 
 // state: editingMode: true/false

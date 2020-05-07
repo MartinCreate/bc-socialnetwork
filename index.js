@@ -109,7 +109,7 @@ app.get("/user", (req, res) => {
         .then(({ rows }) => {
             console.log("We're in /user! getUserInfo");
 
-            console.log("rows: ", rows);
+            // console.log("rows: ", rows);
             res.json(rows[0]);
         })
         .catch((err) => {
@@ -117,16 +117,18 @@ app.get("/user", (req, res) => {
         });
 });
 
-////------------------------------- * route ---------------------------------------------- //
+////------------------------------- /other-user/:id route ---------------------------------------------- //
+app.get("/other-user/:id", async (req, res) => {
+    console.log(`We're in /other-user/:id!`);
 
-app.get("*", function (req, res) {
-    console.log("We're in * !");
-    console.log("req.session.userId: ", req.session.userId);
+    try {
+        const resp = await db.getOtherUserInfo(req.params.id);
+        console.log("We're after /other-user getOtherUserInfo");
+        const send = resp.rows[0];
 
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(__dirname + "/index.html");
+        res.json(send);
+    } catch (e) {
+        console.log("ERROR in /other-user/:id: ", e);
     }
 });
 
@@ -245,7 +247,7 @@ Here is your password-reset code.
 Code: ${newCode}
 
 This code expires after 20 minutes.
-Enter the code into the password-reset form along with you new password of choice.
+Enter the code into the password-reset form along with your new password of choice.
 
 Love you,
 amJam`;
@@ -347,6 +349,19 @@ app.post("/update-bio", async (req, res) => {
     } catch (e) {
         console.log("ERROR in /update-bio: ", e);
         res.json({ success: false });
+    }
+});
+
+////------------------------------- * route ---------------------------------------------- //
+
+app.get("*", function (req, res) {
+    console.log("We're in * !");
+    console.log("req.session.userId: ", req.session.userId);
+
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
     }
 });
 

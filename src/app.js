@@ -4,6 +4,10 @@ import Uploader from "./uploader";
 import axios from "./axios";
 import Profile from "./profile";
 
+//NEW below
+import OtherProfile from "./other-profile";
+import { BrowserRouter, Route } from "react-router-dom";
+
 //reacty styling
 // const stylesApp = {
 //     backgroundColor: "blue",
@@ -15,7 +19,6 @@ export default class App extends React.Component {
         this.setImgUrl = this.setImgUrl.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.updateBio = this.updateBio.bind(this);
-        this.cancelBio = this.cancelBio.bind(this);
 
         this.state = {
             uploaderIsVisible: false,
@@ -37,7 +40,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
-            console.log("componentDidMount data: ", data);
+            // console.log("componentDidMount data: ", data);
             this.setState({
                 first: data.first,
                 last: data.last,
@@ -62,16 +65,9 @@ export default class App extends React.Component {
     }
 
     updateBio(draft) {
-        console.log("draft: ", draft);
+        // console.log("draft: ", draft);
         this.setState({
             bio: draft,
-        });
-    }
-
-    cancelBio(orig) {
-        console.log("orig: ", orig);
-        this.setState({
-            bio: "poop",
         });
     }
 
@@ -79,42 +75,85 @@ export default class App extends React.Component {
         //you pass information from parent to child through attributes in the child's html tag as seen in <ProfilePic/> below
         return (
             <div id="app-component">
-                <div id="header">
-                    <div id="logo-div">
-                        <img src="./logo4.png" alt="amjam logo" id="logo" />
-                        <br />
-                        <a href="/logout" id="logout">
-                            Logout
-                        </a>
-                    </div>
+                <BrowserRouter>
+                    <div>
+                        <div id="header">
+                            <div id="logo-div">
+                                <img
+                                    src="/logo4.png"
+                                    alt="amjam logo"
+                                    id="logo"
+                                />
+                                <br />
+                                <a href="/logout" id="logout">
+                                    Logout
+                                </a>
+                            </div>
 
-                    <ProfilePic
-                        toggleModal={this.toggleModal}
-                        first={this.state.first}
-                        last={this.state.last}
-                        imageUrl={this.state.imageUrl}
-                    />
-                    {/* styles={stylesApp} */}
-                </div>
-                {this.state.uploaderIsVisible && (
-                    <div id="upload-container">
-                        <Uploader
-                            setImgUrl={this.setImgUrl}
+                            <ProfilePic
+                                toggleModal={this.toggleModal}
+                                first={this.state.first}
+                                last={this.state.last}
+                                imageUrl={this.state.imageUrl}
+                            />
+                            {/* styles={stylesApp} */}
+                        </div>
+                        {this.state.uploaderIsVisible && (
+                            <div id="upload-container">
+                                <Uploader
+                                    setImgUrl={this.setImgUrl}
+                                    toggleModal={this.toggleModal}
+                                    id={this.state.id}
+                                />
+                            </div>
+                        )}
+
+                        {/* <Profile
                             toggleModal={this.toggleModal}
                             id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            imageUrl={this.state.imageUrl}
+                            bio={this.state.bio}
+                            updateBio={this.updateBio}
+                        /> */}
+
+                        {/* Route checks the url path and loads the component corresponding to the value in component={}. this only works if you're not passing the component any attributes */}
+                        {/* <Route exact path="/chat" component={chat} />
+                        <Route exact path="/online" component={OnlineUsers} /> */}
+
+                        {/* To use route with components to which data is passed through attributes, use render={() => {<ExampleComponent />}}  */}
+                        {/* "only render Profile, when the path is exactly '/' " */}
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    toggleModal={this.toggleModal}
+                                    id={this.state.id}
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    imageUrl={this.state.imageUrl}
+                                    bio={this.state.bio}
+                                    updateBio={this.updateBio}
+                                />
+                            )}
+                        />
+
+                        <Route
+                            exact
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                    currentUserId={this.state.id}
+                                />
+                            )}
                         />
                     </div>
-                )}
-
-                <Profile
-                    toggleModal={this.toggleModal}
-                    id={this.state.id}
-                    first={this.state.first}
-                    last={this.state.last}
-                    imageUrl={this.state.imageUrl}
-                    bio={this.state.bio}
-                    updateBio={this.updateBio}
-                />
+                </BrowserRouter>
             </div>
         );
     }

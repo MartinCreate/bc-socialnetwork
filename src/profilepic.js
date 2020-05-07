@@ -15,7 +15,7 @@ export default function ProfilePic({
 
     return (
         // <div onClick={() => toggleModal()} style={{...styles}} >
-        <div onClick={() => toggleModal()} id="prof-pic-div">
+        <div onClick={() => toggleModal()} className="prof-pic-div">
             <img
                 src={imageUrl}
                 className="profile-pic"
