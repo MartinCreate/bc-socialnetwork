@@ -8,12 +8,12 @@ class OtherProfile extends Component {
     }
 
     async componentDidMount() {
-        console.log("this.props.match.params.id: ", this.props.match.params.id);
+        // console.log("this.props.match.params.id: ", this.props.match.params.id);
         const otherId = this.props.match.params.id;
 
         try {
             const { data } = await axios.get("/other-user/" + otherId);
-            if (data.ownProfile) {
+            if (data.ownProfile || data.nonExistent) {
                 this.props.history.push("/");
             } else {
                 const { first, last, email, image_url, bio } = data;
