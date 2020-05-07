@@ -13,18 +13,20 @@ class OtherProfile extends Component {
 
         try {
             const { data } = await axios.get("/other-user/" + otherId);
-            const { first, last, email, image_url, bio } = data;
-            console.log("bio: ", bio);
-            console.log("data: ", data);
+            if (data.ownProfile) {
+                this.props.history.push("/");
+            } else {
+                const { first, last, email, image_url, bio } = data;
 
-            this.setState({
-                otherId: otherId,
-                first: first,
-                last: last,
-                email: email,
-                img_url: image_url,
-                bio: bio,
-            });
+                this.setState({
+                    otherId: otherId,
+                    first: first,
+                    last: last,
+                    email: email,
+                    img_url: image_url || "/default.png",
+                    bio: bio,
+                });
+            }
         } catch (e) {
             console.log("ERROR in other-profile.js get /user/id: ");
         }
