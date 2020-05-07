@@ -33,26 +33,26 @@ class OtherProfile extends Component {
     }
 
     render() {
+        const { first, last, img_url, bio } = this.state;
+
         return (
             <div id="profile-component">
                 <div id="pic-inProfile">
                     <div className="other-prof prof-pic-div">
                         <img
-                            src={this.state.img_url}
+                            src={img_url}
                             className="profile-pic"
-                            alt={`${this.state.first} ${this.state.last}'s profile picture`}
+                            alt={`${first} ${last}'s profile picture`}
                         />
                     </div>
                 </div>
                 <div id="bio-div">
                     <h1>
-                        {this.state.first} {this.state.last}
+                        {first} {last}
                     </h1>
                     <h3>Profile</h3>
                     <div id="bio-editor">
-                        {this.state.bio && (
-                            <p id="bio-text">{this.state.bio}</p>
-                        )}
+                        {bio && <p id="bio-text">{bio}</p>}
                     </div>
                 </div>
             </div>

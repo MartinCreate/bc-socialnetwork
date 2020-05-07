@@ -41,13 +41,14 @@ export default class App extends React.Component {
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             // console.log("componentDidMount data: ", data);
-            this.setState({
-                first: data.first,
-                last: data.last,
-                id: data.id,
-                imageUrl: data.image_url,
-                bio: data.bio,
-            });
+            this.setState(data);
+            // this.setState({
+            //     first: data.first,
+            //     last: data.last,
+            //     id: data.id,
+            //     imageUrl: data.image_url,
+            //     bio: data.bio,
+            // });
         });
     }
 
@@ -72,6 +73,7 @@ export default class App extends React.Component {
     }
 
     render() {
+        const { id, first, last, image_url, bio } = this.state;
         //you pass information from parent to child through attributes in the child's html tag as seen in <ProfilePic/> below
         return (
             <div id="app-component">
@@ -92,9 +94,9 @@ export default class App extends React.Component {
 
                             <ProfilePic
                                 toggleModal={this.toggleModal}
-                                first={this.state.first}
-                                last={this.state.last}
-                                imageUrl={this.state.imageUrl}
+                                first={first}
+                                last={last}
+                                imageUrl={image_url}
                             />
                             {/* styles={stylesApp} */}
                         </div>
@@ -103,7 +105,7 @@ export default class App extends React.Component {
                                 <Uploader
                                     setImgUrl={this.setImgUrl}
                                     toggleModal={this.toggleModal}
-                                    id={this.state.id}
+                                    id={id}
                                 />
                             </div>
                         )}
@@ -130,11 +132,11 @@ export default class App extends React.Component {
                             render={() => (
                                 <Profile
                                     toggleModal={this.toggleModal}
-                                    id={this.state.id}
-                                    first={this.state.first}
-                                    last={this.state.last}
-                                    imageUrl={this.state.imageUrl}
-                                    bio={this.state.bio}
+                                    id={id}
+                                    first={first}
+                                    last={last}
+                                    imageUrl={image_url}
+                                    bio={bio}
                                     updateBio={this.updateBio}
                                 />
                             )}
@@ -148,7 +150,7 @@ export default class App extends React.Component {
                                     key={props.match.url}
                                     match={props.match}
                                     history={props.history}
-                                    currentUserId={this.state.id}
+                                    currentUserId={id}
                                 />
                             )}
                         />

@@ -4,6 +4,17 @@ import React from "react";
 //---(counts for class aswell. we don't need to pass props as an argument like we're doing here)
 //we can destructure to avoid some repetitive props.whatever. whe just have to know what props we want in advance
 
+// //REACT LIBRARY TESTING below
+
+// // note: url = "/default.jpg" as a function argument means "if a url is passed, take the url, but if not, use default.jpg"
+// const ProfilePic = ({ first, last, url = "/default.jpg", onClick }) => (
+//     <img src={url} alt={`${first} ${last}`} onClick={onClick} />
+// );
+
+// exports ProfilePic;
+
+// //REACT LIBRARY TESTING above
+
 export default function ProfilePic({
     toggleModal,
     first,
