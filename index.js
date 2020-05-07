@@ -125,13 +125,11 @@ app.get("/other-user/:id", async (req, res) => {
         const resp = await db.getOtherUserInfo(req.params.id);
         console.log("We're after /other-user getOtherUserInfo");
         const send = resp.rows[0];
-        console.log("send: ", send);
+        // console.log("send: ", send);
 
-        if (send.id == req.session.userId) {
-            res.json({ ownProfile: true });
-        } else {
-            res.json(send);
-        }
+        send.id == req.session.userId
+            ? res.json({ ownProfile: true })
+            : res.json(send);
     } catch (e) {
         console.log("ERROR in /other-user/:id: ", e);
     }
