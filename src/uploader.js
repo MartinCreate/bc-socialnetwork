@@ -29,21 +29,18 @@ export default class Uploader extends React.Component {
         });
     }
 
-    submitImage() {
+    async submitImage() {
         var self = this;
         var formData = new FormData();
         formData.append("user_id", this.props.id);
         formData.append("file", this.state.file);
 
-        axios
-            .post("/upload-profile", formData)
-            .then(function ({ data }) {
-                self.props.setImgUrl(data.resp.image_url);
-            })
-            .catch(function (err) {
-                console.log("ERROR in uploader.js POST /upload-profile: ", err);
-                //find way to render error message
-            });
+        try {
+            const { data } = await axios.post("/upload-profile", formData);
+            self.props.setImgUrl(data.resp.image_url);
+        } catch (e) {
+            console.log("ERROR in uploader.js POST /upload-profile: ", e);
+        }
     }
 
     chooseImgButton() {

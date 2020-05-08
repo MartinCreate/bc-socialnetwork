@@ -12,8 +12,8 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const c = require("crypto-random-string");
 const { sendEmail } = require("./ses");
-
 const s3 = require("./s3");
+
 //////////////////////// DON'T TOUCH below - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
 //npm packages we installed
 const multer = require("multer"); //saves our files to our harddrive
@@ -66,8 +66,8 @@ app.use(function (req, res, next) {
     next();
 });
 
-//React-specific code. if-block runs when We're running the application locally
-//app.use runs whenever we receive a request for bundle.js and passes on the request to port 8081, which means our second server (bundle-server) takes care of the quest, handles it, then sends it back to our html through bundle.js
+//React-specific code. if-block runs when we're running the application locally
+//app.use runs whenever we receive a request for bundle.js and passes on the request to port 8081, which means our second server (bundle-server) takes care of the request, handles it, then sends it back to our html through bundle.js
 if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
@@ -76,7 +76,7 @@ if (process.env.NODE_ENV != "production") {
         })
     );
 } else {
-    //this code runs if we run the application on heroku
+    //for heroku
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
@@ -85,7 +85,6 @@ if (process.env.NODE_ENV != "production") {
 app.get("/welcome", (req, res) => {
     console.log("We're in /welcome!");
 
-    //if user is logged in (i.e. has userId cookie), send to home, else send to sign/registration page
     if (req.session.userId) {
         res.redirect("/");
     } else {
@@ -101,20 +100,15 @@ app.get("/logout", (req, res) => {
 });
 
 ////------------------------------- /user route ---------------------------------------------- //
-app.get("/user", (req, res) => {
+app.get("/user", async (req, res) => {
     console.log("We're in /user!");
-    console.log("req.session.userId: ", req.session.userId);
 
-    db.getUserInfo(req.session.userId)
-        .then(({ rows }) => {
-            console.log("We're in /user! getUserInfo");
-
-            // console.log("rows: ", rows);
-            res.json(rows[0]);
-        })
-        .catch((err) => {
-            console.log("ERROR in /user getUserInfo: ", err);
-        });
+    try {
+        const { rows } = await db.getUserInfo(req.session.userId);
+        res.json(rows[0]);
+    } catch (e) {
+        console.log("ERROR in /user getUserInfo: ", e);
+    }
 });
 
 ////------------------------------- /other-user/:id route ---------------------------------------------- //
@@ -165,53 +159,44 @@ app.post("/register", async (req, res) => {
 });
 
 ////------------------------------- /login route ---------------------------------------------- //
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     console.log("We're in /login!");
 
-    db.login(req.body.email)
-        .then(({ rows }) => {
-            compare(req.body.password, rows[0].password)
-                .then((matchValue) => {
-                    console.log("matchValue: ", matchValue);
+    try {
+        const { rows } = await db.login(req.body.email);
+        const matchValue = await compare(req.body.password, rows[0].password);
+        console.log("matchValue: ", matchValue);
 
-                    if (req.body.password == "") {
-                        throw Error;
-                    }
+        if (req.body.password == "") {
+            throw Error;
+        }
 
-                    if (matchValue) {
-                        req.session.userId = rows[0].id;
-                        return;
-                    } else {
-                        throw Error;
-                    }
-                })
-                .then(() => {
-                    res.json({ success: true });
-                })
-                .catch((err) => {
-                    console.log("ERROR in POST /login: ", err);
-                    res.json({ success: false });
-                });
-        })
-        .catch((err) => {
-            console.log("ERROR in POST /login: ", err);
-            res.json({ success: false });
-        });
+        if (matchValue) {
+            req.session.userId = rows[0].id;
+        } else {
+            throw Error;
+        }
+
+        res.json({ success: true });
+    } catch (e) {
+        console.log("ERROR in POST /login: ", e);
+        res.json({ success: false });
+    }
 });
 
 ////------------------------------- /reset password routes ---------------------------------------------- //
-app.post("/reset-pword/one", (req, res) => {
-    db.checkUser(req.body.email)
-        .then(({ rows }) => {
-            if (rows.length == 0) {
-                throw Error;
-            }
+app.post("/reset-pword/one", async (req, res) => {
+    const { email } = req.body;
+    try {
+        const { rows } = await db.checkUser(email);
+        if (rows.length == 0) {
+            throw Error;
+        }
 
-            console.log("req.body: ", req.body);
-            rows = rows[0];
+        const resp = rows[0];
 
-            const newCode = c({ length: 6 });
-            const emailBody = `Dear ${rows.first} ${rows.last},
+        const newCode = c({ length: 6 });
+        const emailBody = `Dear ${resp.first} ${resp.last},
 
 Here is your password-reset code.
 
@@ -223,51 +208,36 @@ Enter the code into the password-reset form along with your new password of choi
 Love you,
 amJam`;
 
-            sendEmail(req.body.email, "Reset-code for amJam", emailBody)
-                .then(() => db.saveCode(req.body.email, newCode))
-                .then(() => res.json({ success: true }))
-                .catch((err) => {
-                    console.log("ERROR in /reset... sendEmail/saveCode: ", err);
-                    res.json({ success: false });
-                });
-        })
-        .catch((err) => {
-            console.log("ERROR in /reset... : ", err);
-            res.json({ success: false });
-        });
+        await sendEmail(email, "Reset-code for amJam", emailBody);
+        await db.saveCode(email, newCode);
+        res.json({ success: true });
+    } catch (e) {
+        console.log("ERROR in /reset-pword/one: ", e);
+        res.json({ success: false });
+    }
 });
 
-app.post("/reset-pword/two", (req, res) => {
-    const bod = req.body;
+app.post("/reset-pword/two", async (req, res) => {
+    const { newPassword, code, email } = req.body;
 
-    db.getCode()
-        .then(({ rows }) => {
-            if (bod.code == "" || rows.length == 0 || bod.newPassword == 0) {
-                throw Error;
-            }
+    try {
+        const { rows } = await db.getCode();
 
-            if (bod.code == rows[0].code) {
-                hash(bod.newPassword).then((hashedP) => {
-                    db.updatePassword(bod.email, hashedP)
-                        .then(() => {
-                            res.json({ success: true });
-                        })
-                        .catch((err) => {
-                            console.log(
-                                "ERROR in /reset.../two updatePassword: ",
-                                err
-                            );
-                            res.json({ success: false });
-                        });
-                });
-            } else {
-                throw Error;
-            }
-        })
-        .catch((err) => {
-            console.log("ERROR in /reset../two getCode: ", err);
-            res.json({ success: false });
-        });
+        if (code == "" || rows.length == 0 || newPassword == 0) {
+            throw Error;
+        }
+
+        if (code == rows[0].code) {
+            const hashedP = await hash(newPassword);
+            await db.updatePassword(email, hashedP);
+            res.json({ success: true });
+        } else {
+            throw Error;
+        }
+    } catch (e) {
+        console.log("ERROR in /reset-pword/two: ", e);
+        res.json({ success: false });
+    }
 });
 
 ////------------------------------- /upload-image route ---------------------------------------------- //
@@ -306,12 +276,8 @@ app.post("/update-bio", async (req, res) => {
     console.log("We're in /update-bio");
 
     const { newBio, id } = req.body;
-    console.log("req.body: ", req.body);
-    console.log("newBio: ", newBio);
     try {
-        const resp = await db.updateBio(newBio, id);
-        console.log("resp in /update-bio: ", resp);
-        // const biores = resp.rows[0].bio;
+        await db.updateBio(newBio, id);
         res.json({ success: true });
     } catch (e) {
         console.log("ERROR in /update-bio: ", e);
@@ -323,7 +289,6 @@ app.post("/update-bio", async (req, res) => {
 
 app.get("*", function (req, res) {
     console.log("We're in * !");
-    console.log("req.session.userId: ", req.session.userId);
 
     if (!req.session.userId) {
         res.redirect("/welcome");

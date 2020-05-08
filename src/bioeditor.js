@@ -23,17 +23,11 @@ export default class BioEditor extends React.Component {
 
     submitBio() {
         this.props.updateBio(this.state.draftBio);
-        let updateBioInfo = { id: this.props.id, newBio: this.state.draftBio };
+        let sendBio = { id: this.props.id, newBio: this.state.draftBio };
 
-        axios
-            .post("/update-bio", updateBioInfo)
-            .then(function () {
-                console.log("bioUpdate Success!");
-            })
-            .catch(function (err) {
-                console.log("ERROR in bioeditor.js POST /update-bio: ", err);
-                //find way to render error message
-            });
+        axios.post("/update-bio", sendBio).catch(function (err) {
+            console.log("ERROR in bioeditor.js POST /update-bio: ", err);
+        });
     }
 
     tempBio(e) {

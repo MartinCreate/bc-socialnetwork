@@ -1,6 +1,6 @@
 import React from "react";
 
-//props from apps.js || profile.js
+//props from apps.js and profile.js
 
 export default function ProfilePic({ toggleModal, first, last, imageUrl }) {
     imageUrl = imageUrl || "/default.png";

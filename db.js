@@ -88,8 +88,7 @@ module.exports.updateBio = (biotext, id) => {
         `
         UPDATE users
         SET bio = $1
-        WHERE id = $2
-        RETURNING bio`,
+        WHERE id = $2`,
         [biotext, id]
     );
 };

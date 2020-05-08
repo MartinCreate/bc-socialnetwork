@@ -37,7 +37,6 @@ export default class App extends React.Component {
     }
 
     updateBio(draft) {
-        // console.log("draft: ", draft);
         this.setState({
             bio: draft,
         });
@@ -45,7 +44,7 @@ export default class App extends React.Component {
 
     render() {
         const { id, first, last, image_url, bio } = this.state;
-        console.log("this.state in render: ", this.state);
+
         return (
             <div id="app-component">
                 <BrowserRouter>

@@ -20,7 +20,6 @@ export default class ResetPassword extends React.Component {
     sendEmail() {
         axios.post("/reset-pword/one", this.state).then(({ data }) => {
             if (data.success) {
-                console.log("Code-send & storage Success!");
                 this.setState({
                     error: false,
                     step: 2,
@@ -36,7 +35,6 @@ export default class ResetPassword extends React.Component {
     resetPassword() {
         axios.post("/reset-pword/two", this.state).then(({ data }) => {
             if (data.success) {
-                console.log("reset Password Success!");
                 this.setState({
                     error: false,
                     step: 3,
