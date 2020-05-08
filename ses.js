@@ -13,7 +13,7 @@ const ses = new aws.SES({
     region: "us-east-1", //EDIT THIS TO MATCH MY AWS REGION
 });
 
-//the 'to' you pass to sendEmail can be any registered email, even with the pluses, e.g. martinpaul.career+banana@gmail.com
+//the 'to' that you pass to sendEmail can be any registered email, even with the pluses, e.g. martinpaul.career+banana@gmail.com
 exports.sendEmail = (to, subject, text) => {
     return ses
         .sendEmail({

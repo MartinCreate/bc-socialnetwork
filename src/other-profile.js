@@ -1,14 +1,13 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-class OtherProfile extends Component {
+export default class OtherProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     async componentDidMount() {
-        // console.log("this.props.match.params.id: ", this.props.match.params.id);
         const otherId = this.props.match.params.id;
 
         try {
@@ -19,12 +18,12 @@ class OtherProfile extends Component {
                 const { first, last, email, image_url, bio } = data;
 
                 this.setState({
-                    otherId: otherId,
                     first: first,
                     last: last,
-                    email: email,
                     img_url: image_url || "/default.png",
                     bio: bio,
+                    email: email, //currently unnecessary
+                    otherId: otherId, //currently unnecessary
                 });
             }
         } catch (e) {
@@ -59,5 +58,3 @@ class OtherProfile extends Component {
         );
     }
 }
-
-export default OtherProfile;

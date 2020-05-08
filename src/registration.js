@@ -1,26 +1,21 @@
 import React from "react";
-import axios from "./axios"; //the ./ means use the axios from the same directory that we're in (i.e. from the axios.js., which contains the csurf configuration)
-// import { Link } is used wherever you use Link to render a component through a new url Path
+import axios from "./axios";
 import { Link } from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor() {
         super();
         this.state = {
-            //demoing error
             error: false,
         };
     }
 
     handleChange(e) {
-        console.log("e.target.value: ", e.target.value);
-        console.log("e.target.name: ", e.target.name);
-
         this.setState(
             {
                 [e.target.name]: e.target.value,
-            },
-            () => console.log("(this.state): ", this.state)
+            }
+            //, () => console.log("(this.state): ", this.state)
         );
     }
 
@@ -45,8 +40,6 @@ export default class Registration extends React.Component {
 
     render() {
         return (
-            //onChange: "every time smt changes in the input field, run this function and pass it the event object
-            //error-message logic: if both conditions are true, it will render the second condition (second codition is always truthy since it is a string, so it's basically saying "if this.state.error is truthy, render the div")
             <div className="register-form form">
                 <h3>Sign Up</h3>
                 <p className="toggle-comps">

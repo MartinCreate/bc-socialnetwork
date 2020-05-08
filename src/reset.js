@@ -7,25 +7,18 @@ export default class ResetPassword extends React.Component {
         super(props);
         this.state = {
             error: false,
-            step: 1, //this property has to be changed
+            step: 1,
         };
     }
 
     handleChange(e) {
-        // console.log("e.target.value: ", e.target.value);
-        // console.log("e.target.name: ", e.target.name);
-
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            },
-            () => console.log("(this.state): ", this.state)
-        );
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
     }
 
     sendEmail() {
         axios.post("/reset-pword/one", this.state).then(({ data }) => {
-            // console.log("data: ", data);
             if (data.success) {
                 console.log("Code-send & storage Success!");
                 this.setState({
@@ -42,7 +35,6 @@ export default class ResetPassword extends React.Component {
 
     resetPassword() {
         axios.post("/reset-pword/two", this.state).then(({ data }) => {
-            // console.log("data: ", data);
             if (data.success) {
                 console.log("reset Password Success!");
                 this.setState({
@@ -58,8 +50,6 @@ export default class ResetPassword extends React.Component {
     }
 
     render() {
-        //do conditional rendering here to render the different input fields
-        //the logic in the {} expression below reads: "if this.state.step == 1, then render what comes after &&"
         return (
             <div>
                 {this.state.step == 1 && (

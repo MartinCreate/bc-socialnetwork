@@ -125,52 +125,19 @@ app.get("/other-user/:id", async (req, res) => {
         const resp = await db.getOtherUserInfo(req.params.id);
         console.log("We're after /other-user getOtherUserInfo");
         const send = resp.rows[0];
-        console.log("send: ", send);
 
-        send.id == req.session.userId
+        !send
+            ? res.json({ nonExistent: true })
+            : send.id == req.session.userId
             ? res.json({ ownProfile: true })
             : res.json(send);
     } catch (e) {
         console.log("ERROR in /other-user/:id: ", e);
-        res.json({ nonExistent: true });
     }
 });
 
 ////------------------------------- /register route ---------------------------------------------- //
-// app.post("/register", (req, res) => {
-//     console.log("We're in /register!");
 
-//     const bod = req.body;
-
-//     //if bod.password is undefined, then 'hashedP' should be undefined
-//     const hashP = new Promise(function (resolve) {
-//         if (bod.password) {
-//             hash(bod.password).then((actualHashedP) => {
-//                 resolve(actualHashedP);
-//             });
-//         } else {
-//             resolve(bod.password);
-//         }
-//     });
-
-//     hashP.then((hashedP) => {
-//         db.submitRegistration(bod.first, bod.last, bod.email, hashedP)
-//             .then(({ rows }) => {
-//                 console.log("Register Successful");
-//                 req.session.userId = rows[0].id;
-//             })
-//             .then(() => {
-//                 // console.log("Cookies leaving /register: ", req.session);
-//                 res.json({ success: true });
-//             })
-//             .catch((err) => {
-//                 console.log("ERROR in POST /register, submitReg", err);
-//                 res.json({ success: false });
-//             });
-//     });
-// });
-
-////rewriting app.post('/register',...) with async & await
 app.post("/register", async (req, res) => {
     console.log("We're in /register!");
     const { first, last, email, password } = req.body;
@@ -257,12 +224,8 @@ Love you,
 amJam`;
 
             sendEmail(req.body.email, "Reset-code for amJam", emailBody)
-                .then(() => {
-                    return db.saveCode(req.body.email, newCode);
-                })
-                .then(() => {
-                    res.json({ success: true });
-                })
+                .then(() => db.saveCode(req.body.email, newCode))
+                .then(() => res.json({ success: true }))
                 .catch((err) => {
                     console.log("ERROR in /reset... sendEmail/saveCode: ", err);
                     res.json({ success: false });

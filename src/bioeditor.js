@@ -1,9 +1,6 @@
 import React from "react";
 import axios from "./axios";
 
-// state: editingMode: true/false
-//<textarea defaultValue={this.props.bio} />
-
 export default class BioEditor extends React.Component {
     constructor() {
         super();
@@ -25,8 +22,8 @@ export default class BioEditor extends React.Component {
     }
 
     submitBio() {
-        let updateBioInfo = { id: this.props.id, newBio: this.state.draftBio };
         this.props.updateBio(this.state.draftBio);
+        let updateBioInfo = { id: this.props.id, newBio: this.state.draftBio };
 
         axios
             .post("/update-bio", updateBioInfo)
@@ -40,7 +37,6 @@ export default class BioEditor extends React.Component {
     }
 
     tempBio(e) {
-        console.log("draftBio in tempBio: ", this.state.draftBio);
         this.setState({
             draftBio: e.target.value,
         });

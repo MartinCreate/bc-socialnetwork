@@ -9,8 +9,6 @@ export default class Uploader extends React.Component {
 
     componentDidMount() {
         var self = this;
-        // console.log("this.props.id: ", this.props.id);
-        // console.log("uploader mounted!");
 
         //Closing with click outside of modal. (had to do mousedown, because stopPropagation with "click" made X unclickable)
         document
@@ -25,16 +23,7 @@ export default class Uploader extends React.Component {
             });
     }
 
-    //demo
-    // methodInUploader() {
-    //     //here, we're running the method that was passed to Uploaer from app.js
-    //     this.props.methodInApp("whoa nelly!");
-    // }
-
     handleImgFile(e) {
-        console.log("handleImgFile is running! ");
-        console.log("e.target.files[0]: ", e.target.files[0]);
-
         this.setState({
             file: e.target.files[0],
         });

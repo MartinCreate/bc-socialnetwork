@@ -1,6 +1,5 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
-//this will hold the registration component
 import Registration from "./registration";
 import Login from "./login";
 import ResetPassword from "./reset";
@@ -21,8 +20,6 @@ export default function Welcome() {
                         <Route path="/reset" component={ResetPassword} />
                     </div>
                 </HashRouter>
-
-                {/* <Registration /> */}
             </div>
         </div>
     );
