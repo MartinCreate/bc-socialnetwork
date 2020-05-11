@@ -134,9 +134,9 @@ app.get("/search-users/:search", async (req, res) => {
         let lasts = respLast.rows;
         let send = [];
 
-        lasts.map((l) => send.unshift(l));
-        firsts.map((f) => send.unshift(f));
-        console.log("send: ", send);
+        firsts.map((f) => send.push(f));
+        lasts.map((l) => send.push(l));
+        // console.log("send: ", send);
 
         res.json(send);
     } catch (e) {
