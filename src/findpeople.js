@@ -7,13 +7,7 @@ export default function FindPeople() {
     const [search, setSearch] = useState("");
     const [recents, setRecents] = useState(true);
 
-    useEffect(() => {
-        console.log("useEffect is running!");
-
-        axios.get(`/most-recent`).then(({ data }) => {
-            setUsers(data);
-        });
-    }, []);
+    useEffect(() => noSearch(), []);
 
     useEffect(() => {
         let abort;
@@ -24,37 +18,49 @@ export default function FindPeople() {
                     setUsers(data);
                     setRecents(false);
                 }
+            } else {
+                noSearch();
             }
         })();
 
-        if (!search) {
-            setRecents(true);
-        }
         return () => {
             abort = true;
         };
     }, [search]);
 
+    function noSearch() {
+        setRecents(true);
+        axios.get(`/most-recent`).then(({ data }) => {
+            setUsers(data);
+        });
+    }
+
     return (
-        <div id="search-container">
-            <p>Find People</p>
-            <input
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search Members"
-            />
+        <div id="search-page">
+            <div id="search-left-col">
+                <p id="search-header">Find People</p>
+                <div className="input-field-div">
+                    <input
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="search by first or last name"
+                        id="search-input"
+                    />
+                    <span className="focus-border"></span>
+                </div>
+            </div>
             <div id="search-results">
                 {recents && <h3>Newest Members</h3>}
                 {!recents && <h3>Search Results</h3>}
 
                 {users.map((each) => (
-                    <div className="search-result" key={each.id}>
-                        <Link to={`/user/${each.id}`}>
+                    <Link to={`/user/${each.id}`} key={each.id}>
+                        <div className="search-result" key={each.id}>
                             <img src={each.image_url || "/default.png"} />
-                        </Link>
-                        <p>
-                            {each.first} {each.last}
-                        </p>
-                    </div>
+                            <p>
+                                {each.first} {each.last}
+                            </p>
+                        </div>
+                    </Link>
                 ))}
             </div>
         </div>

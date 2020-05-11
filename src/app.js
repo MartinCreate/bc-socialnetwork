@@ -49,7 +49,7 @@ export default class App extends React.Component {
         return (
             <div id="app-component">
                 <BrowserRouter>
-                    <div>
+                    <div id="browser-router">
                         <div id="header">
                             <div id="logo-div">
                                 <img
@@ -61,18 +61,33 @@ export default class App extends React.Component {
                                 <a href="/logout" id="logout">
                                     Logout
                                 </a>
-                                <div id="nav-bar">
-                                    <Link to="/">My Profile</Link> .....
-                                    <Link to="/users">Find People</Link>
-                                </div>
                             </div>
 
-                            <ProfilePic
-                                toggleModal={this.toggleModal}
-                                first={first}
-                                last={last}
-                                imageUrl={image_url}
-                            />
+                            <div id="navbar">
+                                <Link
+                                    to="/"
+                                    id="nav-profile"
+                                    className="nav-link"
+                                >
+                                    My Profile
+                                </Link>{" "}
+                                <Link
+                                    to="/users"
+                                    id="nav-search"
+                                    className="nav-link last-link"
+                                >
+                                    Find People
+                                </Link>
+                            </div>
+
+                            <div id="header-pic">
+                                <ProfilePic
+                                    toggleModal={this.toggleModal}
+                                    first={first}
+                                    last={last}
+                                    imageUrl={image_url}
+                                />
+                            </div>
                         </div>
                         {this.state.uploaderIsVisible && (
                             <div id="upload-container">

@@ -111,13 +111,12 @@ app.get("/user", async (req, res) => {
     }
 });
 
-////------------------------------- /users route ---------------------------------------------- //
+////------------------------------- /users route (SEARCH) ---------------------------------------------- //
 app.get("/most-recent", async (req, res) => {
     console.log("We're in /most-recent!");
 
     try {
         const { rows } = await db.getRecentRegisters();
-        console.log("rows in /most-recent: ", rows);
         res.json(rows);
     } catch (e) {
         console.log("ERROR in /most-recent: ", e);
@@ -147,7 +146,6 @@ app.get("/search-users/:search", async (req, res) => {
             }
         });
 
-        console.log("send: ", send);
         res.json(send);
     } catch (e) {
         console.log("ERROR in /most-recent: ", e);

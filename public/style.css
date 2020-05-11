@@ -1,3 +1,7 @@
+/* * {
+    margin: 0;
+} */
+
 html,
 body {
     border: 0;
@@ -34,14 +38,29 @@ main,
 
 #app-component {
     background-color: lightgrey;
-    height: 100%;
-    position: relative;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* position: relative; */
 }
+
+#browser-router {
+    /* border: 2px red solid; */
+    height: 100%;
+    margin: 0;
+}
+
+/* -------------------------- HEADER ------------------------------------------------------- */
 
 #header {
     /* border: 1px solid red; */
-    border-bottom: 1px solid grey;
-    height: 135px;
+    border-bottom: 2px solid grey;
+    /* height: 135px; */
+    display: grid;
+    grid-template-columns: 150px 1fr 150px;
+    grid-template-rows: 110px;
 }
 
 /*logo:
@@ -49,13 +68,51 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 */
 
 #logo-div {
+    /* border: 1px blue solid; */
     display: inline-block;
     text-align: center;
+    grid-column: 1 / span 1;
 }
 
 #logo {
     height: 80px;
     width: auto;
+}
+/* -------------- NAVBAR ---------------- */
+
+#navbar {
+    /* border: 1px red solid; */
+    grid-column: 2 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-link {
+    /* border: 1px solid black; */
+    border-right: 1px grey solid;
+    padding: 20px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.nav-link:hover {
+    background-color: white;
+    color: rgb(34, 34, 34);
+    border-bottom: 1px solid grey;
+    /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.75); */
+}
+
+.last-link {
+    border: none;
+}
+
+#header-pic {
+    /* border: 1px blue solid; */
+    grid-column: 3 / span 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ----------------------------------- PROFILE COMPONENT ------------------------------------------------------------------------- */
@@ -67,30 +124,32 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 /* -------------------------------- Profile Picture -------------------------------- */
 
 /* ------------- Profile Picture in app.js ---------------- */
-#header .prof-pic-div {
+#header-pic .prof-pic-div {
     border: 2px rgb(85, 85, 85) solid;
     border-radius: 10px;
     margin: 10px;
-    float: right;
+    /* float: right; */
     cursor: pointer;
     text-align: center;
-    height: 100px;
     padding: 5px;
 }
-#header .prof-pic-div:hover {
+#header-pic .prof-pic-div:hover {
     background-color: rgb(150, 150, 150);
 }
 
-#header .profile-pic {
+#header-pic .profile-pic {
     /* border-bottom: 2px rgb(85, 85, 85) solid; */
     border-radius: 10px;
     margin: 0px;
     background-color: whitesmoke;
     /* padding: 10px; */
-    height: 100px;
-    width: 100px;
     /* max-width: 200px; */
     object-fit: contain;
+}
+#header-pic .prof-pic-div,
+#header-pic .profile-pic {
+    height: 80px;
+    width: 80px;
 }
 
 /* ------------- Profile Picture in profile.js ---------------- */
@@ -98,7 +157,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 #pic-inProfile .prof-pic-div {
     border: 2px rgb(85, 85, 85) solid;
     border-radius: 10px;
-    margin: 10px;
+    margin: 30px;
     cursor: pointer;
     text-align: center;
     height: 250px;
@@ -114,10 +173,8 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     border-radius: 10px;
     margin: 0px;
     background-color: whitesmoke;
-    /* padding: 10px; */
     height: 250px;
     width: 250px;
-    /* max-width: 200px; */
     object-fit: contain;
 }
 
@@ -200,16 +257,12 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     position: relative;
 }
 
-/* #choose-image {
-    border: 1px black solid;
-    width: auto;
-} */
 .uploader-text {
     margin: 50px;
 }
 
 #choose-image {
-    /* Hide actual (unstylable) 'choose file' button */
+    /* Hiding actual (unstylable) 'choose file' button */
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -250,38 +303,12 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     font-size: 20px;
     font-weight: bold;
     position: absolute;
-    top: -10px;
+    top: 10px;
     right: 15px;
     cursor: pointer;
 }
 #x-upload:hover {
     color: black;
-}
-
-/* ----------------------------------- FIND PEOPLE COMPONENT ------------------------------------------------------------------------- */
-
-#search-container {
-    border: 2px green solid;
-    overflow: scroll;
-    height: 50%;
-}
-
-#search-results {
-    border: 1px red solid;
-    height: 100%;
-    overflow: scroll;
-}
-
-.search-result {
-    border: 1px solid purple;
-    display: flex;
-}
-.search-result img {
-    height: 200px;
-    width: 200px;
-    object-fit: contain;
-}
-.search-result p {
 }
 
 /* -------------------------- /welcome ------------------------------------------------------- */
@@ -457,4 +484,77 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 
 #to-reset {
     color: grey;
+}
+
+/* ----------------------------------- FIND PEOPLE COMPONENT ------------------------------------------------------------------------- */
+
+#search-page {
+    /* border: 2px green solid; */
+    box-sizing: border-box;
+
+    height: calc(100% - 112px);
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    /* grid-template-rows: 100%; */
+}
+
+/*  -------  search left column ------- */
+#search-left-col {
+    /* border: 1px hotpink solid; */
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#search-header {
+    /* border: 1px solid green; */
+    margin: 0 0 30px 0;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#search-page .input-field-div {
+    background-color: rgb(237, 237, 237);
+}
+
+#search-input {
+    text-align: center;
+}
+
+/*  -------  search right column ------- */
+#search-results {
+    /* border: 1px red solid; */
+    border-left: 1px grey solid;
+    height: 90%;
+    padding: 20px;
+    margin: 10px 0;
+    overflow: scroll;
+}
+
+#search-results h3 {
+    margin: 0;
+}
+
+.search-result {
+    /* border: 1px solid purple; */
+    /* border-bottom: 1px solid grey; */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+.search-result:hover {
+    filter: contrast(120%);
+    background-color: whitesmoke;
+}
+
+.search-result img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+}
+.search-result p {
+    margin-left: 30px;
+    font-size: 20px;
 }
