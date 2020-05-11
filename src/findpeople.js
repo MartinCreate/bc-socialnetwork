@@ -27,6 +27,9 @@ export default function FindPeople() {
             }
         })();
 
+        if (!search) {
+            setRecents(true);
+        }
         return () => {
             abort = true;
         };

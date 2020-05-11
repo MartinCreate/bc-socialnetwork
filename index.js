@@ -125,19 +125,29 @@ app.get("/most-recent", async (req, res) => {
 });
 
 app.get("/search-users/:search", async (req, res) => {
+    const name = req.params.search;
     console.log("We're in /most-recent!");
     try {
-        const respFirst = await db.getMatchingUsersFirst(req.params.search);
-        const respLast = await db.getMatchingUsersLast(req.params.search);
+        const respFirst = await db.getMatchingUsersFirst(name);
+        const respLast = await db.getMatchingUsersLast(name);
 
         let firsts = respFirst.rows;
         let lasts = respLast.rows;
         let send = [];
 
         firsts.map((f) => send.push(f));
-        lasts.map((l) => send.push(l));
-        // console.log("send: ", send);
+        lasts.map((l) => {
+            if (
+                !(
+                    l.first.toLowerCase().startsWith(name) &&
+                    l.last.toLowerCase().startsWith(name)
+                )
+            ) {
+                send.push(l);
+            }
+        });
 
+        console.log("send: ", send);
         res.json(send);
     } catch (e) {
         console.log("ERROR in /most-recent: ", e);
