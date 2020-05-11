@@ -4,7 +4,8 @@ import Uploader from "./uploader";
 import axios from "./axios";
 import Profile from "./profile";
 import OtherProfile from "./other-profile";
-import { BrowserRouter, Route } from "react-router-dom";
+import FindPeople from "./findpeople";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
     constructor() {
@@ -52,7 +53,7 @@ export default class App extends React.Component {
                         <div id="header">
                             <div id="logo-div">
                                 <img
-                                    src="/logo4.png"
+                                    src="/logo.png"
                                     alt="amjam logo"
                                     id="logo"
                                 />
@@ -60,6 +61,10 @@ export default class App extends React.Component {
                                 <a href="/logout" id="logout">
                                     Logout
                                 </a>
+                                <div id="nav-bar">
+                                    <Link to="/">My Profile</Link> .....
+                                    <Link to="/users">Find People</Link>
+                                </div>
                             </div>
 
                             <ProfilePic
@@ -108,6 +113,12 @@ export default class App extends React.Component {
                                     history={props.history}
                                 />
                             )}
+                        />
+
+                        <Route
+                            exact
+                            path="/users"
+                            render={() => <FindPeople />}
                         />
                     </div>
                 </BrowserRouter>

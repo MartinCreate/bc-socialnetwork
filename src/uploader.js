@@ -10,7 +10,7 @@ export default class Uploader extends React.Component {
     componentDidMount() {
         var self = this;
 
-        //Closing with click outside of modal. (had to do mousedown, because stopPropagation with "click" made X unclickable)
+        //Closing with click outside of modal. (had to use "mousedown", because stopPropagation with "click" made X unclickable)
         document
             .getElementById("upload-container")
             .addEventListener("mousedown", function () {

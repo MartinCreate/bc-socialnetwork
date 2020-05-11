@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom"; //activates react
 import Welcome from "./welcome";
 import App from "./app";
+// import Hello from "./hello";
 
 let elem;
 
@@ -12,6 +13,7 @@ const userIsLoggedIn = location.pathname != "/welcome";
 
 if (userIsLoggedIn) {
     elem = <App />;
+    // elem = <Hello />;
 } else {
     elem = <Welcome />;
 }

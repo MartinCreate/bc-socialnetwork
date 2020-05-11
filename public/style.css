@@ -258,6 +258,32 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     color: black;
 }
 
+/* ----------------------------------- FIND PEOPLE COMPONENT ------------------------------------------------------------------------- */
+
+#search-container {
+    border: 2px green solid;
+    overflow: scroll;
+    height: 50%;
+}
+
+#search-results {
+    border: 1px red solid;
+    height: 100%;
+    overflow: scroll;
+}
+
+.search-result {
+    border: 1px solid purple;
+    display: flex;
+}
+.search-result img {
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+}
+.search-result p {
+}
+
 /* -------------------------- /welcome ------------------------------------------------------- */
 /*
 Backdrop blur filter idea from:

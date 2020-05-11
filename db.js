@@ -102,6 +102,21 @@ module.exports.getOtherUserInfo = (id) => {
     );
 };
 
+////// --------------------------------/users ------------------------------------------------//
+module.exports.getRecentRegisters = () => {
+    return db.query(`
+    SELECT * FROM users
+    ORDER BY id
+    DESC LIMIT 3`);
+};
+
+module.exports.getMatchingUsers = (val) => {
+    return db.query(
+        `SELECT * FROM users WHERE first ILIKE $1 ORDER BY first LIMIT 20`,
+        [val + "%"]
+    );
+};
+
 //////////////////////////////////FROM Petition:   ///////////////////////////////////////////////////////////////
 
 // ////--GET

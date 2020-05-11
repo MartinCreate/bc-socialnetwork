@@ -45,7 +45,7 @@ const uploader = multer({
 ////------------------------------- MIDDLEWARE ---------------------------------------------- //
 app.use((req, res, next) => {
     console.log(
-        "//----------------------------- NEW REQUEST --------------------------------------------------//"
+        "//-------------------- NEW REQUEST ------------------------//"
     );
     next();
 });
@@ -80,7 +80,7 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-////------------------------------- ROUTES ---------------------------------------------- //
+////------------------------------- ROUTES ----------------------------------------------------------------------------------- //
 
 app.get("/welcome", (req, res) => {
     console.log("We're in /welcome!");
@@ -108,6 +108,29 @@ app.get("/user", async (req, res) => {
         res.json(rows[0]);
     } catch (e) {
         console.log("ERROR in /user getUserInfo: ", e);
+    }
+});
+
+////------------------------------- /users route ---------------------------------------------- //
+app.get("/most-recent", async (req, res) => {
+    console.log("We're in /most-recent!");
+
+    try {
+        const { rows } = await db.getRecentRegisters();
+        console.log("rows in /most-recent: ", rows);
+        res.json(rows);
+    } catch (e) {
+        console.log("ERROR in /most-recent: ", e);
+    }
+});
+
+app.get("/search-users/:search", async (req, res) => {
+    console.log("We're in /most-recent!");
+    try {
+        const { rows } = await db.getMatchingUsers(req.params.search);
+        res.json(rows);
+    } catch (e) {
+        console.log("ERROR in /most-recent: ", e);
     }
 });
 
