@@ -127,8 +127,18 @@ app.get("/most-recent", async (req, res) => {
 app.get("/search-users/:search", async (req, res) => {
     console.log("We're in /most-recent!");
     try {
-        const { rows } = await db.getMatchingUsers(req.params.search);
-        res.json(rows);
+        const respFirst = await db.getMatchingUsersFirst(req.params.search);
+        const respLast = await db.getMatchingUsersLast(req.params.search);
+
+        let firsts = respFirst.rows;
+        let lasts = respLast.rows;
+        let send = [];
+
+        lasts.map((l) => send.unshift(l));
+        firsts.map((f) => send.unshift(f));
+        console.log("send: ", send);
+
+        res.json(send);
     } catch (e) {
         console.log("ERROR in /most-recent: ", e);
     }

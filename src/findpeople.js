@@ -37,11 +37,12 @@ export default function FindPeople() {
             <p>Find People</p>
             <input
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Find People"
+                placeholder="Search Members"
             />
             <div id="search-results">
                 {recents && <h3>Newest Members</h3>}
                 {!recents && <h3>Search Results</h3>}
+
                 {users.map((each) => (
                     <div className="search-result" key={each.id}>
                         <Link to={`/user/${each.id}`}>
