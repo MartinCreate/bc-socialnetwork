@@ -4,31 +4,26 @@ import axios from "./axios";
 
 export default function FriendshipButton({ otherId, first, last }) {
     const [buttonText, setButtonText] = useState("");
-    useEffect(() => {
-        console.log("I am friendButton, hear me roar");
 
+    useEffect(() => {
         axios.get(`/friend-status/${otherId}`).then(({ data }) => {
-            console.log("data from GET: ", data);
             setButtonText(data);
         });
     }, []);
 
     function submit() {
-        if (buttonText == "Unfriend") {
-            confirm("Are you sure you want to unfriend this person?") &&
-                postSubmit();
-        } else {
-            postSubmit();
-        }
+        buttonText == "Unfriend"
+            ? confirm("Are you sure you want to unfriend this person?") &&
+              postSubmit()
+            : postSubmit();
     }
 
     function postSubmit() {
-        const what = { kind: buttonText };
-
-        axios.post(`/friend-status/${otherId}`, what).then(({ data }) => {
-            console.log("data from POST: ", data);
-            setButtonText(data);
-        });
+        axios
+            .post(`/friend-status/${otherId}`, { kind: buttonText })
+            .then(({ data }) => {
+                setButtonText(data);
+            });
     }
 
     return (
