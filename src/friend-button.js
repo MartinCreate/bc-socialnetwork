@@ -14,20 +14,21 @@ export default function FriendshipButton({ otherId, first, last }) {
     }, []);
 
     function submit() {
-        console.log("submit() button is operational", buttonText);
-
         if (buttonText == "Unfriend") {
-            if (confirm("Are you sure you want to unfriend this person?")) {
-                const what = { kind: buttonText };
-
-                axios
-                    .post(`/friend-status/${otherId}`, what)
-                    .then(({ data }) => {
-                        console.log("data from POST: ", data);
-                        setButtonText(data);
-                    });
-            }
+            confirm("Are you sure you want to unfriend this person?") &&
+                postSubmit();
+        } else {
+            postSubmit();
         }
+    }
+
+    function postSubmit() {
+        const what = { kind: buttonText };
+
+        axios.post(`/friend-status/${otherId}`, what).then(({ data }) => {
+            console.log("data from POST: ", data);
+            setButtonText(data);
+        });
     }
 
     return (
