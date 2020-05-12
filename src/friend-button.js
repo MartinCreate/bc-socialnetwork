@@ -16,12 +16,18 @@ export default function FriendshipButton({ otherId, first, last }) {
     function submit() {
         console.log("submit() button is operational", buttonText);
 
-        const what = { kind: buttonText };
+        if (buttonText == "Unfriend") {
+            if (confirm("Are you sure you want to unfriend this person?")) {
+                const what = { kind: buttonText };
 
-        axios.post(`/friend-status/${otherId}`, what).then(({ data }) => {
-            console.log("data from POST: ", data);
-            setButtonText(data);
-        });
+                axios
+                    .post(`/friend-status/${otherId}`, what)
+                    .then(({ data }) => {
+                        console.log("data from POST: ", data);
+                        setButtonText(data);
+                    });
+            }
+        }
     }
 
     return (
