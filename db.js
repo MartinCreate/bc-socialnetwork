@@ -102,6 +102,44 @@ module.exports.getOtherUserInfo = (id) => {
     );
 };
 
+////// --------------------------------/friend-status ------------------------------------------------//
+
+module.exports.checkFriendship = (receiver, sender) => {
+    return db.query(
+        `
+        SELECT * FROM friendships
+        WHERE (receiver_id = $1 AND sender_id = $2)
+        OR (receiver_id = $2 AND sender_id = $1)`,
+        [receiver, sender]
+    );
+};
+module.exports.requestFriendship = (receiver, sender) => {
+    return db.query(
+        `
+        INSERT INTO friendships (receiver_id, sender_id)
+        VALUES ($1, $2)`,
+        [receiver, sender]
+    );
+};
+module.exports.deleteFriendship = (unfriender) => {
+    return db.query(
+        `
+        DELETE FROM friendships
+        WHERE sender_id = $1
+        OR receiver_id = $1`,
+        [unfriender]
+    );
+};
+module.exports.acceptFriendship = (receiver) => {
+    return db.query(
+        `
+        UPDATE friendships
+        SET accepted = true
+        WHERE receiver_id = $1`,
+        [receiver]
+    );
+};
+
 ////// --------------------------------/users ------------------------------------------------//
 module.exports.getRecentRegisters = () => {
     return db.query(`

@@ -235,7 +235,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 
 /* --------------------------- Upload Profile Pic Modal ------------------ */
 #upload-container {
-    border: 1px blue solid;
+    /* border: 1px blue solid; */
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 10;
     position: fixed;

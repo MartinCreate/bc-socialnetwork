@@ -42,7 +42,7 @@ export default function FindPeople() {
                 <div className="input-field-div">
                     <input
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="search by first or last name"
+                        placeholder="enter first or last name"
                         id="search-input"
                     />
                     <span className="focus-border"></span>

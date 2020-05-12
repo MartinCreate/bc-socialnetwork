@@ -171,6 +171,55 @@ app.get("/other-user/:id", async (req, res) => {
     }
 });
 
+////------------------------------- /friend-status/ routes ---------------------------------------------- //
+app.get("/friend-status/:id", async (req, res) => {
+    console.log("We're in GET /friend-status/:id");
+
+    try {
+        const { rows } = await db.checkFriendship(
+            req.params.id,
+            req.session.userId
+        );
+
+        !rows[0]
+            ? res.json("Make Friend Request")
+            : rows[0].accepted == true
+            ? res.json("Unfriend")
+            : req.session.userId == rows[0].sender_id
+            ? res.json("Cancel Friend Request")
+            : res.json("Accept Friend Request");
+    } catch (e) {
+        console.log("ERROR in /friend-status/:id: ", e);
+    }
+});
+
+app.post("/friend-status/:other_id", (req, res) => {
+    console.log("We're in POST /friend-status/:id");
+    const { kind } = req.body;
+    const { other_id } = req.params;
+    const myId = req.session.userId;
+
+    if (kind == "Make Friend Request") {
+        db.requestFriendship(other_id, myId)
+            .then(res.json("Cancel Friend Request"))
+            .catch((err) => {
+                console.log("ERROR in requestFriendship: ", err);
+            });
+    } else if (kind == "Accept Friend Request") {
+        db.acceptFriendship(myId)
+            .then(res.json("Unfriend"))
+            .catch((err) => {
+                console.log("ERROR in acceptFriendship: ", err);
+            });
+    } else {
+        db.deleteFriendship(myId)
+            .then(res.json("Make Friend Request"))
+            .catch((err) => {
+                console.log("ERROR in deleteFriendship: ", err);
+            });
+    }
+});
+
 ////------------------------------- /register route ---------------------------------------------- //
 
 app.post("/register", async (req, res) => {

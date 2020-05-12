@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import FriendshipButton from "./friend-button";
 
 export default class OtherProfile extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ export default class OtherProfile extends Component {
                     img_url: image_url || "/default.png",
                     bio: bio,
                     email: email, //currently unnecessary
-                    otherId: otherId, //currently unnecessary
+                    otherId: otherId, //currently unnecessary (couldn't use it for part 8, because it was undefined when useEffect() ran, and only became defined after)
                 });
             }
         } catch (e) {
@@ -42,6 +43,9 @@ export default class OtherProfile extends Component {
                             src={img_url}
                             className="profile-pic"
                             alt={`${first} ${last}'s profile picture`}
+                        />
+                        <FriendshipButton
+                            otherId={this.props.match.params.id}
                         />
                     </div>
                 </div>
