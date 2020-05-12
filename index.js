@@ -195,24 +195,21 @@ app.get("/friend-status/:id", async (req, res) => {
 
 app.post("/friend-status/:other_id", (req, res) => {
     console.log("We're in POST /friend-status/:id");
-    const { kind } = req.body;
-    const { other_id } = req.params;
-    const myId = req.session.userId;
 
-    if (kind == "Make Friend Request") {
-        db.requestFriendship(other_id, myId)
+    if (req.body.kind == "Make Friend Request") {
+        db.requestFriendship(req.params.other_id, req.session.userId)
             .then(res.json("Cancel Friend Request"))
             .catch((err) => {
                 console.log("ERROR in requestFriendship: ", err);
             });
-    } else if (kind == "Accept Friend Request") {
-        db.acceptFriendship(myId)
+    } else if (req.body.kind == "Accept Friend Request") {
+        db.acceptFriendship(req.session.userId)
             .then(res.json("Unfriend"))
             .catch((err) => {
                 console.log("ERROR in acceptFriendship: ", err);
             });
     } else {
-        db.deleteFriendship(myId)
+        db.deleteFriendship(req.session.userId)
             .then(res.json("Make Friend Request"))
             .catch((err) => {
                 console.log("ERROR in deleteFriendship: ", err);
