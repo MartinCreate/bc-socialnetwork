@@ -195,13 +195,13 @@ app.post("/friend-status/:other_id", (req, res) => {
                 console.log("ERROR in requestFriendship: ", err);
             });
     } else if (req.body.kind == "Accept Friend Request") {
-        db.acceptFriendship(req.session.userId)
+        db.acceptFriendship(req.params.other_id, req.session.userId)
             .then(res.json("Unfriend"))
             .catch((err) => {
                 console.log("ERROR in acceptFriendship: ", err);
             });
     } else {
-        db.deleteFriendship(req.session.userId, req.params.other_id)
+        db.deleteFriendship(req.params.other_id, req.session.userId)
             .then(res.json("Make Friend Request"))
             .catch((err) => {
                 console.log("ERROR in deleteFriendship: ", err);

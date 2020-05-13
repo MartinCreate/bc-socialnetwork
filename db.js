@@ -130,13 +130,14 @@ module.exports.deleteFriendship = (r, s) => {
         [r, s]
     );
 };
-module.exports.acceptFriendship = (receiver) => {
+module.exports.acceptFriendship = (r, s) => {
     return db.query(
         `
         UPDATE friendships
         SET accepted = true
-        WHERE receiver_id = $1`,
-        [receiver]
+        WHERE (receiver_id = $1 AND sender_id = $2)
+        OR (receiver_id = $2 AND sender_id = $1)`,
+        [r, s]
     );
 };
 
