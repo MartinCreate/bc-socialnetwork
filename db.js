@@ -150,13 +150,17 @@ module.exports.getRecentRegisters = () => {
 
 module.exports.getMatchingUsersFirst = (val) => {
     return db.query(
-        `SELECT * FROM users WHERE first ILIKE $1 ORDER BY first LIMIT 10`,
+        `SELECT * FROM users
+        WHERE first ILIKE $1
+        ORDER BY first LIMIT 20`,
         [val + "%"]
     );
 };
 module.exports.getMatchingUsersLast = (val) => {
     return db.query(
-        `SELECT * FROM users WHERE last ILIKE $1 ORDER BY last LIMIT 10`,
+        `SELECT * FROM users
+        WHERE (last ILIKE $1 AND last ILIKE $1  <> first ILIKE $1)
+        ORDER BY last LIMIT 20`,
         [val + "%"]
     );
 };

@@ -111,7 +111,7 @@ app.get("/user", async (req, res) => {
     }
 });
 
-////------------------------------- /users route (SEARCH) ---------------------------------------------- //
+////------------------------------- /users route (SEARCH/Findpeople) ---------------------------------------------- //
 app.get("/most-recent", async (req, res) => {
     console.log("We're in /most-recent!");
 
@@ -128,6 +128,7 @@ app.get("/search-users/:search", async (req, res) => {
 
     const name = req.params.search;
     try {
+        //refactor this so that both queries run simultaneously
         const respFirst = await db.getMatchingUsersFirst(name);
         const respLast = await db.getMatchingUsersLast(name);
 
@@ -136,16 +137,7 @@ app.get("/search-users/:search", async (req, res) => {
         let send = [];
 
         firsts.map((f) => send.push(f));
-        lasts.map((l) => {
-            if (
-                !(
-                    l.first.toLowerCase().startsWith(name) &&
-                    l.last.toLowerCase().startsWith(name)
-                )
-            ) {
-                send.push(l);
-            }
-        });
+        lasts.map((l) => send.push(l));
 
         res.json(send);
     } catch (e) {

@@ -6,9 +6,7 @@ export default function FriendshipButton({ otherId, first, last }) {
     const [buttonText, setButtonText] = useState("");
 
     useEffect(() => {
-        console.log("first: ", first);
         axios.get(`/friend-status/${otherId}`).then(({ data }) => {
-            console.log("first inside: ", first);
             setButtonText(data);
         });
     }, []);
