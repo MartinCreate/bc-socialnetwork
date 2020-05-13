@@ -124,8 +124,9 @@ app.get("/most-recent", async (req, res) => {
 });
 
 app.get("/search-users/:search", async (req, res) => {
-    const name = req.params.search;
     console.log("We're in /most-recent!");
+
+    const name = req.params.search;
     try {
         const respFirst = await db.getMatchingUsersFirst(name);
         const respLast = await db.getMatchingUsersLast(name);
@@ -158,7 +159,6 @@ app.get("/other-user/:id", async (req, res) => {
 
     try {
         const resp = await db.getOtherUserInfo(req.params.id);
-        console.log("We're after /other-user getOtherUserInfo");
         const send = resp.rows[0];
 
         !send
@@ -209,7 +209,7 @@ app.post("/friend-status/:other_id", (req, res) => {
                 console.log("ERROR in acceptFriendship: ", err);
             });
     } else {
-        db.deleteFriendship(req.session.userId)
+        db.deleteFriendship(req.session.userId, req.params.other_id)
             .then(res.json("Make Friend Request"))
             .catch((err) => {
                 console.log("ERROR in deleteFriendship: ", err);
