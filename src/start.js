@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 import App from "./app";
 
-//NEW below
+//-------Redux boiler plate below
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux"; //integrates redux with react
 import reduxPromise from "redux-promise";
@@ -18,8 +18,7 @@ const store = createStore(
     reducer,
     composeWithDevTools(applyMiddleware(reduxPromise))
 );
-
-//NEW above
+//-------Redux boiler plate above
 
 let elem;
 
@@ -28,11 +27,9 @@ const userIsLoggedIn = location.pathname != "/welcome";
 if (userIsLoggedIn) {
     elem = (
         //provider allows any component in App to interact with the global store (which we pass as a prop in <Provider>)
-        //NEW below
         <Provider store={store}>
             <App />
         </Provider>
-        //NEW above
     );
 } else {
     elem = <Welcome />;

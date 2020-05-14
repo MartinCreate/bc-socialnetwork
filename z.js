@@ -52,4 +52,13 @@
 //     console.log("wordy: ", wordy);
 // }
 
-// example();
+//Getting friends:
+
+//Getting requests:
+// let requestArr = [];
+let requests = "";
+for (let i = 80; i == 100; i++) {
+    requests += `INSERT INTO friendships (receiver_id, sender_id, accepted) VALUES (1, ${i}, FALSE); `;
+}
+
+console.log("requests: ", requests);

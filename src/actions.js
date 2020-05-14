@@ -2,25 +2,30 @@ import axios from "./axios";
 
 export async function getFriendsWannabes() {
     const { data } = await axios.get("/friends-wannabes");
-    console.log("data in actions.js: ", data);
+
     return {
         type: "GET_FRIENDS_WANNABES",
         friendsWannabes: data,
     };
 }
 
-//action creator functions go here
+export async function acceptFriend(otherId) {
+    await axios.post(`/friend-status/${otherId}`, {
+        kind: "Accept Friend Request",
+    });
 
-// export function exampleAction() {
-//     return {
-//         type: "EXAMPLE_ACTION",
-//     };
-// }
+    return {
+        type: "ACCEPT_FRIEND_REQUEST",
+        newFriendId: otherId,
+    };
+}
+export async function unfriend(otherId) {
+    await axios.post(`/friend-status/${otherId}`, {
+        kind: "Unfriend",
+    });
 
-// export function exampleAction2() {
-//     return {
-//         type: "EXAMPLE_ACTION2",
-//     };
-// }
-
-//etc.
+    return {
+        type: "UNFRIEND",
+        unfriendId: otherId,
+    };
+}

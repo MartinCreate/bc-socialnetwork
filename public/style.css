@@ -566,3 +566,55 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 #friend-info button {
     cursor: pointer;
 }
+
+/* ----------------------------------- friends.js FriendsAndWannabes component ------------------------------------------------------------------------- */
+#friends-page {
+    /* border: 1px red solid; */
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: calc(100% - 140px);
+}
+
+#friends-page > div {
+    /* border: 1px blue solid; */
+    padding: 10px;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#friends-page > div p:first-child span:first-child {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#friends-page > div p:first-child span:last-child {
+    font-size: 20px;
+    color: grey;
+}
+
+.friends-lists {
+    border-top: 1px grey solid;
+    /* border-radius: 5px; */
+    /* padding: 10px; */
+    max-height: 600px;
+    overflow: scroll;
+}
+
+.friends-lists .search-result div {
+    /* border: 2px red solid; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: center;
+}
+
+.friends-lists .search-result div button {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}

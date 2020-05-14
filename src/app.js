@@ -144,11 +144,7 @@ export default class App extends React.Component {
                             component={FriendsAndWannabes}
                         />
 
-                        <Route
-                            exact
-                            path="/users"
-                            render={() => <FindPeople />}
-                        />
+                        <Route exact path="/users" component={FindPeople} />
                     </div>
                 </BrowserRouter>
             </div>
