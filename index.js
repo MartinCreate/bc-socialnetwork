@@ -209,6 +209,15 @@ app.post("/friend-status/:other_id", (req, res) => {
     }
 });
 
+////------------------------------- /friends-wannabes route ---------------------------------------------- //
+
+app.get("/friends-wannabes", (req, res) => {
+    db.getFriendsAndWannabes(req.session.userId).then(({ rows }) => {
+        // console.log("rows: ", rows);
+        res.json(rows);
+    });
+});
+
 ////------------------------------- /register route ---------------------------------------------- //
 
 app.post("/register", async (req, res) => {

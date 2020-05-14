@@ -6,6 +6,7 @@ import Profile from "./profile";
 import OtherProfile from "./other-profile";
 import FindPeople from "./findpeople";
 import { BrowserRouter, Route, Link } from "react-router-dom";
+import FriendsAndWannabes from "./friends";
 
 export default class App extends React.Component {
     constructor() {
@@ -70,7 +71,14 @@ export default class App extends React.Component {
                                     className="nav-link"
                                 >
                                     My Profile
-                                </Link>{" "}
+                                </Link>
+                                <Link
+                                    to="/friends"
+                                    id="nav-friends"
+                                    className="nav-link"
+                                >
+                                    Friends
+                                </Link>
                                 <Link
                                     to="/users"
                                     id="nav-search"
@@ -128,6 +136,12 @@ export default class App extends React.Component {
                                     history={props.history}
                                 />
                             )}
+                        />
+
+                        <Route
+                            exact
+                            path="/friends"
+                            component={FriendsAndWannabes}
                         />
 
                         <Route

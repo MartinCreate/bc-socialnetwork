@@ -561,3 +561,8 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     margin-left: 30px;
     font-size: 20px;
 }
+
+/* ----------------------------------- FriendshipButton ------------------------------------------------------------------------- */
+#friend-info button {
+    cursor: pointer;
+}
