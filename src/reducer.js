@@ -1,4 +1,5 @@
 export default function reducer(state = {}, action) {
+    //3 different approaches for the first 3 reducers
     if (action.type === "GET_FRIENDS_WANNABES") {
         // here is where the code to update Redux global state will go
 
@@ -6,6 +7,7 @@ export default function reducer(state = {}, action) {
             friendsWannabes: action.friendsWannabes,
         });
     }
+
     if (action.type === "ACCEPT_FRIEND_REQUEST") {
         let friendsWannabes = state.friendsWannabes.map((x) => {
             if (x.id == action.newFriendId) {
@@ -20,11 +22,12 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "UNFRIEND") {
-        let friendsWannabes = state.friendsWannabes.filter(
-            (user) => user.id != action.unfriendId
-        );
-
-        return { ...state, friendsWannabes };
+        state = {
+            ...state,
+            friendsWannabes: state.friendsWannabes.filter(
+                (user) => user.id != action.unfriendId
+            ),
+        };
     }
 
     return state;

@@ -13,7 +13,7 @@ export default class OtherProfile extends Component {
 
         try {
             const { data } = await axios.get("/other-user/" + otherId);
-            if (data.ownProfile || data.nonExistent) {
+            if (data.nonExistentIdOrOwnProfile) {
                 this.props.history.push("/");
             } else {
                 const { first, last, email, image_url, bio } = data;

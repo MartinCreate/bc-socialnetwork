@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./welcome";
 import App from "./app";
-
 //-------Redux boiler plate below
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux"; //integrates redux with react

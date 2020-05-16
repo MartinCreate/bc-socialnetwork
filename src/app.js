@@ -8,6 +8,10 @@ import FindPeople from "./findpeople";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import FriendsAndWannabes from "./friends";
 
+// //---- SOCKET.IO below
+// import * as io from "socket.io-client";
+// io.connect();
+
 export default class App extends React.Component {
     constructor() {
         super();
@@ -53,11 +57,13 @@ export default class App extends React.Component {
                     <div id="browser-router">
                         <div id="header">
                             <div id="logo-div">
-                                <img
-                                    src="/logo.png"
-                                    alt="amjam logo"
-                                    id="logo"
-                                />
+                                <Link to="/">
+                                    <img
+                                        src="/logo.png"
+                                        alt="amjam logo"
+                                        id="logo"
+                                    />
+                                </Link>
                                 <br />
                                 <a href="/logout" id="logout">
                                     Logout
@@ -82,9 +88,16 @@ export default class App extends React.Component {
                                 <Link
                                     to="/users"
                                     id="nav-search"
-                                    className="nav-link last-link"
+                                    className="nav-link"
                                 >
                                     Find People
+                                </Link>
+                                <Link
+                                    to="/chat"
+                                    id="nav-chat"
+                                    className="nav-link last-link"
+                                >
+                                    Chat
                                 </Link>
                             </div>
 
@@ -145,6 +158,7 @@ export default class App extends React.Component {
                         />
 
                         <Route exact path="/users" component={FindPeople} />
+                        {/* <Route exact path="/chat" component={Chat} /> */}
                     </div>
                 </BrowserRouter>
             </div>

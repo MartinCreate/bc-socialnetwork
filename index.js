@@ -14,6 +14,11 @@ const c = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const s3 = require("./s3");
 
+//SOCKET:IO
+const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that the express still works)
+const io = require("socket.io")(server, { origins: "localhost:8080" }); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
+//when you upload to heroku, add the route to origins: "localhost:8080 mysocialnetwork.herokuapp.com:example")
+
 //////////////////////// DON'T TOUCH below - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
 //npm packages we installed
 const multer = require("multer"); //saves our files to our harddrive
@@ -153,10 +158,8 @@ app.get("/other-user/:id", async (req, res) => {
         const resp = await db.getOtherUserInfo(req.params.id);
         const send = resp.rows[0];
 
-        !send
-            ? res.json({ nonExistent: true })
-            : send.id == req.session.userId
-            ? res.json({ ownProfile: true })
+        !send || send.id == req.session.userId
+            ? res.json({ nonExistentIdOrOwnProfile: true })
             : res.json(send);
     } catch (e) {
         console.log("ERROR in /other-user/:id: ", e);
@@ -390,3 +393,32 @@ app.get("*", function (req, res) {
 app.listen(8080, function () {
     console.log("social media server listening...");
 });
+
+// ////---------- socket.io
+// server.listen(8080, function () {
+//     console.log("socialnetwork server listening...");
+// });
+// io.on("connection", (socket) => {
+//     // the socket object is passed to the function you want to run after every connection
+//     //useful methods: socket.id (every socket gets a unique id)
+//     socket.emit("yo", {
+//         msg: "nice to see you",
+//     });
+//     // socket.on("hi", ({ msg }) => console.log(msg));
+
+//     //sending message to all connected sockets except the socket where it came from
+//     socket.broadcast.emit("somebodyShowedUp", {
+//         msg: "looks nice",
+//     });
+
+//     //sending message to all connected sockets
+//     io.emit("wow", "hey EVERYBODY");
+
+//     //use for sending message to user whenever someone friend requests them when they're online (figure out how to get value for socketId)
+//     // io.sockets.sockets[socketId].emit('whatever');
+
+//     //add event listener
+//     socket.on("disconnect", () => {
+//         console.log(`A socket with the id ${socket.id} just Disconnected`);
+//     });
+// });

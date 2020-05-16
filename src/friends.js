@@ -20,6 +20,31 @@ export default function FriendsAndWannabes() {
         dispatch(getFriendsWannabes());
     }, []);
 
+    //attempt at refactoring
+    // function renderList(friendOrWannabe, buttonLabel, action) {
+    //     return friendOrWannabe.map((each) => (
+    //         <div className="search-result" key={each.id}>
+    //             <Link to={`/user/${each.id}`} key={each.id}>
+    //                 <img src={each.image_url || "/default.png"} />
+    //             </Link>
+    //             <div>
+    //                 <Link to={`/user/${each.id}`} key={each.id}>
+    //                     <p>
+    //                         {each.first} {each.last}
+    //                     </p>
+    //                 </Link>
+    //                 <button
+    //                     onClick={() => {
+    //                         dispatch(action(each.id)); //this doesn't work
+    //                     }}
+    //                 >
+    //                     {buttonLabel}
+    //                 </button>
+    //             </div>
+    //         </div>
+    //     ));
+    // }
+
     return (
         <div id="friends-page">
             <div id="friends-container">
@@ -36,19 +61,25 @@ export default function FriendsAndWannabes() {
                                         src={each.image_url || "/default.png"}
                                     />
                                 </Link>
-                                <div>
-                                    <Link to={`/user/${each.id}`} key={each.id}>
-                                        <p>
+                                <div className="name-and-buttons">
+                                    <p>
+                                        <Link
+                                            to={`/user/${each.id}`}
+                                            key={each.id}
+                                            className="name-link"
+                                        >
                                             {each.first} {each.last}
-                                        </p>
-                                    </Link>
-                                    <button
-                                        onClick={() => {
-                                            dispatch(unfriend(each.id));
-                                        }}
-                                    >
-                                        Unfriend
-                                    </button>
+                                        </Link>
+                                    </p>
+                                    <div>
+                                        <button
+                                            onClick={() => {
+                                                dispatch(unfriend(each.id));
+                                            }}
+                                        >
+                                            Unfriend
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -68,19 +99,33 @@ export default function FriendsAndWannabes() {
                                         src={each.image_url || "/default.png"}
                                     />
                                 </Link>
-                                <div>
-                                    <Link to={`/user/${each.id}`} key={each.id}>
-                                        <p>
+                                <div className="name-and-buttons">
+                                    <p>
+                                        <Link
+                                            to={`/user/${each.id}`}
+                                            key={each.id}
+                                            className="name-link"
+                                        >
                                             {each.first} {each.last}{" "}
-                                        </p>
-                                    </Link>
-                                    <button
-                                        onClick={() => {
-                                            dispatch(acceptFriend(each.id));
-                                        }}
-                                    >
-                                        Accept
-                                    </button>
+                                        </Link>
+                                    </p>
+                                    <div>
+                                        <button
+                                            onClick={() => {
+                                                dispatch(acceptFriend(each.id));
+                                            }}
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                dispatch(unfriend(each.id));
+                                            }}
+                                            className="decline-button"
+                                        >
+                                            Decline
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         ))}

@@ -31,19 +31,109 @@ main,
     justify-content: center;
 }
 
-#logout {
-    /* border: 1px red solid; */
-}
 /* -------------------------- logged in ------------------------------------------------------- */
 
 #app-component {
-    background-color: lightgrey;
+    /* background-color: lightgrey;
+    background-color: rgb(214, 218, 230);
+    background-color: white; */
+    /* background-image: linear-gradient(
+        to top,
+        #ffffff,
+        #f0f1ff,
+        #dbe4ff,
+        #c1d9ff,
+        #9fcfff,
+        #8fc9fc,
+        #7ec2fa,
+        #6abcf7,
+        #72b7f4,
+        #79b2f0,
+        #80adec,
+        #86a8e7
+    ); */
+    /* background-image: url("back-large.jpg"); */
+    /* background-size: contain; */
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     /* position: relative; */
+}
+
+#app-component::after {
+    content: "";
+    background-image: url("back-large.jpg");
+    /* background-image: linear-gradient(
+        to bottom,
+        #ffffff,
+        #f0f1ff,
+        #dbe4ff,
+        #c1d9ff,
+        #9fcfff,
+        #8fc9fc,
+        #7ec2fa,
+        #6abcf7,
+        #72b7f4,
+        #79b2f0,
+        #80adec,
+        #86a8e7
+    ); */
+    /* background-image: linear-gradient(
+        to top,
+        #ffffff,
+        #eae8fe,
+        #d2d1fd,
+        #b7bcfc,
+        #98a8fc,
+        #949ffb,
+        #9196f9,
+        #8f8cf7,
+        #aa8af2,
+        #c288ec,
+        #d687e4,
+        #e786db
+    ); */
+    background-image: linear-gradient(
+        to bottom,
+        #000000,
+        #313131,
+        #616161,
+        #959595,
+        #cccccc
+    );
+    background-image: linear-gradient(
+        to top,
+        #000000,
+        #341b1d,
+        #623029,
+        #8e4b2d,
+        #b26e27
+    );
+    background-image: linear-gradient(
+        to top,
+        #000000,
+        #231114,
+        #3e1a1a,
+        #59251c,
+        #713418,
+        #713418,
+        #713418,
+        #713418,
+        #59251c,
+        #3e1a1a,
+        #231114,
+        #000000
+    );
+    background-size: cover;
+    opacity: 0.2;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -20;
 }
 
 #browser-router {
@@ -56,20 +146,82 @@ main,
 
 #header {
     /* border: 1px solid red; */
-    border-bottom: 2px solid grey;
+    border-bottom: 2px black solid;
     /* height: 135px; */
     display: grid;
-    grid-template-columns: 150px 1fr 150px;
+    grid-template-columns: 200px 1fr 200px;
     grid-template-rows: 110px;
+    position: relative;
+    color: white;
+    /* background-color: lightgrey;
+    background-image: linear-gradient(
+        to left,
+        #5f8ffb,
+        #8ba1fc,
+        #adb5fc,
+        #c9cafd,
+        #e2e0fe,
+        #e6e1fe,
+        #eae3ff,
+        #eee4ff,
+        #e7cffb,
+        #e4b8f4,
+        #e5a0ea,
+        #e786db
+    ); */
+}
+#header::after {
+    content: "";
+    background-image: url("header42.jpg");
+    /* background-image: linear-gradient(
+        to bottom,
+        #ffffff,
+        #f0f1ff,
+        #dbe4ff,
+        #c1d9ff,
+        #9fcfff,
+        #8fc9fc,
+        #7ec2fa,
+        #6abcf7,
+        #72b7f4,
+        #79b2f0,
+        #80adec,
+        #86a8e7
+    ); */
+    /* background-image: linear-gradient(
+        to top,
+        #ffffff,
+        #eae8fe,
+        #d2d1fd,
+        #b7bcfc,
+        #98a8fc,
+        #949ffb,
+        #9196f9,
+        #8f8cf7,
+        #aa8af2,
+        #c288ec,
+        #d687e4,
+        #e786db
+    ); */
+    background-size: cover;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -10;
 }
 
 /*logo:
-https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&fontsize=100&fontname=sansserif+bold&textColor=%23000&outlineColor=%23fff&backgroundRadio=0&backgroundColor=%23089ae2#enterText
+https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 */
 
 #logo-div {
     /* border: 1px blue solid; */
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     grid-column: 1 / span 1;
 }
@@ -77,6 +229,11 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 #logo {
     height: 80px;
     width: auto;
+}
+#logout {
+    /* border: 1px red solid; */
+    color: lightgrey;
+    margin-left: 20px;
 }
 /* -------------- NAVBAR ---------------- */
 
@@ -90,21 +247,30 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 
 .nav-link {
     /* border: 1px solid black; */
-    border-right: 1px grey solid;
+    border-right: 1px lightgrey solid;
+    /* border-bottom: 1px rgba(255, 255, 255, 0) solid; */
+
+    background-color: rgba(208, 208, 208, 0.7);
+
     padding: 20px;
     text-decoration: none;
     color: black;
     font-weight: bold;
 }
 .nav-link:hover {
-    background-color: white;
-    color: rgb(34, 34, 34);
-    border-bottom: 1px solid grey;
+    /* border-bottom: 1px lightgrey solid; */
+    background-color: whitesmoke;
+    /* color: grey; */
+    /* color: rgb(34, 34, 34); */
     /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.75); */
+}
+.nav-link,
+.nav-link:hover {
+    border-color: black;
 }
 
 .last-link {
-    border: none;
+    border-right: none;
 }
 
 #header-pic {
@@ -125,13 +291,14 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 
 /* ------------- Profile Picture in app.js ---------------- */
 #header-pic .prof-pic-div {
-    border: 2px rgb(85, 85, 85) solid;
+    /* border: 2px rgb(85, 85, 85) solid; */
     margin: 10px;
     cursor: pointer;
     text-align: center;
     padding: 3px;
 }
 #header-pic .prof-pic-div:hover {
+    background-color: rgb(0, 0, 0);
     background-color: whitesmoke;
 }
 
@@ -146,13 +313,13 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     height: 90px;
     width: 90px;
     border-radius: 5px;
+    border-radius: 100%;
 }
 
 /* ------------- Profile Picture in profile.js ---------------- */
 
 #pic-inProfile .prof-pic-div {
     /* border: 2px rgb(85, 85, 85) solid; */
-    border-radius: 5px;
     margin: 30px;
     cursor: pointer;
     text-align: center;
@@ -160,7 +327,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 }
 #pic-inProfile .prof-pic-div:hover {
     background-color: whitesmoke;
-    filter: contrast(120%);
+    /* filter: contrast(120%); */
 }
 
 #pic-inProfile .profile-pic {
@@ -171,17 +338,18 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 }
 #pic-inProfile .prof-pic-div,
 #pic-inProfile .profile-pic {
-    min-height: 300px;
-    min-width: 300px;
-    max-height: 400px;
-    max-width: 400px;
+    border-radius: 5px;
+    min-height: 150px;
+    min-width: 150px;
+    max-height: 250px;
+    max-width: 250px;
 }
 
 #pic-inProfile .other-prof {
     cursor: default;
 }
 #pic-inProfile .other-prof:hover {
-    background-color: lightgrey;
+    background-color: rgba(255, 255, 255, 0);
     filter: none;
 }
 
@@ -200,8 +368,8 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 }
 
 #bio-text {
-    /* border: 1px grey solid; */
-    background-color: rgb(225, 225, 225);
+    border: 1px grey solid;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
     padding: 15px;
 }
@@ -249,9 +417,10 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
 }
 
 #upload-modal-div {
-    border: 2px grey solid;
+    /* border: 2px grey solid; */
     border-radius: 20px;
-    background-color: whitesmoke;
+    background-image: url("modal.jpg");
+    background-size: cover;
     padding: 50px;
     text-align: center;
     position: relative;
@@ -281,7 +450,7 @@ https://eu0.flamingtext.com/net-fu/dynamic.cgi?script=birdy-logo&text=amJam&font
     cursor: pointer;
 }
 #choose-img-label:hover {
-    background-color: rgb(130, 130, 130);
+    background-color: black;
 }
 
 #submit-image {
@@ -495,7 +664,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     height: calc(100% - 112px);
     display: grid;
     grid-template-columns: 400px 1fr;
-    /* grid-template-rows: 100%; */
 }
 
 /*  -------  search left column ------- */
@@ -526,7 +694,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /*  -------  search right column ------- */
 #search-results {
     /* border: 1px red solid; */
-    border-left: 1px grey solid;
+    border-left: 2px black solid;
     height: 90%;
     padding: 20px;
     margin: 10px 0;
@@ -596,14 +764,15 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .friends-lists {
-    border-top: 1px grey solid;
+    border-top: 2px rgb(152, 152, 152) solid;
+    border-top: 1px black solid;
     /* border-radius: 5px; */
     /* padding: 10px; */
     max-height: 600px;
     overflow: scroll;
 }
 
-.friends-lists .search-result div {
+.name-and-buttons {
     /* border: 2px red solid; */
     width: 100%;
     display: flex;
@@ -613,8 +782,31 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     text-align: center;
 }
 
-.friends-lists .search-result div button {
+.name-and-buttons div {
+    margin-bottom: 20px;
     margin-left: 30px;
-    margin-bottom: 30px;
+}
+
+.name-and-buttons div button {
+    border: black 1px solid;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: black;
     cursor: pointer;
+}
+.name-and-buttons div button:hover {
+    background-color: grey;
+    color: white;
+}
+
+.decline-button {
+    /* border: 1px red solid; */
+    margin-left: 20px;
+}
+
+.name-link {
+    /* border: 1px red solid; */
+    text-decoration: underline;
+    color: black;
 }
