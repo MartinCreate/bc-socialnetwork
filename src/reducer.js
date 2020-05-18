@@ -30,6 +30,19 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    if (action.type === "GET_LAST10_MESSAGES") {
+        state = {
+            ...state,
+            chatMessages: action.msgs,
+        };
+    }
+    if (action.type === "NEW_MESSAGE") {
+        state = {
+            ...state,
+            chatMessages: [...state.chatMessages, action.msg[0]],
+        };
+    }
+
     return state;
 }
 

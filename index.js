@@ -5,6 +5,10 @@ https://s3.console.aws.amazon.com/s3/buckets/martinpaul-msg-socialnetwork/
 
 const express = require("express");
 const app = express();
+//SOCKET.IO setup
+const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that the express still works)
+const io = require("socket.io")(server, { origins: "localhost:8080" }); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
+//when you upload to heroku, add the route to origins: "localhost:8080 mysocialnetwork.herokuapp.com:example")
 const db = require("./db");
 const { hash, compare } = require("./bc");
 const compression = require("compression");
@@ -13,11 +17,6 @@ const csurf = require("csurf");
 const c = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const s3 = require("./s3");
-
-//SOCKET:IO
-const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that the express still works)
-const io = require("socket.io")(server, { origins: "localhost:8080" }); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
-//when you upload to heroku, add the route to origins: "localhost:8080 mysocialnetwork.herokuapp.com:example")
 
 //////////////////////// DON'T TOUCH below - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
 //npm packages we installed
@@ -55,12 +54,19 @@ app.use((req, res, next) => {
     next();
 });
 app.use(compression());
-app.use(
-    cookieSession({
-        secret: "the hounds are always hungry",
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
+
+////------ socket.io setup for cookies
+const cookieSessionMiddleware = cookieSession({
+    secret: `the hounds are always hungry`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+////------ socket.io setup cookie above
+
 app.use(express.json());
 app.use(express.static("public"));
 
@@ -390,35 +396,38 @@ app.get("*", function (req, res) {
 
 ////-------------------------------  Port ---------------------------------------------- //
 
-app.listen(8080, function () {
-    console.log("social media server listening...");
-});
-
-// ////---------- socket.io
-// server.listen(8080, function () {
+// app.listen(8080, function () {
 //     console.log("socialnetwork server listening...");
 // });
-// io.on("connection", (socket) => {
-//     // the socket object is passed to the function you want to run after every connection
-//     //useful methods: socket.id (every socket gets a unique id)
-//     socket.emit("yo", {
-//         msg: "nice to see you",
-//     });
-//     // socket.on("hi", ({ msg }) => console.log(msg));
 
-//     //sending message to all connected sockets except the socket where it came from
-//     socket.broadcast.emit("somebodyShowedUp", {
-//         msg: "looks nice",
-//     });
+////---------- socket.io setup
+server.listen(8080, function () {
+    console.log("socialnetwork server listening...");
+});
 
-//     //sending message to all connected sockets
-//     io.emit("wow", "hey EVERYBODY");
+////------------------------------- socket code ---------------------------------------------- //
+//the code in ion.on('connection') runs upon connecting
+io.on("connection", function (socket) {
+    //all the socket code we run has to be within this 'connection' event (?? i think that's what andrea meant)
+    console.log(`socket with id ${socket.id} is now connected`);
 
-//     //use for sending message to user whenever someone friend requests them when they're online (figure out how to get value for socketId)
-//     // io.sockets.sockets[socketId].emit('whatever');
+    //if user isn't logged in, disconnect them from sockets
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
 
-//     //add event listener
-//     socket.on("disconnect", () => {
-//         console.log(`A socket with the id ${socket.id} just Disconnected`);
-//     });
-// });
+    const userId = socket.request.session.userId;
+
+    db.getLastTenMessages().then(({ rows }) => {
+        io.sockets.emit("last10Msgs", rows.reverse());
+    });
+
+    //listen for new chat message event (this only runs if we emit smt that matches the first argument (in this case the "My amazing chat message" event))
+    socket.on("Entered newChatMsg", async (newMsg) => {
+        console.log("from chat.js: ", newMsg);
+
+        await db.insertNewMessage(newMsg, userId);
+        const { rows } = await db.mostRecentMessage();
+        io.sockets.emit("newChatMsg", rows);
+    });
+});

@@ -53,7 +53,11 @@ export default function FindPeople() {
                 {!recents && <h3>Search Results</h3>}
 
                 {users.map((each) => (
-                    <Link to={`/user/${each.id}`} key={each.id}>
+                    <Link
+                        to={`/user/${each.id}`}
+                        key={each.id}
+                        id="search-name-link"
+                    >
                         <div className="search-result" key={each.id}>
                             <img src={each.image_url || "/default.png"} />
                             <p>

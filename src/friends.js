@@ -20,36 +20,11 @@ export default function FriendsAndWannabes() {
         dispatch(getFriendsWannabes());
     }, []);
 
-    //attempt at refactoring
-    // function renderList(friendOrWannabe, buttonLabel, action) {
-    //     return friendOrWannabe.map((each) => (
-    //         <div className="search-result" key={each.id}>
-    //             <Link to={`/user/${each.id}`} key={each.id}>
-    //                 <img src={each.image_url || "/default.png"} />
-    //             </Link>
-    //             <div>
-    //                 <Link to={`/user/${each.id}`} key={each.id}>
-    //                     <p>
-    //                         {each.first} {each.last}
-    //                     </p>
-    //                 </Link>
-    //                 <button
-    //                     onClick={() => {
-    //                         dispatch(action(each.id)); //this doesn't work
-    //                     }}
-    //                 >
-    //                     {buttonLabel}
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     ));
-    // }
-
     return (
         <div id="friends-page">
             <div id="friends-container">
                 <p>
-                    <span> Friends</span>{" "}
+                    <span>Friends</span>{" "}
                     <span>({friends && friends.length})</span>
                 </p>
                 <div id="friends-list" className="friends-lists">
@@ -106,7 +81,7 @@ export default function FriendsAndWannabes() {
                                             key={each.id}
                                             className="name-link"
                                         >
-                                            {each.first} {each.last}{" "}
+                                            {each.first} {each.last}
                                         </Link>
                                     </p>
                                     <div>

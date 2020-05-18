@@ -34,26 +34,6 @@ main,
 /* -------------------------- logged in ------------------------------------------------------- */
 
 #app-component {
-    /* background-color: lightgrey;
-    background-color: rgb(214, 218, 230);
-    background-color: white; */
-    /* background-image: linear-gradient(
-        to top,
-        #ffffff,
-        #f0f1ff,
-        #dbe4ff,
-        #c1d9ff,
-        #9fcfff,
-        #8fc9fc,
-        #7ec2fa,
-        #6abcf7,
-        #72b7f4,
-        #79b2f0,
-        #80adec,
-        #86a8e7
-    ); */
-    /* background-image: url("back-large.jpg"); */
-    /* background-size: contain; */
     position: fixed;
     top: 0;
     bottom: 0;
@@ -65,52 +45,6 @@ main,
 #app-component::after {
     content: "";
     background-image: url("back-large.jpg");
-    /* background-image: linear-gradient(
-        to bottom,
-        #ffffff,
-        #f0f1ff,
-        #dbe4ff,
-        #c1d9ff,
-        #9fcfff,
-        #8fc9fc,
-        #7ec2fa,
-        #6abcf7,
-        #72b7f4,
-        #79b2f0,
-        #80adec,
-        #86a8e7
-    ); */
-    /* background-image: linear-gradient(
-        to top,
-        #ffffff,
-        #eae8fe,
-        #d2d1fd,
-        #b7bcfc,
-        #98a8fc,
-        #949ffb,
-        #9196f9,
-        #8f8cf7,
-        #aa8af2,
-        #c288ec,
-        #d687e4,
-        #e786db
-    ); */
-    background-image: linear-gradient(
-        to bottom,
-        #000000,
-        #313131,
-        #616161,
-        #959595,
-        #cccccc
-    );
-    background-image: linear-gradient(
-        to top,
-        #000000,
-        #341b1d,
-        #623029,
-        #8e4b2d,
-        #b26e27
-    );
     background-image: linear-gradient(
         to top,
         #000000,
@@ -140,6 +74,10 @@ main,
     /* border: 2px red solid; */
     height: 100%;
     margin: 0;
+
+    /* NEW */
+    display: grid;
+    grid-template-rows: 110px 1fr;
 }
 
 /* -------------------------- HEADER ------------------------------------------------------- */
@@ -153,56 +91,10 @@ main,
     grid-template-rows: 110px;
     position: relative;
     color: white;
-    /* background-color: lightgrey;
-    background-image: linear-gradient(
-        to left,
-        #5f8ffb,
-        #8ba1fc,
-        #adb5fc,
-        #c9cafd,
-        #e2e0fe,
-        #e6e1fe,
-        #eae3ff,
-        #eee4ff,
-        #e7cffb,
-        #e4b8f4,
-        #e5a0ea,
-        #e786db
-    ); */
 }
 #header::after {
     content: "";
-    background-image: url("header42.jpg");
-    /* background-image: linear-gradient(
-        to bottom,
-        #ffffff,
-        #f0f1ff,
-        #dbe4ff,
-        #c1d9ff,
-        #9fcfff,
-        #8fc9fc,
-        #7ec2fa,
-        #6abcf7,
-        #72b7f4,
-        #79b2f0,
-        #80adec,
-        #86a8e7
-    ); */
-    /* background-image: linear-gradient(
-        to top,
-        #ffffff,
-        #eae8fe,
-        #d2d1fd,
-        #b7bcfc,
-        #98a8fc,
-        #949ffb,
-        #9196f9,
-        #8f8cf7,
-        #aa8af2,
-        #c288ec,
-        #d687e4,
-        #e786db
-    ); */
+    background-image: url("header44.jpg");
     background-size: cover;
     opacity: 1;
     position: absolute;
@@ -227,11 +119,16 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #logo {
+    /* border: 1px red solid; */
+    border-radius: 100%;
     height: 80px;
     width: auto;
 }
+#logo:hover {
+    background-color: lightgrey;
+}
+
 #logout {
-    /* border: 1px red solid; */
     color: lightgrey;
     margin-left: 20px;
 }
@@ -254,13 +151,13 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 
     padding: 20px;
     text-decoration: none;
-    color: black;
+    color: rgb(29, 29, 29);
     font-weight: bold;
 }
 .nav-link:hover {
     /* border-bottom: 1px lightgrey solid; */
     background-color: whitesmoke;
-    /* color: grey; */
+    color: black;
     /* color: rgb(34, 34, 34); */
     /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.75); */
 }
@@ -295,7 +192,7 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
     margin: 10px;
     cursor: pointer;
     text-align: center;
-    padding: 3px;
+    padding: 4px;
 }
 #header-pic .prof-pic-div:hover {
     background-color: rgb(0, 0, 0);
@@ -661,7 +558,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     /* border: 2px green solid; */
     box-sizing: border-box;
 
-    height: calc(100% - 112px);
+    /* height: calc(100% - 112px); */
     display: grid;
     grid-template-columns: 400px 1fr;
 }
@@ -695,7 +592,8 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 #search-results {
     /* border: 1px red solid; */
     border-left: 2px black solid;
-    height: 90%;
+    /* height: 90%; */
+    max-height: 78vh;
     padding: 20px;
     margin: 10px 0;
     overflow: scroll;
@@ -730,6 +628,11 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     font-size: 20px;
 }
 
+#search-name-link {
+    color: black;
+    text-decoration: none;
+}
+
 /* ----------------------------------- FriendshipButton ------------------------------------------------------------------------- */
 #friend-info button {
     cursor: pointer;
@@ -741,13 +644,15 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    height: calc(100% - 140px);
+    /* height: calc(100% - 140px); */
 }
 
 #friends-page > div {
     /* border: 1px blue solid; */
     padding: 10px;
-    max-height: 90%;
+    height: 98%;
+    max-height: 81vh;
+    /* max-height: 90%; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -768,7 +673,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     border-top: 1px black solid;
     /* border-radius: 5px; */
     /* padding: 10px; */
-    max-height: 600px;
+    /* max-height: 600px; */
+    max-height: 75vh;
+    /* max-height: 20%; */
     overflow: scroll;
 }
 
@@ -809,4 +716,50 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     /* border: 1px red solid; */
     text-decoration: underline;
     color: black;
+}
+
+/* ----------------------------------- Chat ------------------------------------------------------------------------- */
+#chat-page {
+    border: 1px blue solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#chat-messages-container {
+    border: 1px green solid;
+    width: 80%;
+    /* position: relative;
+    height: 100%; */
+}
+
+#chat-messages {
+    padding: 10px;
+}
+#chat-messages-container textarea {
+    /* border: 1px green solid; */
+    /* position: absolute;
+    left: 0;
+    right: 0; */
+}
+
+#chat-messages {
+    border: 1px red solid;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.message-container {
+    border: 1px salmon solid;
+    display: flex;
+    margin: 10px 0;
+}
+
+.message-container img {
+    border-radius: 10px;
+    margin-right: 10px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }

@@ -7,6 +7,7 @@ import OtherProfile from "./other-profile";
 import FindPeople from "./findpeople";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import FriendsAndWannabes from "./friends";
+import Chat from "./chat";
 
 // //---- SOCKET.IO below
 // import * as io from "socket.io-client";
@@ -158,7 +159,7 @@ export default class App extends React.Component {
                         />
 
                         <Route exact path="/users" component={FindPeople} />
-                        {/* <Route exact path="/chat" component={Chat} /> */}
+                        <Route exact path="/chat" component={Chat} />
                     </div>
                 </BrowserRouter>
             </div>

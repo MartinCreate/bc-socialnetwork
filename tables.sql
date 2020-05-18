@@ -25,14 +25,20 @@
 --     accepted BOOLEAN DEFAULT FALSE
 -- );
 
+-- DROP TABLE IF EXISTS chat;
+-- CREATE TABLE chat(
+--     id SERIAL PRIMARY KEY,
+--     chat_msg VARCHAR(2000) NOT NULL,
+--     msg_sender_id INT NOT NULL REFERENCES users(id),
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+-- INSERT INTO chat (chat_msg, msg_sender_id) VALUES ('Hello, I am legend', 1);
+-- INSERT INTO chat (chat_msg, msg_sender_id) VALUES ('wow, a real legen?', 110);
+-- INSERT INTO chat (chat_msg, msg_sender_id) VALUES ('yes, he is true legend', 111);
+
 
 -- psql -d socialmedia -f tables.sql
 --(make sure you're cd'd into the the folder that contains this file before running the line above)
-
-
-
-
-
 
 
 
