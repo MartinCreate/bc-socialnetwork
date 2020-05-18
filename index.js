@@ -91,6 +91,21 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
+//--Not really middleware
+const cleanTime = (uploadTime) => {
+    return (uploadTime = new Intl.DateTimeFormat("en-GB", {
+        // weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: false,
+        timeZone: "Etc/GMT-2",
+    }).format(uploadTime));
+};
+
 ////------------------------------- ROUTES ----------------------------------------------------------------------------------- //
 
 app.get("/welcome", (req, res) => {
@@ -419,6 +434,10 @@ io.on("connection", function (socket) {
     const userId = socket.request.session.userId;
 
     db.getLastTenMessages().then(({ rows }) => {
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].created_at = cleanTime(rows[i].created_at);
+        }
+
         io.sockets.emit("last10Msgs", rows.reverse());
     });
 
@@ -428,6 +447,8 @@ io.on("connection", function (socket) {
 
         await db.insertNewMessage(newMsg, userId);
         const { rows } = await db.mostRecentMessage();
+        rows[0].created_at = cleanTime(rows[0].created_at);
+
         io.sockets.emit("newChatMsg", rows);
     });
 });

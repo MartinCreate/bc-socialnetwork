@@ -28,7 +28,7 @@
 -- DROP TABLE IF EXISTS chat;
 -- CREATE TABLE chat(
 --     id SERIAL PRIMARY KEY,
---     chat_msg VARCHAR(2000) NOT NULL,
+--     chat_msg VARCHAR(5000) NOT NULL,
 --     msg_sender_id INT NOT NULL REFERENCES users(id),
 --     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );

@@ -32,12 +32,7 @@ export async function unfriend(otherId) {
 }
 
 ////------------------------------- /chat page -----------------------------------------------------//
-
-////----- NEW part 10 below
-
 export async function chatMessages(msgs) {
-    //axios not necessary. The socket code in index.js (which does the db.js query and sends data to socket.js) runs automatically when user window loads
-
     return {
         type: "GET_LAST10_MESSAGES",
         msgs: msgs,

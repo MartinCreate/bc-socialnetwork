@@ -91,7 +91,7 @@ export default class App extends React.Component {
                                     id="nav-search"
                                     className="nav-link"
                                 >
-                                    Find People
+                                    Search
                                 </Link>
                                 <Link
                                     to="/chat"
