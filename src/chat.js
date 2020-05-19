@@ -1,13 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { socket } from "./socket";
 import { useSelector } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Chat() {
     const elemRef = useRef();
     const chatMessages = useSelector(
         (state) => state.chatMessages && state.chatMessages
     );
+
+    useEffect(() => {
+        socket.emit("get10LastPublicMessages");
+    }, []);
 
     useEffect(() => {
         // console.log("chat hooks component has mounted");
@@ -34,17 +38,33 @@ export default function Chat() {
 
     return (
         <div id="chat-page">
-            <h2>Site-wide Chat</h2>
-            <div id="chat-messages-container">
+            <div className="navbar chat-navbar">
+                <Link to="/chat" id="nav-global-chat" className="nav-link">
+                    Public Chat
+                </Link>
+                <Link
+                    to="/private-chat"
+                    id="nav-private-chat"
+                    className="nav-link last-link"
+                >
+                    Private Chat
+                </Link>
+            </div>
+
+            <div className="chat-messages-container">
                 {/* ref={elemRef} will let us autoscroll to the bottom */}
                 <div id="chat-messages" ref={elemRef}>
                     {chatMessages &&
                         chatMessages.map((each) => (
-                            <div className="message-container" key={each.id}>
+                            <div className="message-container" key={each.m_id}>
                                 <div className="img-container">
-                                    <img
-                                        src={each.image_url || "/default.png"}
-                                    />
+                                    <Link to={`/user/${each.msg_sender_id}`}>
+                                        <img
+                                            src={
+                                                each.image_url || "/default.png"
+                                            }
+                                        />
+                                    </Link>
                                 </div>
                                 <div className="message-div">
                                     <div className="msg-name-time">

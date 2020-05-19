@@ -33,6 +33,10 @@ export default function FriendsAndWannabes() {
                             <div className="search-result" key={each.id}>
                                 <Link to={`/user/${each.id}`} key={each.id}>
                                     <img
+                                        // onError="/default.png"
+                                        // onError={(e) =>
+                                        //     (e.target.src = "/default.png")
+                                        // }
                                         src={each.image_url || "/default.png"}
                                     />
                                 </Link>

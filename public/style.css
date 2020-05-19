@@ -61,7 +61,7 @@ main,
         #000000
     );
     background-size: cover;
-    opacity: 0.2;
+    opacity: 0.3;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -134,7 +134,7 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 /* -------------- NAVBAR ---------------- */
 
-#navbar {
+.navbar {
     /* border: 1px red solid; */
     grid-column: 2 / span 1;
     display: flex;
@@ -301,7 +301,7 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 /* --------------------------- Upload Profile Pic Modal ------------------ */
 #upload-container {
     /* border: 1px blue solid; */
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     z-index: 10;
     position: fixed;
     width: 100%;
@@ -719,6 +719,13 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 /* ----------------------------------- Chat ------------------------------------------------------------------------- */
+/* -------------- chat-nav ---------------- */
+.chat-navbar .nav-link {
+    margin: 20px 0;
+}
+
+/* ---------------------------- global chat ------------------------------ */
+
 #chat-page {
     /* border: 1px blue solid; */
     display: flex;
@@ -730,9 +737,10 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     /* color: brown; */
 }
 
-#chat-messages-container {
+.chat-messages-container {
     border: 2px brown solid;
     border-radius: 10px;
+    background-color: rgba(245, 245, 245, 0.802);
     /* padding: 10px; */
     width: 80%;
     height: 80%;
@@ -756,9 +764,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     border-top: 1px rgba(165, 42, 42, 0.2) solid;
     display: grid;
     grid-template-columns: 70px 1fr;
-    grid-column-gap: 10px;
-    padding-top: 10px;
-    margin: 20px 0;
+    grid-column-gap: 5px;
+    padding-top: 5px;
+    margin: 10px 0;
 }
 
 .img-container {
@@ -770,7 +778,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 .img-container img {
     border-radius: 5px;
     border-radius: 100%;
-    margin-right: 10px;
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -779,7 +786,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 .msg-name-time,
 .msg-name-time p:first-child,
 .msg-name-time p:last-child,
-#chat-messages-container textarea {
+.chat-messages-container textarea {
     padding: 0;
     margin: 0;
 }
@@ -794,7 +801,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     color: brown;
     display: inline-block;
     margin-right: 10px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .msg-name-time p:last-child {
@@ -802,28 +809,100 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     color: grey;
     display: inline;
     letter-spacing: -0.2px;
+    font-size: 14px;
 }
 
 .msg-text {
     /* border: 1px pink solid; */
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     max-width: 96%;
     word-break: break-all;
     /* overflow-wrap: break-word; */
 }
 
-#chat-messages-container textarea {
+.chat-messages-container textarea {
     /* border: 1px green solid; */
     border: none;
     border-radius: 0 0 10px 10px;
+    background-color: rgb(235, 233, 233);
     box-sizing: border-box;
     grid-row: 2 / span 1;
-    padding: 5px;
+    padding: 10px;
     font-size: 14px;
     width: 100%;
     height: 100%;
     resize: none;
 }
-#chat-messages-container textarea:focus {
+.chat-messages-container textarea:focus {
     outline: none;
+    background-color: white;
+}
+
+/* ---------------------------- private chat ------------------------------ */
+#private-chat-container {
+    border: 3px brown solid;
+    border-radius: 10px;
+    background-color: rgba(245, 245, 245, 0.802);
+    /* padding: 10px; */
+    width: 90%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    /* grid-template-rows: 450px 1fr; */
+}
+
+/* ------------- left-col privchat ------------------------------ */
+
+#priv-chats-list-container {
+    /* border: 1px blue solid; */
+    border-right: 3px brown solid;
+    grid-column: 1 / span 1;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 50px 1fr;
+}
+
+#priv-chat-nav {
+    border-bottom: 2px brown solid;
+}
+
+#priv-chats {
+    /* border: 2px green solid; */
+    /* height: 300px; */
+    max-height: 470px;
+    /* max-height: 50%; */
+    overflow-y: scroll;
+}
+
+.priv-chat-list-item {
+    /* border: 1px red solid; */
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.priv-chat-list-item:hover {
+    background-color: white;
+}
+.priv-chat-list-item img {
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    margin: 5px 10px 5px;
+    object-fit: cover;
+}
+.priv-chat-list-item p {
+    margin: 0;
+}
+
+/* ------------- right-col privchat ------------------------------ */
+.priv-chat-msgs-container {
+}
+
+.private .chat-messages-container {
+    /* border: 2px green solid; */
+    border: none;
+    grid-column: 2 / span 1;
+    width: 100%;
+    height: 100%;
 }

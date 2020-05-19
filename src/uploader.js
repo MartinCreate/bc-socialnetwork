@@ -79,14 +79,14 @@ export default class Uploader extends React.Component {
                 <p onClick={() => this.props.toggleModal()} id="x-upload">
                     X
                 </p>
-                <h2 className="uploader-text">Upload profile picture</h2>
+                <h2 className="uploader-text">Upload Profile Picture</h2>
 
                 <label
                     onClick={() => this.chooseImgButton()}
                     htmlFor="choose-image"
                     id="choose-img-label"
                 >
-                    Choose image ...
+                    Choose Image ...
                 </label>
                 <input
                     onChange={(e) => this.handleImgFile(e)}

@@ -18,7 +18,10 @@ export default function reducer(state = {}, action) {
             }
         });
 
-        return { ...state, friendsWannabes };
+        return {
+            ...state,
+            friendsWannabes,
+        };
     }
 
     if (action.type === "UNFRIEND") {
@@ -30,6 +33,7 @@ export default function reducer(state = {}, action) {
         };
     }
 
+    ////------------------------ public chat ----------------------- //
     if (action.type === "GET_LAST10_MESSAGES") {
         state = {
             ...state,
@@ -40,6 +44,35 @@ export default function reducer(state = {}, action) {
         state = {
             ...state,
             chatMessages: [...state.chatMessages, action.msg[0]],
+        };
+    }
+
+    ////------------------------ private chat ----------------------- //
+    if (action.type === "GET_PRIVCHAT_LIST") {
+        state = {
+            ...state,
+            privchats: action.privchats,
+        };
+    }
+    if (action.type === "NO_PRIV_CHATS") {
+        //just do nothing, idk
+    }
+    if (action.type === "CLEAR_CHAT_MSGS") {
+        state = {
+            ...state,
+            chatMessages: action.msgs,
+        };
+    }
+    if (action.type === "GET_LAST_PRIV_MESSAGES") {
+        state = {
+            ...state,
+            privChatMessages: action.msgs,
+        };
+    }
+    if (action.type === "NEW_PRIV_MESSAGE") {
+        state = {
+            ...state,
+            privChatMessages: [...state.privChatMessages, action.msg[0]],
         };
     }
 

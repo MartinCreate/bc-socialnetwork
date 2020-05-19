@@ -185,7 +185,7 @@ module.exports.getMatchingUsersLast = (val) => {
 module.exports.getLastTenMessages = () => {
     // needs to be a join from users (first, last, image_url) and chats (chat_text, chat_sender_id)
     return db.query(`
-    SELECT chat.id AS id, msg_sender_id AS msg_sender_id, chat_msg, chat.created_at, first, last, image_url
+    SELECT chat.id AS m_id, msg_sender_id AS msg_sender_id, chat_msg, chat.created_at, first, last, image_url
     FROM chat
     JOIN users
     ON (msg_sender_id = users.id)
@@ -211,13 +211,120 @@ module.exports.insertNewMessage = (msg, sender_id) => {
 module.exports.mostRecentMessage = () => {
     // needs to be a join from users (first, last, image_url) and chats (chat_text, chat_sender_id)
     return db.query(`
-    SELECT chat.id AS id, msg_sender_id AS msg_sender_id, chat_msg, chat.created_at, first, last, image_url
+    SELECT chat.id AS m_id, msg_sender_id AS msg_sender_id, chat_msg, chat.created_at, first, last, image_url
     FROM chat
     JOIN users
     ON (msg_sender_id = users.id)
     ORDER BY chat.created_at
     DESC LIMIT 1`);
-    // return db.query(`
-    // SELECT msg_sender_id, chat_msg, chat.created_at, first, last, image_url FROM chat JOIN users ON (msg_sender_id = users.id) ORDER BY chat.created_at ASC LIMIT 1
-    // `);
+};
+
+//// ---------------------- private chat ---------------------- //
+module.exports.getPrivChatIds = (myID) => {
+    return db.query(
+        `
+    SELECT sender_id, receiver_id, created_at
+    FROM private_chat
+    WHERE receiver_id = $1 OR sender_id = $1
+    ORDER BY created_at DESC`,
+        [myID]
+    );
+    // return db.query(
+    //     `
+    // SELECT sender_id, receiver_id, created_at FROM private_chat WHERE receiver_id = 1 OR sender_id = 1 ORDER BY created_at DESC`,
+    //     [myID]
+    // );
+};
+
+module.exports.getChatterById = (otherId) => {
+    return db.query(
+        `
+        SELECT id AS other_id, first, last, image_url
+        FROM users
+        WHERE id = $1`,
+        [otherId]
+    );
+};
+
+module.exports.getPrivateChatMsgs = (myId, otherId) => {
+    // needs to be a join from users (first, last, image_url) and chats (chat_text, chat_sender_id)
+    return db.query(
+        `
+        SELECT private_chat.id AS m_id, sender_id, receiver_id, priv_msg, first, last, image_url, private_chat.created_at AS created_at
+        FROM private_chat
+        JOIN users
+        ON sender_id = users.id
+        WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)
+        ORDER BY created_at
+        DESC LIMIT 500`,
+        [myId, otherId]
+    );
+};
+
+module.exports.insertNewPrivateMessage = (msg, receiver_id, sender_id) => {
+    //insert into chat and get info (first, last, image_url) about sender_id
+    //gonna have to be a join aswell. output has to look just like getLastTenMessages
+
+    return db.query(
+        `
+    INSERT INTO private_chat (priv_msg, receiver_id, sender_id)
+    VALUES ($1, $2, $3)`,
+        [msg, receiver_id, sender_id]
+    );
+};
+
+module.exports.mostRecentPrivMessage = (myId, otherId) => {
+    // needs to be a join from users (first, last, image_url) and chats (chat_text, chat_sender_id)
+    return db.query(
+        `
+        SELECT private_chat.id AS m_id, sender_id, receiver_id, priv_msg, first, last, image_url, private_chat.created_at AS created_at
+        FROM private_chat
+        JOIN users
+        ON sender_id = users.id
+        WHERE (sender_id = $1 AND receiver_id = $2) OR (sender_id = $2 AND receiver_id = $1)
+        ORDER BY created_at
+        DESC LIMIT 1`,
+        [myId, otherId]
+    );
+};
+
+// module.exports.searchFriends = (myId, val) => {
+//     return db.query(
+//         `
+//     SELECT users.id, first, last, image_url, accepted
+//     FROM friendships
+//     JOIN users
+//     ON (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+//     OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
+//     WHERE first ILIKE $2
+//     ORDER BY first`,
+//         [myId, val + "%"]
+//     );
+// };
+
+module.exports.searchFriendsFirst = (myId, val) => {
+    return db.query(
+        `
+    SELECT users.id, first, last, image_url, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
+    WHERE first ILIKE $2
+    ORDER BY first`,
+        [myId, val + "%"]
+    );
+};
+module.exports.searchFriendsLast = (myId, val) => {
+    return db.query(
+        `
+    SELECT users.id, first, last, image_url, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND sender_id = $1 AND receiver_id = users.id)
+    WHERE (last ILIKE $2 AND last ILIKE $2  <> first ILIKE $2)
+    ORDER BY last`,
+        [myId, val + "%"]
+    );
 };

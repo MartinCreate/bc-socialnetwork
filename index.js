@@ -242,6 +242,70 @@ app.get("/friends-wannabes", (req, res) => {
     });
 });
 
+////------------------------------- private chat ---------------------------------------------- //
+app.get("/private-chat-info", async (req, res) => {
+    console.log("We're in /private-chat!");
+    const myId = req.session.userId;
+    try {
+        const { rows } = await db.getPrivChatIds(req.session.userId);
+        //get array of otherIds that retains its ordering by most recent. no duplicates, no myIDs
+        let otherIds = [];
+        for (let i = 0; i < rows.length; i++) {
+            if (
+                rows[i].receiver_id == myId &&
+                !otherIds.includes(rows[i].sender_id)
+            ) {
+                otherIds.push(rows[i].sender_id);
+            } else if (
+                rows[i].sender_id == myId &&
+                !otherIds.includes(rows[i].receiver_id)
+            ) {
+                otherIds.push(rows[i].receiver_id);
+            }
+        }
+
+        //creating array with info, (doing it this way to preserver the order (most recent id first))
+        let chattersInfo = [];
+        for (let i = 0; i < otherIds.length; i++) {
+            let chatterInfo = await db.getChatterById(otherIds[i]);
+            chattersInfo.push(chatterInfo.rows[0]);
+        }
+
+        res.json(chattersInfo);
+    } catch (e) {
+        console.log("ERROR in db.getPrivChatIds: ", e);
+        res.json(undefined);
+    }
+});
+
+app.get("/search-friends/:search", async (req, res) => {
+    const id = req.session.userId;
+    const srch = req.params.search;
+
+    try {
+        // const { rows } = await db.searchFriends(
+        //     req.session.userId,
+        //     req.params.search
+        // );
+
+        const respFirst = await db.searchFriendsFirst(id, srch);
+        const respLast = await db.searchFriendsLast(id, srch);
+
+        let firsts = respFirst.rows;
+        let lasts = respLast.rows;
+        let send = [];
+
+        firsts.map((f) => send.push(f));
+        lasts.map((l) => send.push(l));
+
+        // console.log("rows in /search-friends: ", send);
+
+        res.json(send);
+    } catch (e) {
+        console.log("ERROR in search-friends/:search: ", e);
+    }
+});
+
 ////------------------------------- /register route ---------------------------------------------- //
 
 app.post("/register", async (req, res) => {
@@ -421,34 +485,79 @@ server.listen(8080, function () {
 });
 
 ////------------------------------- socket code ---------------------------------------------- //
-//the code in ion.on('connection') runs upon connecting
+//the code in io.on('connection') runs upon connecting
 io.on("connection", function (socket) {
     //all the socket code we run has to be within this 'connection' event (?? i think that's what andrea meant)
     console.log(`socket with id ${socket.id} is now connected`);
 
-    //if user isn't logged in, disconnect them from sockets
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
 
     const userId = socket.request.session.userId;
 
-    db.getLastTenMessages().then(({ rows }) => {
-        for (let i = 0; i < rows.length; i++) {
-            rows[i].created_at = cleanTime(rows[i].created_at);
-        }
+    socket.on("get10LastPublicMessages", () => {
+        db.getLastTenMessages().then(({ rows }) => {
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].created_at = cleanTime(rows[i].created_at);
+            }
 
-        io.sockets.emit("last10Msgs", rows.reverse());
+            io.sockets.emit("last10Msgs", rows.reverse());
+        });
     });
 
-    //listen for new chat message event (this only runs if we emit smt that matches the first argument (in this case the "My amazing chat message" event))
     socket.on("Entered newChatMsg", async (newMsg) => {
-        console.log("from chat.js: ", newMsg);
+        // console.log("from chat.js: ", newMsg);
 
         await db.insertNewMessage(newMsg, userId);
         const { rows } = await db.mostRecentMessage();
         rows[0].created_at = cleanTime(rows[0].created_at);
 
         io.sockets.emit("newChatMsg", rows);
+    });
+
+    //// -------------------------- private Chat -------------------------- //
+    socket.on("get private msgs", async (chatterId) => {
+        console.log("chatterId in get private msgs: ", chatterId);
+
+        const { rows } = await db.getPrivateChatMsgs(userId, chatterId);
+
+        console.log("rows from getPrivateChatMsgs: ", rows);
+
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].created_at = cleanTime(rows[i].created_at);
+        }
+
+        //Connecting to private chat room
+        let chatters = [chatterId, userId];
+        chatters.sort((a, b) => a - b);
+        socket.join(`room for ${chatters[0]} and ${chatters[1]}`);
+
+        socket.request.session.privUserOne = chatters[0];
+        socket.request.session.privUserTwo = chatters[1];
+
+        io.to(socket.id).emit("lastPrivMsgs", rows.reverse());
+    });
+
+    socket.on("EnteredNewPrivMsg", async (msgOthrId) => {
+        console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
+
+        await db.insertNewPrivateMessage(msgOthrId[0], msgOthrId[1], userId);
+
+        const { rows } = await db.mostRecentPrivMessage(userId, msgOthrId[1]);
+        // console.log("rows from mostRecentPrivMessage: ", rows);
+        rows[0].created_at = cleanTime(rows[0].created_at);
+
+        //Emitting to private chat room
+        const idOne = socket.request.session.privUserOne;
+        const idTwo = socket.request.session.privUserTwo;
+        io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
+    });
+
+    io.on("disconnect", function () {
+        //Disconnecting from private chat room
+        const idOne = socket.request.session.privUserOne;
+        const idTwo = socket.request.session.privUserTwo;
+        socket.leave(`room for ${idOne} and ${idTwo}`);
     });
 });
