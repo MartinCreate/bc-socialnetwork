@@ -247,22 +247,7 @@ app.get("/private-chat-info", async (req, res) => {
     console.log("We're in /private-chat!");
     const myId = req.session.userId;
     try {
-        const { rows } = await db.getPrivChatIds(req.session.userId);
-        //get array of otherIds that retains its ordering by most recent. no duplicates, no myIDs
-        let otherIds = [];
-        for (let i = 0; i < rows.length; i++) {
-            if (
-                rows[i].receiver_id == myId &&
-                !otherIds.includes(rows[i].sender_id)
-            ) {
-                otherIds.push(rows[i].sender_id);
-            } else if (
-                rows[i].sender_id == myId &&
-                !otherIds.includes(rows[i].receiver_id)
-            ) {
-                otherIds.push(rows[i].receiver_id);
-            }
-        }
+        const otherIds = await onlyPrivChatIds(myId);
 
         //creating array with info, (doing it this way to preserver the order (most recent id first))
         let chattersInfo = [];
@@ -283,11 +268,6 @@ app.get("/search-friends/:search", async (req, res) => {
     const srch = req.params.search;
 
     try {
-        // const { rows } = await db.searchFriends(
-        //     req.session.userId,
-        //     req.params.search
-        // );
-
         const respFirst = await db.searchFriendsFirst(id, srch);
         const respLast = await db.searchFriendsLast(id, srch);
 
@@ -298,13 +278,43 @@ app.get("/search-friends/:search", async (req, res) => {
         firsts.map((f) => send.push(f));
         lasts.map((l) => send.push(l));
 
-        // console.log("rows in /search-friends: ", send);
+        const otherIds = await onlyPrivChatIds(id);
+
+        for (let i = 0; i < otherIds.length; i++) {
+            for (let j = 0; j < send.length; j++) {
+                if (otherIds[i] == send[j].id) {
+                    send.splice(j, 1);
+                }
+            }
+        }
 
         res.json(send);
     } catch (e) {
         console.log("ERROR in search-friends/:search: ", e);
     }
 });
+
+const onlyPrivChatIds = async (userId) => {
+    //otherIds is a simple array of userIds from users with whom logged_in_user has a private chat history
+
+    const { rows } = await db.getPrivChatIds(userId);
+    let otherIds = [];
+    for (let i = 0; i < rows.length; i++) {
+        if (
+            rows[i].receiver_id == userId &&
+            !otherIds.includes(rows[i].sender_id)
+        ) {
+            otherIds.push(rows[i].sender_id);
+        } else if (
+            rows[i].sender_id == userId &&
+            !otherIds.includes(rows[i].receiver_id)
+        ) {
+            otherIds.push(rows[i].receiver_id);
+        }
+    }
+
+    return otherIds;
+};
 
 ////------------------------------- /register route ---------------------------------------------- //
 

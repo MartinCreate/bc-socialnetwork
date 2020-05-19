@@ -4,7 +4,7 @@ import {
     chatMessages,
     chatMessage,
     privChatMsgs,
-    privChatMsg,
+    privChatMsgCheck,
 } from "./actions";
 
 export let socket;
@@ -21,6 +21,6 @@ export const init = (store) => {
         //--- private chat ---//
         socket.on("lastPrivMsgs", (msgs) => store.dispatch(privChatMsgs(msgs)));
 
-        socket.on("newPrivMsg", (msg) => store.dispatch(privChatMsg(msg)));
+        socket.on("newPrivMsg", (msg) => store.dispatch(privChatMsgCheck(msg)));
     }
 };

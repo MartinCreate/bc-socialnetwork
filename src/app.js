@@ -10,10 +10,6 @@ import FriendsAndWannabes from "./friends";
 import Chat from "./chat";
 import PrivateChat from "./chat-private";
 
-// //---- SOCKET.IO below
-// import * as io from "socket.io-client";
-// io.connect();
-
 export default class App extends React.Component {
     constructor() {
         super();
@@ -121,9 +117,6 @@ export default class App extends React.Component {
                                 />
                             </div>
                         )}
-
-                        {/* <Route /> without attributes:
-                        <Route exact path="/online" component={OnlineUsers} /> */}
 
                         <Route
                             exact

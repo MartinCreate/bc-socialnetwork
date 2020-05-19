@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { socket } from "./socket";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getPrivChatList, clearChatMessages } from "./actions";
+import { getPrivChatList, privChatMsg, clearChatMessages } from "./actions";
 
 import axios from "./axios";
 
@@ -18,6 +18,9 @@ export default function PrivateChat() {
     );
     const privChatsList = useSelector(
         (state) => state.privchats && state.privchats
+    );
+    const newPrivMsg = useSelector(
+        (state) => state.newPrivMsg && state.newPrivMsg
     );
 
     useEffect(() => {
@@ -37,6 +40,17 @@ export default function PrivateChat() {
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }, [privChatMessages]);
+
+    useEffect(() => {
+        console.log("newPrivMsg: ", newPrivMsg);
+        if (newPrivMsg) {
+            const recId = newPrivMsg[0].receiver_id;
+            const senId = newPrivMsg[0].sender_id; //could this cause problems??
+            if (recId == othId || senId == othId) {
+                dispatch(privChatMsg(newPrivMsg));
+            }
+        }
+    }, [newPrivMsg]);
 
     useEffect(() => {
         console.log("search: ", search);
@@ -63,21 +77,19 @@ export default function PrivateChat() {
         if (e.key === "Enter") {
             e.preventDefault();
 
-            if (privChatsList) {
-                socket.emit("EnteredNewPrivMsg", [
-                    e.target.value,
-                    privChatsList[0].other_id,
-                ]);
-            } else {
-                socket.emit("EnteredNewPrivMsg", [e.target.value, othId]);
-            }
+            socket.emit("EnteredNewPrivMsg", [e.target.value, othId]);
 
             e.target.value = "";
+
+            dispatch(getPrivChatList());
+            document.getElementById("search-input").value = "";
+            setUsers([]);
         }
     };
 
     const emitGetMsgs = (otherId) => {
         socket.emit("get private msgs", otherId);
+        setOthId(otherId);
     };
 
     const startChat = (otherId) => {

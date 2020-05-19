@@ -77,6 +77,13 @@ export function privChatMsgs(msgs) {
     };
 }
 
+export function privChatMsgCheck(msg) {
+    return {
+        type: "NEW_PRIV_MESSAGE_CHECK",
+        msg: msg,
+    };
+}
+
 export function privChatMsg(msg) {
     return {
         type: "NEW_PRIV_MESSAGE",

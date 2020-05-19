@@ -69,6 +69,12 @@ export default function reducer(state = {}, action) {
             privChatMessages: action.msgs,
         };
     }
+    if (action.type === "NEW_PRIV_MESSAGE_CHECK") {
+        state = {
+            ...state,
+            newPrivMsg: [action.msg[0]],
+        };
+    }
     if (action.type === "NEW_PRIV_MESSAGE") {
         state = {
             ...state,
