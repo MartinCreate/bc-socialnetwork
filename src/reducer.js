@@ -81,6 +81,20 @@ export default function reducer(state = {}, action) {
             privChatMessages: [...state.privChatMessages, action.msg[0]],
         };
     }
+    if (action.type === "PRIV_MSG_ALERT") {
+        // console.log("We're in PRIV_MSG_ALERT reducer");
+
+        state = {
+            ...state,
+            newMsgFrom: action.senderId,
+        };
+    }
+    if (action.type === "STORE_MY_ID") {
+        state = {
+            ...state,
+            myId: action.myId,
+        };
+    }
 
     return state;
 }

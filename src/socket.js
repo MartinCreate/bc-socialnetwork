@@ -5,6 +5,8 @@ import {
     chatMessage,
     privChatMsgs,
     privChatMsgCheck,
+    privMsgAlert,
+    myId,
 } from "./actions";
 
 export let socket;
@@ -22,5 +24,14 @@ export const init = (store) => {
         socket.on("lastPrivMsgs", (msgs) => store.dispatch(privChatMsgs(msgs)));
 
         socket.on("newPrivMsg", (msg) => store.dispatch(privChatMsgCheck(msg)));
+
+        socket.on("newPrivMsgAlert", (id) => store.dispatch(privMsgAlert(id)));
+
+        // socket.on("newPrivMsgAlert", (id) => {
+        //     console.log("id in newPrivMsgAlert socket.js: ", id);
+        //     store.dispatch(privMsgAlert(id));
+        // });
+
+        socket.on("store_myId", (id) => store.dispatch(myId(id)));
     }
 };

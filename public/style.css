@@ -1,5 +1,5 @@
 /* * {
-    color: brown;
+    color: rgb(120, 30, 30);
 } */
 
 html,
@@ -39,6 +39,8 @@ main,
     bottom: 0;
     left: 0;
     right: 0;
+    overflow-x: scroll;
+    overflow-y: scroll;
     /* position: relative; */
 }
 
@@ -169,6 +171,9 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 .last-link {
     border-right: none;
 }
+.current-navtab {
+    background-color: whitesmoke;
+}
 
 #header-pic {
     /* border: 1px blue solid; */
@@ -255,6 +260,12 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 #bio-div {
     /* border: 1px purple solid; */
     padding: 20px;
+}
+#bio-div h1 {
+    color: rgb(120, 30, 30);
+}
+#bio-div h3 {
+    opacity: 0.5;
 }
 
 #bio-editor {
@@ -451,13 +462,13 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 .form h3 {
     /* border: 1px solid red; */
     margin: 0 0 10px;
-    color: grey;
+    color: rgb(120, 30, 30, 0.9);
     font-size: 30px;
     font-weight: 400;
 }
 
 .form-desc {
-    color: grey;
+    color: rgb(120, 30, 30);
     max-width: 400px;
     text-align: center;
     margin: 20px 50px 50px;
@@ -469,13 +480,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     position: relative;
 }
 
-/* .input-label {
-    margin: 0;
-} */
-
 .input-field-div input {
     border: none;
-    border-bottom: 1px lightgrey solid;
+    border-bottom: 1px rgb(120, 30, 30, 0.3) solid;
     font-size: 20px;
     background-color: rgba(240, 255, 255, 0);
     height: 30px;
@@ -496,12 +503,13 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     left: 50%;
     width: 0;
     height: 2px;
-    background-color: grey;
+    background-color: rgb(120, 30, 30);
     transition: 0.4s;
 }
 
 .input-field-div input::placeholder {
     font-size: 16px;
+    color: rgb(120, 30, 30, 0.5);
 }
 
 .form button {
@@ -510,7 +518,11 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     border-top: none;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    background: linear-gradient(to bottom, #393939 0%, #151515 100%);
+    background: linear-gradient(
+        to bottom,
+        rgb(120, 30, 30, 0.8) 0%,
+        rgb(120, 30, 30) 100%
+    );
     filter: contrast(80%);
     color: whitesmoke;
     width: 100%;
@@ -578,6 +590,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     font-size: 30px;
     font-weight: bold;
     text-align: center;
+    color: rgb(120, 30, 30);
 }
 
 #search-page .input-field-div {
@@ -588,10 +601,16 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     text-align: center;
 }
 
+.search-fbr {
+    background-color: rgb(120, 30, 30);
+}
+
+/*------------------*/
+
 /*  -------  search right column ------- */
 #search-results {
     /* border: 1px red solid; */
-    border-left: 2px black solid;
+    border-left: 2px rgb(120, 30, 30) solid;
     /* height: 90%; */
     max-height: 78vh;
     padding: 20px;
@@ -600,6 +619,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #search-results h3 {
+    color: rgb(120, 30, 30);
     margin: 0;
 }
 
@@ -629,7 +649,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #search-name-link {
-    color: black;
+    color: rgb(120, 30, 30);
     text-decoration: none;
 }
 
@@ -661,21 +681,19 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 #friends-page > div p:first-child span:first-child {
     font-size: 25px;
     font-weight: bold;
+    color: rgb(120, 30, 30);
 }
 
 #friends-page > div p:first-child span:last-child {
     font-size: 20px;
-    color: grey;
+    color: rgb(120, 30, 30);
+    opacity: 0.5;
 }
 
 .friends-lists {
     border-top: 2px rgb(152, 152, 152) solid;
-    border-top: 1px black solid;
-    /* border-radius: 5px; */
-    /* padding: 10px; */
-    /* max-height: 600px; */
+    border-top: 1px rgb(120, 30, 30) solid;
     max-height: 75vh;
-    /* max-height: 20%; */
     overflow: scroll;
 }
 
@@ -695,11 +713,11 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .name-and-buttons div button {
-    border: black 1px solid;
+    border: rgb(120, 30, 30) 1px solid;
     border-radius: 5px;
     padding: 4px 8px;
     font-size: 14px;
-    color: black;
+    color: rgb(120, 30, 30);
     cursor: pointer;
 }
 .name-and-buttons div button:hover {
@@ -715,13 +733,33 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 .name-link {
     /* border: 1px red solid; */
     text-decoration: underline;
-    color: black;
+    color: rgb(120, 30, 30);
 }
 
 /* ----------------------------------- Chat ------------------------------------------------------------------------- */
 /* -------------- chat-nav ---------------- */
+
+.chat-navbar {
+    /* border: 1px red solid; */
+    border-radius: 10px;
+    margin: 10px 0;
+}
 .chat-navbar .nav-link {
-    margin: 20px 0;
+    /* background-color: rgba(165, 42, 42, 0.235); */
+    color: rgb(120, 30, 30);
+    padding: 15px;
+}
+.chat-navbar .nav-link:first-child {
+    border-right: 1px rgb(120, 30, 30) solid;
+    border-radius: 5px 0 0 5px;
+}
+.chat-navbar .nav-link:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+#nav-public-chat,
+#nav-private-privchat {
+    background-color: whitesmoke;
 }
 
 /* ---------------------------- global chat ------------------------------ */
@@ -738,7 +776,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .chat-messages-container {
-    border: 2px brown solid;
+    border: 3px brown solid;
     border-radius: 10px;
     background-color: rgba(245, 245, 245, 0.802);
     /* padding: 10px; */
@@ -847,7 +885,7 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     width: 90%;
     height: 80%;
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: 1fr 3fr;
     /* grid-template-rows: 450px 1fr; */
 }
 
@@ -855,23 +893,103 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 
 #priv-chats-list-container {
     /* border: 1px blue solid; */
+    border-radius: 10px 0 0 10px;
     border-right: 3px brown solid;
     grid-column: 1 / span 1;
     height: 100%;
     display: grid;
-    grid-template-rows: 50px 1fr;
+    grid-template-rows: 80px 1fr;
+    background-color: rgb(225, 224, 224);
 }
 
-#priv-chat-nav {
+#priv-nav {
+    /* border: 1px green solid; */
     border-bottom: 2px brown solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
+
+#priv-nav-header {
+    justify-items: flex-start;
+    color: rgb(120, 30, 30);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#priv-nav .input-field-div {
+    /* border: 1px blue solid; */
+    width: 100%;
+    margin: 0;
+}
+#priv-nav .input-field-div input {
+    border: none;
+    box-sizing: border-box;
+    background-color: white;
+    margin: 15px 0 0px;
+    height: 30px;
+    width: 100%;
+    font-size: 16px;
+}
+
+#priv-nav .input-field-div input:focus {
+    background-color: white;
+}
+#priv-nav .input-field-div .focus-border {
+    background-color: rgb(120, 30, 30);
+    /* background-color: black; */
+}
+/* .input-field-div {
+    margin: 15px 50px;
+    position: relative;
+}
+
+.input-field-div input {
+    border: none;
+    border-bottom: 1px lightgrey solid;
+    font-size: 20px;
+    background-color: rgba(240, 255, 255, 0);
+    height: 30px;
+    width: 300px;
+}
+.input-field-div input:focus {
+    outline: none;
+}
+
+.input-field-div input:focus ~ .focus-border {
+    width: 100%;
+    transition: 0.4s;
+    left: 0;
+}
+.focus-border {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: grey;
+    transition: 0.4s;
+}
+
+.input-field-div input::placeholder {
+    font-size: 16px;
+} */
+
+/*------------------*/
 
 #priv-chats {
     /* border: 2px green solid; */
-    /* height: 300px; */
-    max-height: 470px;
-    /* max-height: 50%; */
+    max-height: 425px;
     overflow-y: scroll;
+}
+
+.priv-search-result {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-bottom: 1px rgba(165, 42, 42, 0.3) solid;
+}
+.srch-hasChat {
+    background-color: rgba(0, 255, 38, 0.2);
 }
 
 .priv-chat-list-item {
@@ -880,10 +998,13 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     align-items: center;
     padding: 5px;
     cursor: pointer;
+    /* background-color: lightgrey; */
 }
-.priv-chat-list-item:hover {
-    background-color: white;
+.priv-chat-list-item:hover,
+.current-chat {
+    background-color: whitesmoke;
 }
+
 .priv-chat-list-item img {
     border-radius: 100%;
     height: 40px;
@@ -893,6 +1014,20 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 .priv-chat-list-item p {
     margin: 0;
+}
+
+.incoming-msg {
+    /* background-color: orange; */
+    animation: pulse 1s;
+    /* transition: 0.4s; */
+}
+@keyframes pulse {
+    0% {
+        background-color: orange;
+    }
+    100% {
+        background-color: rgba(255, 166, 0, 0);
+    }
 }
 
 /* ------------- right-col privchat ------------------------------ */

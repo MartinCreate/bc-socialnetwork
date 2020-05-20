@@ -271,6 +271,8 @@ app.get("/search-friends/:search", async (req, res) => {
         const respFirst = await db.searchFriendsFirst(id, srch);
         const respLast = await db.searchFriendsLast(id, srch);
 
+        console.log("respFirst: ", respFirst);
+
         let firsts = respFirst.rows;
         let lasts = respLast.rows;
         let send = [];
@@ -278,16 +280,17 @@ app.get("/search-friends/:search", async (req, res) => {
         firsts.map((f) => send.push(f));
         lasts.map((l) => send.push(l));
 
-        const otherIds = await onlyPrivChatIds(id);
+        // //Filtering out Ids of active chats
+        // const otherIds = await onlyPrivChatIds(id);
+        // for (let i = 0; i < otherIds.length; i++) {
+        //     for (let j = 0; j < send.length; j++) {
+        //         if (otherIds[i] == send[j].id) {
+        //             send.splice(j, 1);
+        //         }
+        //     }
+        // }
 
-        for (let i = 0; i < otherIds.length; i++) {
-            for (let j = 0; j < send.length; j++) {
-                if (otherIds[i] == send[j].id) {
-                    send.splice(j, 1);
-                }
-            }
-        }
-
+        console.log("send: ", send);
         res.json(send);
     } catch (e) {
         console.log("ERROR in search-friends/:search: ", e);
@@ -295,7 +298,7 @@ app.get("/search-friends/:search", async (req, res) => {
 });
 
 const onlyPrivChatIds = async (userId) => {
-    //otherIds is a simple array of userIds from users with whom logged_in_user has a private chat history
+    //otherIds is a simple array of userIds from users with whom logged_in_user has a private chat history, ordered by most recently chatted with
 
     const { rows } = await db.getPrivChatIds(userId);
     let otherIds = [];
@@ -351,7 +354,7 @@ app.post("/login", async (req, res) => {
     try {
         const { rows } = await db.login(req.body.email);
         const matchValue = await compare(req.body.password, rows[0].password);
-        console.log("matchValue: ", matchValue);
+        // console.log("matchValue: ", matchValue);
 
         if (req.body.password == "") {
             throw Error;
@@ -391,7 +394,7 @@ Code: ${newCode}
 This code expires after 20 minutes.
 Enter the code into the password-reset form along with your new password of choice.
 
-Love you,
+Yours,
 amJam`;
 
         await sendEmail(email, "Reset-code for amJam", emailBody);
@@ -527,12 +530,18 @@ io.on("connection", function (socket) {
     });
 
     //// -------------------------- private Chat -------------------------- //
+    socket.on("openedPrivateChat", () => {
+        // console.log("userId in openedPrivateChat: ", userId);
+        socket.emit("store_myId", userId);
+        socket.join(`private-chat room`);
+    });
+
     socket.on("get private msgs", async (chatterId) => {
-        console.log("chatterId in get private msgs: ", chatterId);
+        // console.log("chatterId in get private msgs: ", chatterId);
 
         const { rows } = await db.getPrivateChatMsgs(userId, chatterId);
 
-        console.log("rows from getPrivateChatMsgs: ", rows);
+        // console.log("rows from getPrivateChatMsgs: ", rows);
 
         for (let i = 0; i < rows.length; i++) {
             rows[i].created_at = cleanTime(rows[i].created_at);
@@ -541,16 +550,16 @@ io.on("connection", function (socket) {
         //Connecting to private chat room
         let chatters = [chatterId, userId];
         chatters.sort((a, b) => a - b);
+
         socket.join(`room for ${chatters[0]} and ${chatters[1]}`);
 
         socket.request.session.privUserOne = chatters[0];
         socket.request.session.privUserTwo = chatters[1];
-
         io.to(socket.id).emit("lastPrivMsgs", rows.reverse());
     });
 
     socket.on("EnteredNewPrivMsg", async (msgOthrId) => {
-        console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
+        // console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
 
         await db.insertNewPrivateMessage(msgOthrId[0], msgOthrId[1], userId);
 
@@ -562,6 +571,9 @@ io.on("connection", function (socket) {
         const idOne = socket.request.session.privUserOne;
         const idTwo = socket.request.session.privUserTwo;
         io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
+
+        console.log("userId in EnteredNewPrivMsg: ", userId);
+        io.to(`private-chat room`).emit("newPrivMsgAlert", userId);
     });
 
     io.on("disconnect", function () {

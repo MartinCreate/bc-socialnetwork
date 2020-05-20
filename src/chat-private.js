@@ -8,11 +8,12 @@ import axios from "./axios";
 
 export default function PrivateChat() {
     const dispatch = useDispatch();
+    const [mounted, setMounted] = useState();
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [othId, setOthId] = useState();
-
     const elemRef = useRef(); //for autoscroll
+    const myId = useSelector((state) => state.myId && state.myId);
     const privChatMessages = useSelector(
         (state) => state.privChatMessages && state.privChatMessages
     );
@@ -20,37 +21,92 @@ export default function PrivateChat() {
         (state) => state.privchats && state.privchats
     );
     const newPrivMsg = useSelector(
+        // (state) => {
+        //     state.newPrivMsg && state.newPrivMsg;
+        //     console.log("We're in newPrivMsg");
+        // }
         (state) => state.newPrivMsg && state.newPrivMsg
+    );
+    const newPrivMsgFrom = useSelector(
+        // (state) => {
+        //     if (state.newMsgFrom) {
+        //         console.log("We're in newPrivMsgFrom");
+        //         return state.newMsgFrom;
+        //     }
+        // }
+        (state) => state.newMsgFrom && state.newMsgFrom
     );
 
     useEffect(() => {
         dispatch(getPrivChatList());
+        socket.emit("openedPrivateChat");
+
+        setMounted(true);
         // dispatch(clearChatMessages());
     }, []);
 
     useEffect(() => {
-        //render the chat with the most recently written message in the chat window
         if (privChatsList) {
-            console.log("privChatsList: ", privChatsList);
+            console.log("privChatsList in useEffect: ", privChatsList);
             emitGetMsgs(privChatsList[0].other_id);
+
+            const elems = document.getElementsByClassName(
+                "priv-chat-list-item"
+            );
+            elems[0].classList.add("current-chat");
         }
     }, [privChatsList]);
 
     useEffect(() => {
+        // console.log("My privChatMessages changed");
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }, [privChatMessages]);
 
     useEffect(() => {
-        console.log("newPrivMsg: ", newPrivMsg);
         if (newPrivMsg) {
+            // console.log("In newPrivMsg");
+            // console.log("othId in newPrivMsg: ", othId);
+            // console.log("newPrivMsgFrom in newPrivMsg: ", newPrivMsgFrom);
+
             const recId = newPrivMsg[0].receiver_id;
             const senId = newPrivMsg[0].sender_id; //could this cause problems??
             if (recId == othId || senId == othId) {
                 dispatch(privChatMsg(newPrivMsg));
             }
         }
+
+        if (newPrivMsgFrom && newPrivMsg) {
+            console.log("In newPrivMsg");
+            console.log("othId in newPrivMsg: ", othId);
+            console.log("newPrivMsgFrom in newPrivMsg: ", newPrivMsgFrom);
+        }
     }, [newPrivMsg]);
+
+    useEffect(() => {
+        if (
+            mounted &&
+            newPrivMsgFrom &&
+            myId &&
+            newPrivMsgFrom != myId &&
+            newPrivMsgFrom != othId
+        ) {
+            // const curEl = document.getElementsByClassName("incoming-msg")[0];
+            // console.log("curEl: ", curEl);
+            // curEl && curEl.classList.remove("incoming-msg");
+
+            const elem = document.getElementsByClassName("priv-chat-list-item");
+            const ind = findInd(privChatsList, "other_id", newPrivMsgFrom);
+            // console.log("elem[ind]: ", elem[ind]);
+            elem[ind].classList.remove("incoming-msg");
+            elem[ind].classList.add("incoming-msg");
+
+            console.log("elem: ", elem);
+        }
+        if (newPrivMsgFrom && myId && newPrivMsgFrom != myId) {
+            console.log("IN NEWPRIVMSG");
+        }
+    }, [newPrivMsgFrom]);
 
     useEffect(() => {
         console.log("search: ", search);
@@ -59,12 +115,27 @@ export default function PrivateChat() {
             if (search) {
                 const { data } = await axios.get(`/search-friends/${search}`);
                 if (!abort && typeof data != "string") {
-                    console.log(
-                        "data in chat-private.js from GET search-friends: ",
-                        data
-                    );
-                    setUsers(data);
+                    console.log("data from GET search-friends: ", data);
+
+                    //Adding highlight class
+                    let filteredSearch = data.map((x) => {
+                        privChatsList.map((y) => {
+                            if (y.other_id == x.id || x.hasChat) {
+                                x.hasChat = "srch-hasChat";
+                                return y;
+                            } else {
+                                return y;
+                            }
+                        });
+                        return x;
+                    });
+
+                    // console.log("filteredSearch: ", filteredSearch);
+
+                    setUsers(filteredSearch);
                 }
+            } else {
+                setUsers([]);
             }
         })();
 
@@ -82,7 +153,6 @@ export default function PrivateChat() {
             e.target.value = "";
 
             dispatch(getPrivChatList());
-            document.getElementById("search-input").value = "";
             setUsers([]);
         }
     };
@@ -92,21 +162,37 @@ export default function PrivateChat() {
         setOthId(otherId);
     };
 
-    const startChat = (otherId) => {
+    const startChat = (e, otherId) => {
+        e.stopPropagation();
+
+        const elem = document.getElementsByClassName("current-chat")[0];
+        elem && elem.classList.remove("current-chat");
+
         document.getElementById("priv-chat-textarea").focus();
-        socket.emit("get private msgs", otherId);
-        setOthId(otherId);
+        e.currentTarget.classList.add("current-chat");
+
+        emitGetMsgs(otherId);
+        // socket.emit("get private msgs", otherId);
+        // setOthId(otherId);
+    };
+
+    const findInd = (arr, prop, val) => {
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i][prop] === val) {
+                return i;
+            }
+        }
     };
 
     return (
         <div id="chat-page" className="private">
             <div className="navbar chat-navbar">
-                <Link to="/chat" id="nav-global-chat" className="nav-link">
+                <Link to="/public-chat" className="nav-link">
                     Public Chat
                 </Link>
                 <Link
                     to="/private-chat"
-                    id="nav-private-chat"
+                    id="nav-private-privchat"
                     className="nav-link last-link"
                 >
                     Private Chat
@@ -115,8 +201,9 @@ export default function PrivateChat() {
 
             <div id="private-chat-container">
                 <div id="priv-chats-list-container">
-                    <div id="priv-chat-nav">
+                    <div id="priv-nav">
                         <div
+                            id="priv-nav-header"
                             onClick={() =>
                                 console.log(
                                     "privChatsList in chat-private.js: ",
@@ -124,7 +211,7 @@ export default function PrivateChat() {
                                 )
                             }
                         >
-                            Your Chats
+                            Search Friends
                         </div>
                         <div className="input-field-div">
                             <input
@@ -134,23 +221,20 @@ export default function PrivateChat() {
                             />
                             <span className="focus-border"></span>
                         </div>
-                        {/* <div>Start New Chat</div>
-                        <div>Search Chats By Name</div> */}
                     </div>
+
                     <div id="priv-chats">
-                        {/* generate list of chats here */}
                         {users &&
                             users.map((each) => (
                                 <div
-                                    className="priv-chat-list-item"
+                                    className={`priv-chat-list-item priv-search-result ${each.hasChat}`}
                                     key={each.id}
-                                    onClick={() => startChat(each.id)}
-                                    // emitGetMsgs(each.id)}
+                                    onClick={(e) => startChat(e, each.id)}
                                 >
                                     <img
                                         src={each.image_url || "/default.png"}
                                     />
-                                    <p>
+                                    <p className="privlist-name">
                                         {each.first} {each.last}
                                     </p>
                                 </div>
@@ -160,67 +244,19 @@ export default function PrivateChat() {
                                 <div
                                     className="priv-chat-list-item"
                                     key={each.other_id}
-                                    onClick={() => emitGetMsgs(each.other_id)}
+                                    onClick={(e) => startChat(e, each.other_id)}
                                 >
                                     <img
                                         src={each.image_url || "/default.png"}
                                     />
-                                    <p>
+                                    <p className="privlist-name">
                                         {each.first} {each.last}
                                     </p>
                                 </div>
                             ))}
-                        {/* <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter</p>
-                        </div>
-                        <div className="priv-chat-list-item">
-                            <img src="/default.png" />
-                            <p>Example Chatter2</p>
-                        </div> */}
                     </div>
                 </div>
-                {/* ref={elemRef} will let us autoscroll to the bottom */}
+
                 <div className="chat-messages-container priv-chat-msgs-container">
                     <div id="chat-messages" ref={elemRef}>
                         {privChatMessages &&

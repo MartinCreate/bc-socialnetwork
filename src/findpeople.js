@@ -45,7 +45,7 @@ export default function FindPeople() {
                         placeholder="enter first or last name"
                         id="search-input"
                     />
-                    <span className="focus-border"></span>
+                    <span className="focus-border search-fbr"></span>
                 </div>
             </div>
             <div id="search-results">

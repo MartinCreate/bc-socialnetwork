@@ -52,12 +52,10 @@ export async function getPrivChatList() {
     console.log("data in getLeftColInfo: ", data);
 
     if (data.length == 0) {
-        console.log("we're in NO_PRIV_CHATS now");
         return {
             type: "NO_PRIVCHATS",
         };
     } else {
-        console.log("we're in GET_PRIVCHAT_LIST  now");
         return {
             type: "GET_PRIVCHAT_LIST",
             privchats: data,
@@ -88,5 +86,18 @@ export function privChatMsg(msg) {
     return {
         type: "NEW_PRIV_MESSAGE",
         msg: msg,
+    };
+}
+export function privMsgAlert(senderId) {
+    // console.log("We're in privMsgAlert action.js");
+    return {
+        type: "PRIV_MSG_ALERT",
+        senderId: senderId,
+    };
+}
+export function myId(id) {
+    return {
+        type: "STORE_MY_ID",
+        myId: id,
     };
 }

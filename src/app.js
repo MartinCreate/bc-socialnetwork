@@ -25,6 +25,21 @@ export default class App extends React.Component {
     async componentDidMount() {
         const { data } = await axios.get("/user");
         this.setState(data);
+
+        const elem = document.getElementsByClassName("current-navtab")[0];
+        elem && elem.classList.remove("current-navtab");
+
+        //Highlighting current Tab
+        const pathname = window.location.pathname;
+        const p2 = pathname.substr(1);
+        const tab = document.getElementsByClassName(p2)[0];
+        if (tab) {
+            tab.classList.add("current-navtab");
+        } else {
+            document
+                .getElementsByClassName("profile")[0]
+                .classList.add("current-navtab");
+        }
     }
 
     toggleModal() {
@@ -44,6 +59,12 @@ export default class App extends React.Component {
         this.setState({
             bio: draft,
         });
+    }
+
+    addHighlight(e) {
+        const elem = document.getElementsByClassName("current-navtab")[0];
+        elem && elem.classList.remove("current-navtab");
+        e.currentTarget.classList.add("current-navtab");
     }
 
     render() {
@@ -72,28 +93,32 @@ export default class App extends React.Component {
                                 <Link
                                     to="/"
                                     id="nav-profile"
-                                    className="nav-link"
+                                    className="nav-link profile"
+                                    onClick={(e) => this.addHighlight(e)}
                                 >
-                                    My Profile
+                                    Profile
                                 </Link>
                                 <Link
                                     to="/friends"
                                     id="nav-friends"
-                                    className="nav-link"
+                                    className="nav-link friends"
+                                    onClick={(e) => this.addHighlight(e)}
                                 >
                                     Friends
                                 </Link>
                                 <Link
                                     to="/users"
                                     id="nav-search"
-                                    className="nav-link"
+                                    className="nav-link users"
+                                    onClick={(e) => this.addHighlight(e)}
                                 >
                                     Search
                                 </Link>
                                 <Link
-                                    to="/chat"
+                                    to="/private-chat"
                                     id="nav-chat"
-                                    className="nav-link last-link"
+                                    className="nav-link private-chat last-link"
+                                    onClick={(e) => this.addHighlight(e)}
                                 >
                                     Chat
                                 </Link>
@@ -153,7 +178,7 @@ export default class App extends React.Component {
                         />
 
                         <Route exact path="/users" component={FindPeople} />
-                        <Route exact path="/chat" component={Chat} />
+                        <Route exact path="/public-chat" component={Chat} />
                         <Route
                             exact
                             path="/private-chat"

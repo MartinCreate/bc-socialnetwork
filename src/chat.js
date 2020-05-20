@@ -39,7 +39,11 @@ export default function Chat() {
     return (
         <div id="chat-page">
             <div className="navbar chat-navbar">
-                <Link to="/chat" id="nav-global-chat" className="nav-link">
+                <Link
+                    to="/public-chat"
+                    id="nav-public-chat"
+                    className="nav-link"
+                >
                     Public Chat
                 </Link>
                 <Link
