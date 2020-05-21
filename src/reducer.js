@@ -1,3 +1,6 @@
+// import { NoEmitOnErrorsPlugin } from "webpack"; //what is this? how did it get here?
+// import * as io from "socket.io-client";
+
 export default function reducer(state = {}, action) {
     //3 different approaches for the first 3 reducers
     if (action.type === "GET_FRIENDS_WANNABES") {
@@ -95,8 +98,57 @@ export default function reducer(state = {}, action) {
             myId: action.myId,
         };
     }
+    if (action.type === "STORE_MY_ID_AND_SOCKET") {
+        // console.log("reducer.js STORE_MY_ID_AND_SOCKET: ", action.idAndSocket);
+
+        if (!state.idAndSocket) {
+            state = {
+                ...state,
+                idAndSocket: [action.idAndSocket],
+                newLogin: [action.idAndSocket],
+            };
+        } else if (!action.idAndSocket) {
+            console.log("reducer.js !action.idAndSocket");
+            //do nothing
+        } else {
+            console.log(
+                "reducer.js state.idAndSocket before: ",
+                state.idAndSocket
+            );
+
+            let newidAndSocket = state.idAndSocket.map((x) => {
+                //insert socket where Id already exists & avoid dublicate sockets
+                if (
+                    x.id == action.idAndSocket.id &&
+                    x.socket[0] != action.idAndSocket.socket[0]
+                ) {
+                    x.socket.unshift(action.idAndSocket.socket[0]);
+                    return x;
+                } else {
+                    return x;
+                }
+            });
+            console.log("newidAndSocket: ", newidAndSocket);
+
+            state = {
+                ...state,
+                idAndSocket: newidAndSocket,
+                newLogin: [action.idAndSocket],
+            };
+            // console.log(
+            //     "reducer.js state.idAndSocket after: ",
+            //     state.idAndSocket
+            // );
+        }
+    }
+    if (action.type === "STORE_OTHER_ID_AND_SOCKET") {
+        // console.log("reducer.js store othIS: ", action.idAndSocket);
+
+        state = {
+            ...state,
+            idAndSocket: [...state.idAndSocket, action.idAndSocket],
+        };
+    }
 
     return state;
 }
-
-//we never explicitly call the reducer(). it runs behind the scenes

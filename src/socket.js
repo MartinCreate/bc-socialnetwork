@@ -7,6 +7,8 @@ import {
     privChatMsgCheck,
     privMsgAlert,
     myId,
+    myIS,
+    othIS,
 } from "./actions";
 
 export let socket;
@@ -26,12 +28,25 @@ export const init = (store) => {
         socket.on("newPrivMsg", (msg) => store.dispatch(privChatMsgCheck(msg)));
 
         socket.on("newPrivMsgAlert", (id) => store.dispatch(privMsgAlert(id)));
-
         // socket.on("newPrivMsgAlert", (id) => {
         //     console.log("id in newPrivMsgAlert socket.js: ", id);
         //     store.dispatch(privMsgAlert(id));
         // });
 
         socket.on("store_myId", (id) => store.dispatch(myId(id)));
+
+        // socket.on("storeIdAndSocket", (idSock) => store.dispatch(myIS(idSock)));
+        socket.on("storeIdAndSocket", (idSock) => {
+            // console.log("idSock in socket.js: ", idSock);
+
+            store.dispatch(myIS(idSock));
+
+            //this runs on my clientside when another user logs in. use this to trigger an event that sends them my onlineUsers array
+        });
+        socket.on("updateSockets", (idSock) => {
+            // console.log("socket.js updateSocket idSock: ", idSock);
+
+            store.dispatch(othIS(idSock));
+        });
     }
 };

@@ -49,7 +49,7 @@ export function chatMessage(msg) {
 ////------------------------------- /private-chat page -----------------------------------------------------//
 export async function getPrivChatList() {
     const { data } = await axios.get("/private-chat-info");
-    console.log("data in getLeftColInfo: ", data);
+    // console.log("action.js data in getLeftColInfo: ", data);
 
     if (data.length == 0) {
         return {
@@ -99,5 +99,19 @@ export function myId(id) {
     return {
         type: "STORE_MY_ID",
         myId: id,
+    };
+}
+export function myIS(iS) {
+    // console.log("iS in action.js: ", iS);
+    return {
+        type: "STORE_MY_ID_AND_SOCKET",
+        idAndSocket: iS,
+    };
+}
+export function othIS(iS) {
+    // console.log("iS in action.js: ", iS);
+    return {
+        type: "STORE_OTHER_ID_AND_SOCKET",
+        idAndSocket: iS,
     };
 }

@@ -548,9 +548,26 @@ io.on("connection", function (socket) {
 
     //// -------------------------- private Chat -------------------------- //
     socket.on("openedPrivateChat", () => {
-        // console.log("userId in openedPrivateChat: ", userId);
+        console.log("socket.id: ", socket.id);
         socket.emit("store_myId", userId);
         socket.join(`private-chat room`);
+        io.to(`private-chat room`).emit("storeIdAndSocket", {
+            id: userId,
+            socket: [socket.id],
+        });
+
+        // socket.emit("storeIdAndSocket", [userId, socket.id]);
+    });
+
+    // socket.on("newLogin", (onlineUsers) => {
+    //     socket.emit("getFullSocketList", onlineUsers);
+    // });
+
+    socket.on("updateOnlineUsers", (otherOnliner) => {
+        console.log("otherOnliner: ", otherOnliner);
+        console.log("otherOnliner[1].socket: ", otherOnliner[1].socket);
+
+        io.to(otherOnliner[1].socket[0]).emit("updateSockets", otherOnliner[0]);
     });
 
     socket.on("get private msgs", async (chatterId) => {
@@ -567,15 +584,15 @@ io.on("connection", function (socket) {
         //Connecting to private chat room
         let chatters = [chatterId, userId];
         chatters.sort((a, b) => a - b);
-
         socket.join(`room for ${chatters[0]} and ${chatters[1]}`);
-
         socket.request.session.privUserOne = chatters[0];
         socket.request.session.privUserTwo = chatters[1];
+
         io.to(socket.id).emit("lastPrivMsgs", rows.reverse());
     });
 
     socket.on("EnteredNewPrivMsg", async (msgOthrId) => {
+        //msgOthrId: [newMsg, receiver_id, socketId_of_receiver]
         // console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
 
         await db.insertNewPrivateMessage(msgOthrId[0], msgOthrId[1], userId);
@@ -589,8 +606,9 @@ io.on("connection", function (socket) {
         const idTwo = socket.request.session.privUserTwo;
         io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
 
-        console.log("userId in EnteredNewPrivMsg: ", userId);
-        io.to(`private-chat room`).emit("newPrivMsgAlert", userId);
+        // console.log("userId in EnteredNewPrivMsg: ", userId);
+        io.to(msgOthrId[2]).emit("newPrivMsgAlert", userId);
+        // io.to(`private-chat room`).emit("newPrivMsgAlert", userId);
     });
 
     io.on("disconnect", function () {
@@ -598,5 +616,7 @@ io.on("connection", function (socket) {
         const idOne = socket.request.session.privUserOne;
         const idTwo = socket.request.session.privUserTwo;
         socket.leave(`room for ${idOne} and ${idTwo}`);
+        socket.leave(`private-chat room`);
+        console.log("this socket just left: ", socket.id);
     });
 });
