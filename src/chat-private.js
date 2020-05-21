@@ -91,20 +91,13 @@ export default function PrivateChat() {
             newPrivMsgFrom != myId &&
             newPrivMsgFrom != othId
         ) {
-            // const curEl = document.getElementsByClassName("incoming-msg")[0];
-            // console.log("curEl: ", curEl);
-            // curEl && curEl.classList.remove("incoming-msg");
-
             const elem = document.getElementsByClassName("priv-chat-list-item");
             const ind = findInd(privChatsList, "other_id", newPrivMsgFrom);
             // console.log("elem[ind]: ", elem[ind]);
             elem[ind].classList.remove("incoming-msg");
             elem[ind].classList.add("incoming-msg");
 
-            console.log("elem: ", elem);
-        }
-        if (newPrivMsgFrom && myId && newPrivMsgFrom != myId) {
-            console.log("IN NEWPRIVMSG");
+            // elem[ind].classList.add("new-msg");
         }
     }, [newPrivMsgFrom]);
 
@@ -148,6 +141,10 @@ export default function PrivateChat() {
         if (e.key === "Enter") {
             e.preventDefault();
 
+            if (e.target.value == "") {
+                return;
+            }
+
             socket.emit("EnteredNewPrivMsg", [e.target.value, othId]);
 
             e.target.value = "";
@@ -166,6 +163,9 @@ export default function PrivateChat() {
     const startChat = (e, otherId) => {
         e.stopPropagation();
 
+        e.currentTarget.classList.remove("incoming-msg");
+        // e.currentTarget.classList.remove("new-msg");
+
         const elem = document.getElementsByClassName("current-chat")[0];
         elem && elem.classList.remove("current-chat");
 
@@ -173,8 +173,6 @@ export default function PrivateChat() {
         e.currentTarget.classList.add("current-chat");
 
         emitGetMsgs(otherId);
-        // socket.emit("get private msgs", otherId);
-        // setOthId(otherId);
     };
 
     const findInd = (arr, prop, val) => {

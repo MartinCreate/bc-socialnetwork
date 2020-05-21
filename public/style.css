@@ -1017,18 +1017,20 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .incoming-msg {
-    /* background-color: orange; */
-    animation: pulse 1s;
-    /* transition: 0.4s; */
+    animation: pulse 1s 5;
+    -webkit-animation-fill-mode: forwards;
 }
 @keyframes pulse {
     0% {
         background-color: orange;
     }
     100% {
-        background-color: rgba(255, 166, 0, 0);
+        background-color: rgba(255, 166, 0, 0.5);
     }
 }
+/* .new-msg {
+    background-color: rgba(255, 166, 0, 0.509);
+} */
 
 /* ------------- right-col privchat ------------------------------ */
 .priv-chat-msgs-container {
