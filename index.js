@@ -246,19 +246,20 @@ app.get("/friends-wannabes", (req, res) => {
 app.get("/private-chat-info", async (req, res) => {
     console.log("We're in /private-chat!");
     const myId = req.session.userId;
-    try {
-        const otherIds = await onlyPrivChatIds(myId);
 
-        //creating array with info, (doing it this way to preserver the order (most recent id first))
+    try {
+        const friendChatIds = await onlyFriendChatIds(myId);
+
+        //chattersInfo: [otherId, first, last, imgUrl]
         let chattersInfo = [];
-        for (let i = 0; i < otherIds.length; i++) {
-            let chatterInfo = await db.getChatterById(otherIds[i]);
+        for (let i = 0; i < friendChatIds.length; i++) {
+            let chatterInfo = await db.getChatterById(friendChatIds[i]);
             chattersInfo.push(chatterInfo.rows[0]);
         }
 
         res.json(chattersInfo);
     } catch (e) {
-        console.log("ERROR in db.getPrivChatIds: ", e);
+        console.log("ERROR in GET /private-chat-info: ", e);
         res.json(undefined);
     }
 });
@@ -281,10 +282,10 @@ app.get("/search-friends/:search", async (req, res) => {
         lasts.map((l) => send.push(l));
 
         // //Filtering out Ids of active chats
-        // const otherIds = await onlyPrivChatIds(id);
-        // for (let i = 0; i < otherIds.length; i++) {
+        // const chatIds = await onlyPrivChatIds(id);
+        // for (let i = 0; i < chatIds.length; i++) {
         //     for (let j = 0; j < send.length; j++) {
-        //         if (otherIds[i] == send[j].id) {
+        //         if (chatIds[i] == send[j].id) {
         //             send.splice(j, 1);
         //         }
         //     }
@@ -297,26 +298,42 @@ app.get("/search-friends/:search", async (req, res) => {
     }
 });
 
-const onlyPrivChatIds = async (userId) => {
-    //otherIds is a simple array of userIds from users with whom logged_in_user has a private chat history, ordered by most recently chatted with
+const onlyFriendChatIds = async (userId) => {
+    //friendChatIds: array of Ids of friends with whom logged_in_user has a private chat history, ordered by most recently chatted with
 
     const { rows } = await db.getPrivChatIds(userId);
-    let otherIds = [];
+    let chatIds = [];
     for (let i = 0; i < rows.length; i++) {
         if (
             rows[i].receiver_id == userId &&
-            !otherIds.includes(rows[i].sender_id)
+            !chatIds.includes(rows[i].sender_id)
         ) {
-            otherIds.push(rows[i].sender_id);
+            chatIds.push(rows[i].sender_id);
         } else if (
             rows[i].sender_id == userId &&
-            !otherIds.includes(rows[i].receiver_id)
+            !chatIds.includes(rows[i].receiver_id)
         ) {
-            otherIds.push(rows[i].receiver_id);
+            chatIds.push(rows[i].receiver_id);
         }
     }
 
-    return otherIds;
+    const respFriends = await db.getOnlyFriends(userId);
+    const friends = respFriends.rows;
+
+    //friendChatIds: Ids of chatters who are your friends
+    let friendChatIds = [];
+    for (let i = 0; i < chatIds.length; i++) {
+        for (let j = 0; j < friends.length; j++) {
+            if (
+                chatIds[i] == friends[j].receiver_id ||
+                chatIds[i] == friends[j].sender_id
+            ) {
+                friendChatIds.push(chatIds[i]);
+            }
+        }
+    }
+
+    return friendChatIds;
 };
 
 ////------------------------------- /register route ---------------------------------------------- //

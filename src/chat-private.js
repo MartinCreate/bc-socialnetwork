@@ -154,6 +154,7 @@ export default function PrivateChat() {
 
             dispatch(getPrivChatList());
             setUsers([]);
+            document.getElementById("search-input").value = "";
         }
     };
 

@@ -318,3 +318,13 @@ module.exports.searchFriendsLast = (myId, val) => {
         [myId, val + "%"]
     );
 };
+
+module.exports.getOnlyFriends = (myId) => {
+    return db.query(
+        `
+    SELECT *
+    FROM friendships
+    WHERE (sender_id = $1 OR receiver_id = $1) AND accepted = true`,
+        [myId]
+    );
+};
