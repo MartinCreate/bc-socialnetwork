@@ -98,55 +98,61 @@ export default function reducer(state = {}, action) {
             myId: action.myId,
         };
     }
+
     if (action.type === "STORE_MY_ID_AND_SOCKET") {
-        // console.log("reducer.js STORE_MY_ID_AND_SOCKET: ", action.idAndSocket);
+        console.log("reducer.js STORE_MY_ID_AND_SOCKET: ", action.idAndSocket);
+        console.log("state.socketIds: ", state.socketIds);
+        console.log("state: ", state);
 
-        if (!state.idAndSocket) {
+        if (!state.socketIds) {
+            console.log("reducer.js no state yet");
             state = {
                 ...state,
-                idAndSocket: [action.idAndSocket],
+                socketIds: [action.idAndSocket],
                 newLogin: [action.idAndSocket],
             };
-        } else if (!action.idAndSocket) {
-            console.log("reducer.js !action.idAndSocket");
-            //do nothing
         } else {
-            console.log(
-                "reducer.js state.idAndSocket before: ",
-                state.idAndSocket
-            );
+            console.log("state.socketIds: ", state.socketIds);
 
-            let newidAndSocket = state.idAndSocket.map((x) => {
-                //insert socket where Id already exists & avoid dublicate sockets
-                if (
-                    x.id == action.idAndSocket.id &&
-                    x.socket[0] != action.idAndSocket.socket[0]
-                ) {
-                    x.socket.unshift(action.idAndSocket.socket[0]);
-                    return x;
-                } else {
-                    return x;
-                }
-            });
-            console.log("newidAndSocket: ", newidAndSocket);
+            const ind = state.socketIds.length - 1;
+            // console.log("ind: ", ind);
+            // console.log("action.idAndSocket.id: ", action.idAndSocket.id);
+            // console.log("state.socketIds[ind].id: ", state.socketIds[ind].id);
 
-            state = {
-                ...state,
-                idAndSocket: newidAndSocket,
-                newLogin: [action.idAndSocket],
-            };
-            // console.log(
-            //     "reducer.js state.idAndSocket after: ",
-            //     state.idAndSocket
-            // );
+            if (action.idAndSocket.id == state.socketIds[ind].id) {
+                let socketIds = state.socketIds.map((x) => {
+                    if (x.id == action.idAndSocket.id) {
+                        x.socket.unshift(action.idAndSocket.socket[0]);
+                        console.log("x before we return: ", x);
+                        return x;
+                    } else {
+                        return x;
+                    }
+                });
+
+                console.log("socketIds: ", socketIds);
+
+                state = {
+                    ...state,
+                    socketIds,
+                    newLogin: [action.idAndSocket],
+                };
+            } else {
+                state = {
+                    ...state,
+                    socketIds: [...state.socketIds, action.idAndSocket],
+                    newLogin: [action.idAndSocket],
+                };
+            }
         }
     }
+
     if (action.type === "STORE_OTHER_ID_AND_SOCKET") {
         // console.log("reducer.js store othIS: ", action.idAndSocket);
 
         state = {
             ...state,
-            idAndSocket: [...state.idAndSocket, action.idAndSocket],
+            socketIds: [...state.socketIds, action.idAndSocket],
         };
     }
 

@@ -44,7 +44,7 @@ export default function PrivateChat() {
         // }
 
         //NOTE: onlineUsers[i].socket[0] is the most recent socket for that user
-        (state) => state.idAndSocket && state.idAndSocket
+        (state) => state.socketIds && state.socketIds
     );
     const newLogin = useSelector((state) => state.newLogin && state.newLogin);
 
@@ -177,16 +177,19 @@ export default function PrivateChat() {
             e.preventDefault();
 
             if (e.target.value == "") {
+                console.log("e.target.value: ", e.target.value);
                 return;
             }
 
-            const indRec = findInd(onlineUsers, "id", othId);
-
-            socket.emit("EnteredNewPrivMsg", [
-                e.target.value,
-                othId,
-                onlineUsers[indRec].socket[0],
-            ]);
+            const othSock = socketById(othId);
+            console.log("othSock: ", othSock);
+            socket.emit("sendPrivMsg", [e.target.value, othId, othSock]);
+            // const indRec = findInd(onlineUsers, "id", othId);
+            // socket.emit("EnteredNewPrivMsg", [
+            //     e.target.value,
+            //     othId,
+            //     onlineUsers[indRec].socket[0],
+            // ]);
 
             e.target.value = "";
 
@@ -210,6 +213,7 @@ export default function PrivateChat() {
         const elem = document.getElementsByClassName("current-chat")[0];
         elem && elem.classList.remove("current-chat");
 
+        document.getElementById("priv-chat-textarea").value = "";
         document.getElementById("priv-chat-textarea").focus();
         e.currentTarget.classList.add("current-chat");
 
@@ -221,6 +225,16 @@ export default function PrivateChat() {
             if (arr[i][prop] === val) {
                 return i;
             }
+        }
+    };
+
+    const socketById = (otherId) => {
+        const indRec = findInd(onlineUsers, "id", otherId);
+        console.log("indRec: ", indRec);
+        if (indRec) {
+            return onlineUsers[indRec].socket[0];
+        } else {
+            return null;
         }
     };
 

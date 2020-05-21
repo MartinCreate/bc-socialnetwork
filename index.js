@@ -242,7 +242,7 @@ app.get("/friends-wannabes", (req, res) => {
     });
 });
 
-////------------------------------- private chat ---------------------------------------------- //
+////------------------------------- private chat GET ---------------------------------------------- //
 app.get("/private-chat-info", async (req, res) => {
     console.log("We're in /private-chat!");
     const myId = req.session.userId;
@@ -591,9 +591,9 @@ io.on("connection", function (socket) {
         io.to(socket.id).emit("lastPrivMsgs", rows.reverse());
     });
 
-    socket.on("EnteredNewPrivMsg", async (msgOthrId) => {
+    socket.on("sendPrivMsg", async (msgOthrId) => {
         //msgOthrId: [newMsg, receiver_id, socketId_of_receiver]
-        // console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
+        console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
 
         await db.insertNewPrivateMessage(msgOthrId[0], msgOthrId[1], userId);
 
@@ -602,17 +602,23 @@ io.on("connection", function (socket) {
         rows[0].created_at = cleanTime(rows[0].created_at);
 
         //Emitting to private chat room
-        const idOne = socket.request.session.privUserOne;
-        const idTwo = socket.request.session.privUserTwo;
-        io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
+        io.to(socket.id).emit("newPrivMsg", rows);
+        console.log("msgOtherId[2]: ", msgOthrId[2]);
+        if (msgOthrId[2]) {
+            io.to(msgOthrId[2]).emit("newPrivMsg", rows);
+            io.to(msgOthrId[2]).emit("newPrivMsgAlert", userId);
+        }
+        // const idOne = socket.request.session.privUserOne;
+        // const idTwo = socket.request.session.privUserTwo;
+        // io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
 
         // console.log("userId in EnteredNewPrivMsg: ", userId);
-        io.to(msgOthrId[2]).emit("newPrivMsgAlert", userId);
         // io.to(`private-chat room`).emit("newPrivMsgAlert", userId);
     });
 
     io.on("disconnect", function () {
         //Disconnecting from private chat room
+        console.log("The following socketId just disconnected: ", socket.id);
         const idOne = socket.request.session.privUserOne;
         const idTwo = socket.request.session.privUserTwo;
         socket.leave(`room for ${idOne} and ${idTwo}`);
