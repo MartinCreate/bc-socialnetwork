@@ -101,8 +101,8 @@ export default function reducer(state = {}, action) {
 
     if (action.type === "STORE_MY_ID_AND_SOCKET") {
         console.log("reducer.js STORE_MY_ID_AND_SOCKET: ", action.idAndSocket);
-        console.log("state.socketIds: ", state.socketIds);
-        console.log("state: ", state);
+        // console.log("state.socketIds: ", state.socketIds);
+        // console.log("state: ", state);
 
         if (!state.socketIds) {
             console.log("reducer.js no state yet");
@@ -112,14 +112,21 @@ export default function reducer(state = {}, action) {
                 newLogin: [action.idAndSocket],
             };
         } else {
-            console.log("state.socketIds: ", state.socketIds);
+            // console.log("state.socketIds: ", state.socketIds);
 
-            const ind = state.socketIds.length - 1;
-            // console.log("ind: ", ind);
-            // console.log("action.idAndSocket.id: ", action.idAndSocket.id);
-            // console.log("state.socketIds[ind].id: ", state.socketIds[ind].id);
+            //use findInd function to get index
+            const findInd = (arr, prop, val) => {
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i][prop] === val) {
+                        return i;
+                    }
+                }
+            };
 
-            if (action.idAndSocket.id == state.socketIds[ind].id) {
+            const ind = findInd(state.socketIds, "id", action.idAndSocket.id);
+            console.log("ind: ", ind);
+
+            if (ind) {
                 let socketIds = state.socketIds.map((x) => {
                     if (x.id == action.idAndSocket.id) {
                         x.socket.unshift(action.idAndSocket.socket[0]);

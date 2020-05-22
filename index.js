@@ -272,7 +272,7 @@ app.get("/search-friends/:search", async (req, res) => {
         const respFirst = await db.searchFriendsFirst(id, srch);
         const respLast = await db.searchFriendsLast(id, srch);
 
-        console.log("respFirst: ", respFirst);
+        // console.log("respFirst: ", respFirst);
 
         let firsts = respFirst.rows;
         let lasts = respLast.rows;
