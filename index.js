@@ -250,6 +250,11 @@ app.get("/private-chat-info", async (req, res) => {
     try {
         const friendChatIds = await onlyFriendChatIds(myId);
 
+        // //------- NEW. numb of newmsgs
+        //use friendChatIds and myId to make a query that gets the numb of new messages from numb_of_newmsgs for all chats (problem: what if there are no columns yet. solution: when starting a new chat add 2 new rows to numb_of_newmsgs: one where sender_id: myId and receiver_id:other_id and the other where the ids are switched are switched. that way you always at least get null)
+        // const numbNewMsgs
+        // //------- NEW. numb of newmsgs
+
         //chattersInfo: [otherId, first, last, imgUrl]
         let chattersInfo = [];
         for (let i = 0; i < friendChatIds.length; i++) {
@@ -402,7 +407,7 @@ app.post("/reset-pword/one", async (req, res) => {
         const resp = rows[0];
 
         const newCode = c({ length: 6 });
-        const emailBody = `Dear ${resp.first} ${resp.last},
+        const emailBody = `Dearest ${resp.first} ${resp.last},
 
 Here is your password-reset code.
 
@@ -411,7 +416,7 @@ Code: ${newCode}
 This code expires after 20 minutes.
 Enter the code into the password-reset form along with your new password of choice.
 
-Yours,
+Forever yours,
 amJam`;
 
         await sendEmail(email, "Reset-code for amJam", emailBody);
@@ -571,7 +576,16 @@ io.on("connection", function (socket) {
     });
 
     socket.on("get private msgs", async (chatterId) => {
-        // console.log("chatterId in get private msgs: ", chatterId);
+        //chatterId: other user's id
+        console.log("chatterId in get private msgs: ", chatterId);
+
+        // //------- NEW. numb of newmsgs
+        // try {
+        //     await db.resetNumbNewMsgs(chatterId, userId);
+        // } catch (e) {
+        //     console.log("ERROR in resetNumbNewMsgs: ", e);
+        // }
+        // //------- NEW. numb of newmsgs
 
         const { rows } = await db.getPrivateChatMsgs(userId, chatterId);
 
@@ -596,6 +610,28 @@ io.on("connection", function (socket) {
         console.log("msgOthrId in EnteringNewPrivMsg: ", msgOthrId);
 
         await db.insertNewPrivateMessage(msgOthrId[0], msgOthrId[1], userId);
+
+        // //------- NEW. numb of newmsgs
+        // try {
+        //     let newMsgs = await db.getNumbNewMsgs(userId, msgOthrId[1]);
+        //     console.log("newMsgs: ", newMsgs);
+
+        //     if (newMsgs) {
+        //         newMsgs++;
+        //         await db.updateNumbNewMsgs(userId, msgOthrId[1], newMsgs);
+
+        //         //send to client: newMsgs
+        //     } else {
+        //         await db.updateOneNewMsgs(userId, msgOthrId[1]);
+        //         //send to client: oneNewMsg = 1;
+        //     }
+        // } catch (e) {
+        //     console.log("ERROR in getNumbNewMsgs: ", e);
+
+        //     await db.insertOneNewMsgs(userId, msgOthrId[1]);
+        //     //send to client: oneNewMsg = 1;
+        // }
+        // //------- NEW. numb of newmsgs
 
         const { rows } = await db.mostRecentPrivMessage(userId, msgOthrId[1]);
         // console.log("rows from mostRecentPrivMessage: ", rows);

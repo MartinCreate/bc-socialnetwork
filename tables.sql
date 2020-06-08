@@ -37,7 +37,7 @@
 -- INSERT INTO chat (chat_msg, msg_sender_id) VALUES ('wow, a real legen?', 110);
 -- INSERT INTO chat (chat_msg, msg_sender_id) VALUES ('yes, he is true legend', 111);
 
-DROP TABLE IF EXISTS private_chat;
+-- DROP TABLE IF EXISTS private_chat;
 CREATE TABLE private_chat(
     id SERIAL PRIMARY KEY,
     priv_msg VARCHAR(5000) NOT NULL,
@@ -45,13 +45,22 @@ CREATE TABLE private_chat(
     receiver_id INT NOT NULL REFERENCES users(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hello, What is up with you?', 1, 111);
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hey man, it is a long story. I broke my drumset', 111, 1);
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Dam, tell me about it', 1, 111);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hello, What is up with you?', 1, 111);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hey man, it is a long story. I broke my drumset', 111, 1);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Dam, tell me about it', 1, 111);
 
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hi Martin, hows it hangin?', 134, 1);
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('hi davida, love your name', 1, 134);
-INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Cool stuff, huh. well just wanted to write this example message to see whether this stuff works', 134, 1);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Hi Martin, hows it hangin?', 134, 1);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('hi davida, love your name', 1, 134);
+-- INSERT INTO private_chat (priv_msg, sender_id, receiver_id) VALUES ('Cool stuff, huh. well just wanted to write this example message to see whether this stuff works', 134, 1);
+
+-- CREATE TABLE numb_of_newmsgs(
+--     id SERIAL PRIMARY KEY,
+--     new_msgs INT,
+--     sender_id INT NOT NULL REFERENCES users(id),
+--     receiver_id INT NOT NULL REFERENCES users(id),
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
 
 -- psql -d socialmedia -f tables.sql
 --(make sure you're cd'd into the the folder that contains this file before running the line above)

@@ -191,9 +191,6 @@ module.exports.getLastTenMessages = () => {
     ON (msg_sender_id = users.id)
     ORDER BY chat.created_at
     DESC LIMIT 10`);
-    // return db.query(`
-    // SELECT msg_sender_id, chat_msg, chat.created_at, first, last, image_url FROM chat JOIN users ON (msg_sender_id = users.id) ORDER BY chat.created_at ASC LIMIT 10
-    // `);
 };
 
 module.exports.insertNewMessage = (msg, sender_id) => {
@@ -328,3 +325,51 @@ module.exports.getOnlyFriends = (myId) => {
         [myId]
     );
 };
+
+////--- number of new messages
+
+// module.exports.resetNumbNewMsgs = (sender_id, receiver_id) => {
+//     return db.query(
+//         `
+//         UPDATE numb_of_newmsgs
+//         SET new_msgs = null
+//         WHERE sender_id = $1 AND receiver_id = $2`,
+//         [sender_id, receiver_id]
+//     );
+// };
+
+// module.exports.getNumbNewMsgs = (sender_id, receiver_id, newMsgs) => {
+//     return db.query(
+//         `
+//         SELECT new_msgs FROM numb_of_newmsgs
+//         WHERE sender_id = $1 AND receiver_id = $2`,
+//         [sender_id, receiver_id, newMsgs]
+//     );
+// };
+// module.exports.updateNumbNewMsgs = (sender_id, receiver_id, newMsgs) => {
+//     return db.query(
+//         `
+//         UPDATE numb_of_newmsgs
+//         SET new_msgs = $3
+//         WHERE sender_id = $1 AND receiver_id = $2`,
+//         [sender_id, receiver_id, newMsgs]
+//     );
+// };
+// module.exports.updateOneNewMsgs = (sender_id, receiver_id) => {
+//     return db.query(
+//         `
+//         UPDATE numb_of_newmsgs
+//         SET new_msgs = 1
+//         WHERE sender_id = $1 AND receiver_id = $2`,
+//         [sender_id, receiver_id]
+//     );
+// };
+// module.exports.insertOneNewMsgs = (sender_id, receiver_id, newMsgs) => {
+//     return db.query(
+//         `
+//         INSERT INTO numb_of_newmsgs (new_msgs, sender_id, receiver_id)
+//         VALUES ($1, $2, 1)
+//         WHERE sender_id = $1 AND receiver_id = $2`,
+//         [sender_id, receiver_id, newMsgs]
+//     );
+// };

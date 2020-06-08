@@ -114,7 +114,6 @@ export default function reducer(state = {}, action) {
         } else {
             // console.log("state.socketIds: ", state.socketIds);
 
-            //use findInd function to get index
             const findInd = (arr, prop, val) => {
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i][prop] === val) {
@@ -127,6 +126,7 @@ export default function reducer(state = {}, action) {
             console.log("ind: ", ind);
 
             if (ind) {
+                //potentially refactor this. I don't think the map is necessary anymore, since we have the index now
                 let socketIds = state.socketIds.map((x) => {
                     if (x.id == action.idAndSocket.id) {
                         x.socket.unshift(action.idAndSocket.socket[0]);
