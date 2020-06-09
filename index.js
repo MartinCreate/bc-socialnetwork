@@ -7,11 +7,11 @@ const express = require("express");
 const app = express();
 //SOCKET.IO setup
 const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that the express still works)
-const io = require("socket.io")(server, { origins: "localhost:8080" });
-// const io = require("socket.io")(server, {
-//     origins: "localhost:8080 bc-socialnetwork.herokuapp.com:*",
-// }); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
-//when you upload to heroku, add the route to origins: "localhost:8080 mysocialnetwork.herokuapp.com:example")
+// const io = require("socket.io")(server, { origins: "localhost:8080" });
+//for heroku:
+const io = require("socket.io")(server, {
+    origins: "localhost:8080 bc-socialnetwork.herokuapp.com:*",
+}); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
 const db = require("./db");
 const { hash, compare } = require("./bc");
 const compression = require("compression");
