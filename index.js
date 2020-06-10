@@ -240,7 +240,6 @@ app.post("/friend-status/:other_id", (req, res) => {
 
 app.get("/friends-wannabes", (req, res) => {
     db.getFriendsAndWannabes(req.session.userId).then(({ rows }) => {
-        // console.log("rows: ", rows);
         res.json(rows);
     });
 });
@@ -279,8 +278,6 @@ app.get("/search-friends/:search", async (req, res) => {
     try {
         const respFirst = await db.searchFriendsFirst(id, srch);
         const respLast = await db.searchFriendsLast(id, srch);
-
-        // console.log("respFirst: ", respFirst);
 
         let firsts = respFirst.rows;
         let lasts = respLast.rows;
@@ -328,7 +325,6 @@ const onlyFriendChatIds = async (userId) => {
     const respFriends = await db.getOnlyFriends(userId);
     const friends = respFriends.rows;
 
-    //friendChatIds: Ids of chatters who are your friends
     let friendChatIds = [];
     for (let i = 0; i < chatIds.length; i++) {
         for (let j = 0; j < friends.length; j++) {
@@ -518,13 +514,13 @@ app.get("*", function (req, res) {
 // });
 
 ////---------- socket.io setup
-server.listen(8080, function () {
-    console.log("socialnetwork server listening...");
-});
-
-// server.listen(process.env.PORT || 8080, function () {
+// server.listen(8080, function () {
 //     console.log("socialnetwork server listening...");
 // });
+
+server.listen(process.env.PORT || 8080, function () {
+    console.log("socialnetwork server listening...");
+});
 
 ////------------------------------- socket code ---------------------------------------------- //
 //the code in io.on('connection') runs upon connecting
@@ -662,9 +658,9 @@ io.on("connection", function (socket) {
     io.on("disconnect", function () {
         //Disconnecting from private chat room
         console.log("The following socketId just disconnected: ", socket.id);
-        const idOne = socket.request.session.privUserOne;
-        const idTwo = socket.request.session.privUserTwo;
-        socket.leave(`room for ${idOne} and ${idTwo}`);
+        const id1 = socket.request.session.privUserOne;
+        const id2 = socket.request.session.privUserTwo;
+        socket.leave(`room for ${id1} and ${id2}`);
         socket.leave(`private-chat room`);
         console.log("this socket just left: ", socket.id);
     });
