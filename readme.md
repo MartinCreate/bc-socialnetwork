@@ -13,7 +13,7 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
     -   Create personal bio on profile-page
 -   Friends Page
     -   Shows current friends, and pending friendrequests to you
-    -   Accet/decline/end friendships
+    -   Accept/decline/end friendships
 -   Search Page
     -   Before search: shows 3 most recently joined members
     -   Search by first or last name
@@ -33,16 +33,19 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
 
 ## Tech Stack
 
--   React
--   Redux
--   Node.js
--   Express
--   Socket.IO - for live-chat
+-   JavaScript
+    -   React
+    -   Redux
+    -   Node.js
+    -   Express
+    -   Socket.IO - for live-chat
 -   Amazon Web Services - for storing the uploaded images and sending password-reset email
 -   PostgreSQL - for storing
     -   user info (first- last name, email, hashed password, bio, profile picture url)
     -   friendships (active, pending)
     -   chat messages (public, private)
+-   HTML
+-   CSS
 
 ## Screenshots
 
