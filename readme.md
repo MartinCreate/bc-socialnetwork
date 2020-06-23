@@ -7,6 +7,7 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
 -   Welcome Page
     -   Register/login
     -   Reset password - receive email with code that allows you to change your account password
+    -   Form Validation - error messages for various scenarios (e.g. missing inputs for any field, duplicate email registration attempt, wrong password at login, etc.)
 -   Profile Page
     -   Upload profile picture
     -   Create personal bio on profile-page
@@ -49,15 +50,36 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
 
 ![](./public/screenshots/1.png)
 ![](./public/screenshots/2.png)
+![](./public/screenshots/3.png)
 
 ### Friends Page
 
+![](./public/screenshots/4.png)
+
 ### Search Page
 
-###
-
-###
-
-![](./public/screenshots/3.png)
-![](./public/screenshots/4.png)
 ![](./public/screenshots/5.png)
+![](./public/screenshots/6.png)
+![](./public/screenshots/7.png)
+
+### Chat Page
+
+-   Public Chat
+    ![](./public/screenshots/8.png)
+
+-   Private Chat
+    -   Chatting with Dylan, Davida just sent me a message (orange highlight)
+        ![](./public/screenshots/9.png)
+    -   Searching among friends (green: already chatting, red: no active chat)
+        ![](./public/screenshots/10.png)
+
+### Welcome Page
+
+-   Register
+    ![](./public/screenshots/11.png)
+-   Login
+    ![](./public/screenshots/12.png)
+-   Reset Password
+    ![](./public/screenshots/13.png)
+-   Error Message (on register page)
+    ![](./public/screenshots/14.png)
