@@ -16,15 +16,13 @@ export default class OtherProfile extends Component {
             if (data.nonExistentIdOrOwnProfile) {
                 this.props.history.push("/");
             } else {
-                const { first, last, email, image_url, bio } = data;
+                const { first, last, image_url, bio } = data;
 
                 this.setState({
                     first: first,
                     last: last,
                     img_url: image_url || "/default.png",
                     bio: bio,
-                    email: email, //currently unnecessary
-                    otherId: otherId, //currently unnecessary (couldn't use it for part 8, because it was undefined when useEffect() ran, and only became defined after)
                 });
             }
         } catch (e) {

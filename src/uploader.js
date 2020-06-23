@@ -58,7 +58,7 @@ export default class Uploader extends React.Component {
                 fileName = e.target.value;
 
                 if (fileName) {
-                    //fileName had C:/fakepath/ at the beginning, so I slice it off here
+                    //fileName has C:/fakepath/ at the beginning, so I slice it off here
                     fileName = fileName.slice(12);
                     label.innerHTML = fileName;
                 } else {

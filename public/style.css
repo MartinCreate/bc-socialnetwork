@@ -1,7 +1,3 @@
-/* * {
-    color: rgb(120, 30, 30);
-} */
-
 html,
 body {
     border: 0;
@@ -10,7 +6,6 @@ body {
     height: 100%;
 }
 body {
-    /* background-color: wheat; */
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
         sans-serif;
     height: 100%;
@@ -41,7 +36,6 @@ main,
     right: 0;
     overflow-x: scroll;
     overflow-y: scroll;
-    /* position: relative; */
 }
 
 #app-component::after {
@@ -73,11 +67,8 @@ main,
 }
 
 #browser-router {
-    /* border: 2px red solid; */
     height: 100%;
     margin: 0;
-
-    /* NEW */
     display: grid;
     grid-template-rows: 110px 1fr;
 }
@@ -85,9 +76,7 @@ main,
 /* -------------------------- HEADER ------------------------------------------------------- */
 
 #header {
-    /* border: 1px solid red; */
     border-bottom: 2px black solid;
-    /* height: 135px; */
     display: grid;
     grid-template-columns: 200px 1fr 200px;
     grid-template-rows: 110px;
@@ -96,7 +85,7 @@ main,
 }
 #header::after {
     content: "";
-    background-image: url("header44.jpg");
+    background-image: url("header.jpg");
     background-size: cover;
     opacity: 1;
     position: absolute;
@@ -112,7 +101,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 */
 
 #logo-div {
-    /* border: 1px blue solid; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,7 +109,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #logo {
-    /* border: 1px red solid; */
     border-radius: 100%;
     height: 80px;
     width: auto;
@@ -137,7 +124,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 /* -------------- NAVBAR ---------------- */
 
 .navbar {
-    /* border: 1px red solid; */
     grid-column: 2 / span 1;
     display: flex;
     justify-content: center;
@@ -145,23 +131,16 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 .nav-link {
-    /* border: 1px solid black; */
     border-right: 1px lightgrey solid;
-    /* border-bottom: 1px rgba(255, 255, 255, 0) solid; */
-
     background-color: rgba(208, 208, 208, 0.7);
-
     padding: 20px;
     text-decoration: none;
     color: rgb(29, 29, 29);
     font-weight: bold;
 }
 .nav-link:hover {
-    /* border-bottom: 1px lightgrey solid; */
     background-color: whitesmoke;
     color: black;
-    /* color: rgb(34, 34, 34); */
-    /* box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.75); */
 }
 .nav-link,
 .nav-link:hover {
@@ -176,7 +155,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #header-pic {
-    /* border: 1px blue solid; */
     grid-column: 3 / span 1;
     display: flex;
     justify-content: center;
@@ -193,7 +171,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 
 /* ------------- Profile Picture in app.js ---------------- */
 #header-pic .prof-pic-div {
-    /* border: 2px rgb(85, 85, 85) solid; */
     margin: 10px;
     cursor: pointer;
     text-align: center;
@@ -205,7 +182,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #header-pic .profile-pic {
-    /* border-bottom: 2px rgb(85, 85, 85) solid; */
     margin: 0px;
     background-color: whitesmoke;
     object-fit: cover;
@@ -221,7 +197,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 /* ------------- Profile Picture in profile.js ---------------- */
 
 #pic-inProfile .prof-pic-div {
-    /* border: 2px rgb(85, 85, 85) solid; */
     margin: 30px;
     cursor: pointer;
     text-align: center;
@@ -229,11 +204,9 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 #pic-inProfile .prof-pic-div:hover {
     background-color: whitesmoke;
-    /* filter: contrast(120%); */
 }
 
 #pic-inProfile .profile-pic {
-    /* border-bottom: 2px rgb(85, 85, 85) solid; */
     margin: 0px;
     background-color: rgba(245, 245, 245, 0);
     object-fit: contain;
@@ -258,7 +231,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 /* -------------------------------- Bio -------------------------------- */
 
 #bio-div {
-    /* border: 1px purple solid; */
     padding: 20px;
 }
 #bio-div h1 {
@@ -269,7 +241,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #bio-editor {
-    /* border: 1px blue solid; */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -288,30 +259,24 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 .bio-button {
-    /* border: 1px red solid; */
     text-decoration: underline;
     cursor: pointer;
 }
 
 #submit-and-cancel-bio {
-    /* border: 1px green solid; */
     width: 100%;
-    /* display: flex; */
 }
 
 #cancel {
-    /* border: 1px red solid; */
     display: inline-block;
 }
 
 #submit-bio {
-    /* border: 1px blue solid; */
     float: right;
 }
 
 /* --------------------------- Upload Profile Pic Modal ------------------ */
 #upload-container {
-    /* border: 1px blue solid; */
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 10;
     position: fixed;
@@ -325,7 +290,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #upload-modal-div {
-    /* border: 2px grey solid; */
     border-radius: 20px;
     background-image: url("modal.jpg");
     background-size: cover;
@@ -348,7 +312,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
     z-index: -1;
 }
 #choose-img-label {
-    /* border: 2px grey solid; */
     color: white;
     background-color: rgb(70, 70, 70);
     font-size: 20px;
@@ -375,7 +338,6 @@ https://editor.freelogodesign.org/?lang=en&companyname=amJam&category=15
 }
 
 #x-upload {
-    /* border: 1px red solid; */
     color: grey;
     font-size: 20px;
     font-weight: bold;
@@ -395,7 +357,6 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
 */
 
 .welcome-component {
-    /* border: 2px red solid; */
     background-image: url("back-large.jpg");
     background-size: cover;
     color: white;
@@ -406,11 +367,9 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
 
 .welcome-backdrop {
     border-radius: 20px;
-    /* background-color: white; */
     padding: 10px 100px;
 
     /* backdrop blur code below */
-    /* box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 1); */
     position: relative;
     background: inherit;
     overflow: hidden;
@@ -434,7 +393,6 @@ https://webdesign.tutsplus.com/tutorials/how-to-create-a-frosted-glass-effect-in
 }
 
 .welcome-component h1 {
-    /* border: 1px red solid; */
     text-align: center;
     font-size: 50px;
     margin: 30px 0 0;
@@ -463,11 +421,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     font-size: 20px;
     margin: 20px 50px 40px;
     padding: 20px 0px 0px;
-    /* box-shadow: 1px 1px 1px grey; */
 }
 
 .form h3 {
-    /* border: 1px solid red; */
     margin: 0 0 10px;
     color: rgb(120, 30, 30, 0.9);
     font-size: 30px;
@@ -482,7 +438,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .input-field-div {
-    /* border: 1px blue solid; */
     margin: 15px 50px;
     position: relative;
 }
@@ -521,7 +476,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 
 .form button {
     border: none;
-    /* border: 1px rgba(245, 245, 245, 0.295) solid; */
     border-top: none;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -561,7 +515,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /* -------------------------- /register /login specifics ------------------------------------------------------- */
 
 .toggle-comps {
-    /* border: 1px red solid; */
     color: rgb(162, 162, 162);
     font-size: 16px;
     margin: 0 0 20px;
@@ -574,17 +527,14 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /* ----------------------------------- FIND PEOPLE COMPONENT ------------------------------------------------------------------------- */
 
 #search-page {
-    /* border: 2px green solid; */
     box-sizing: border-box;
 
-    /* height: calc(100% - 112px); */
     display: grid;
     grid-template-columns: 400px 1fr;
 }
 
 /*  -------  search left column ------- */
 #search-left-col {
-    /* border: 1px hotpink solid; */
     padding-top: 30px;
     display: flex;
     flex-direction: column;
@@ -592,7 +542,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #search-header {
-    /* border: 1px solid green; */
     margin: 0 0 30px 0;
     font-size: 30px;
     font-weight: bold;
@@ -612,13 +561,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     background-color: rgb(120, 30, 30);
 }
 
-/*------------------*/
-
 /*  -------  search right column ------- */
 #search-results {
-    /* border: 1px red solid; */
     border-left: 2px rgb(120, 30, 30) solid;
-    /* height: 90%; */
     max-height: 78vh;
     padding: 20px;
     margin: 10px 0;
@@ -631,8 +576,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .search-result {
-    /* border: 1px solid purple; */
-    /* border-bottom: 1px solid grey; */
     border-radius: 5px;
     padding: 10px;
     display: flex;
@@ -644,7 +587,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .search-result img {
-    /* border: 1px red solid; */
     border-radius: 5px;
     height: 120px;
     width: 120px;
@@ -667,19 +609,15 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 
 /* ----------------------------------- friends.js FriendsAndWannabes component ------------------------------------------------------------------------- */
 #friends-page {
-    /* border: 1px red solid; */
     padding: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* height: calc(100% - 140px); */
 }
 
 #friends-page > div {
-    /* border: 1px blue solid; */
     padding: 10px;
     height: 98%;
     max-height: 81vh;
-    /* max-height: 90%; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -705,7 +643,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .name-and-buttons {
-    /* border: 2px red solid; */
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -733,12 +670,10 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .decline-button {
-    /* border: 1px red solid; */
     margin-left: 20px;
 }
 
 .name-link {
-    /* border: 1px red solid; */
     text-decoration: underline;
     color: rgb(120, 30, 30);
 }
@@ -747,12 +682,10 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /* -------------- chat-nav ---------------- */
 
 .chat-navbar {
-    /* border: 1px red solid; */
     border-radius: 10px;
     margin: 10px 0;
 }
 .chat-navbar .nav-link {
-    /* background-color: rgba(165, 42, 42, 0.235); */
     color: rgb(120, 30, 30);
     padding: 15px;
 }
@@ -772,21 +705,16 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 /* ---------------------------- global chat ------------------------------ */
 
 #chat-page {
-    /* border: 1px blue solid; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-}
-#chat-page h2 {
-    /* color: brown; */
 }
 
 .chat-messages-container {
     border: 3px brown solid;
     border-radius: 10px;
     background-color: rgba(245, 245, 245, 0.802);
-    /* padding: 10px; */
     width: 80%;
     height: 80%;
     display: grid;
@@ -794,7 +722,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #chat-messages {
-    /* border: 1px red solid; */
     border-bottom: 2px brown solid;
     padding: 10px;
     margin: 0;
@@ -805,7 +732,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .message-container {
-    /* border: 1px salmon solid; */
     border-top: 1px rgba(165, 42, 42, 0.2) solid;
     display: grid;
     grid-template-columns: 70px 1fr;
@@ -837,12 +763,10 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .msg-name-time {
-    /* border: 1px green solid; */
     display: block;
 }
 
 .msg-name-time p:first-child {
-    /* border: 1px blue solid; */
     color: brown;
     display: inline-block;
     margin-right: 10px;
@@ -850,7 +774,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .msg-name-time p:last-child {
-    /* border: 1px orange solid; */
     color: grey;
     display: inline;
     letter-spacing: -0.2px;
@@ -858,15 +781,12 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .msg-text {
-    /* border: 1px pink solid; */
     margin: 6px 0 0 0;
     max-width: 96%;
     word-break: break-all;
-    /* overflow-wrap: break-word; */
 }
 
 .chat-messages-container textarea {
-    /* border: 1px green solid; */
     border: none;
     border-radius: 0 0 10px 10px;
     background-color: rgb(235, 233, 233);
@@ -888,18 +808,15 @@ https://codepen.io/Takumari85/pen/RaYwpJ
     border: 3px brown solid;
     border-radius: 10px;
     background-color: rgba(245, 245, 245, 0.802);
-    /* padding: 10px; */
     width: 90%;
     height: 80%;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    /* grid-template-rows: 450px 1fr; */
 }
 
 /* ------------- left-col privchat ------------------------------ */
 
 #priv-chats-list-container {
-    /* border: 1px blue solid; */
     border-radius: 10px 0 0 10px;
     border-right: 3px brown solid;
     grid-column: 1 / span 1;
@@ -910,7 +827,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #priv-nav {
-    /* border: 1px green solid; */
     border-bottom: 2px brown solid;
     display: flex;
     flex-direction: column;
@@ -926,7 +842,6 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 #priv-nav .input-field-div {
-    /* border: 1px blue solid; */
     width: 100%;
     margin: 0;
 }
@@ -945,48 +860,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 #priv-nav .input-field-div .focus-border {
     background-color: rgb(120, 30, 30);
-    /* background-color: black; */
 }
-/* .input-field-div {
-    margin: 15px 50px;
-    position: relative;
-}
-
-.input-field-div input {
-    border: none;
-    border-bottom: 1px lightgrey solid;
-    font-size: 20px;
-    background-color: rgba(240, 255, 255, 0);
-    height: 30px;
-    width: 300px;
-}
-.input-field-div input:focus {
-    outline: none;
-}
-
-.input-field-div input:focus ~ .focus-border {
-    width: 100%;
-    transition: 0.4s;
-    left: 0;
-}
-.focus-border {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background-color: grey;
-    transition: 0.4s;
-}
-
-.input-field-div input::placeholder {
-    font-size: 16px;
-} */
-
-/*------------------*/
 
 #priv-chats {
-    /* border: 2px green solid; */
     max-height: 425px;
     overflow-y: scroll;
 }
@@ -1000,12 +876,10 @@ https://codepen.io/Takumari85/pen/RaYwpJ
 }
 
 .priv-chat-list-item {
-    /* border: 1px red solid; */
     display: flex;
     align-items: center;
     padding: 5px;
     cursor: pointer;
-    /* background-color: lightgrey; */
 }
 .priv-chat-list-item:hover,
 .current-chat {
@@ -1035,16 +909,9 @@ https://codepen.io/Takumari85/pen/RaYwpJ
         background-color: rgba(255, 166, 0, 0.5);
     }
 }
-/* .new-msg {
-    background-color: rgba(255, 166, 0, 0.509);
-} */
 
 /* ------------- right-col privchat ------------------------------ */
-.priv-chat-msgs-container {
-}
-
 .private .chat-messages-container {
-    /* border: 2px green solid; */
     border: none;
     grid-column: 2 / span 1;
     width: 100%;

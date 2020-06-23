@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { socket } from "./socket";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getPrivChatList, privChatMsg, clearChatMessages } from "./actions";
+import { getPrivChatList, privChatMsg } from "./actions";
 
 import axios from "./axios";
 
@@ -22,27 +22,12 @@ export default function PrivateChat() {
         (state) => state.privchats && state.privchats
     );
     const newPrivMsg = useSelector(
-        // (state) => {
-        //     state.newPrivMsg && state.newPrivMsg;
-        //     console.log("We're in newPrivMsg");
-        // }
         (state) => state.newPrivMsg && state.newPrivMsg
     );
     const newPrivMsgFrom = useSelector(
-        // (state) => {
-        //     if (state.newMsgFrom) {
-        //         console.log("We're in newPrivMsgFrom");
-        //         return state.newMsgFrom;
-        //     }
-        // }
         (state) => state.newMsgFrom && state.newMsgFrom
     );
     const onlineUsers = useSelector(
-        // (state) => {
-        //     console.log("state.idAndSocket: ", state.idAndSocket);
-        //     return state.idAndSocket && state.idAndSocket;
-        // }
-
         //NOTE: onlineUsers[i].socket[0] is the most recent socket for that user
         (state) => state.socketIds && state.socketIds
     );
@@ -53,12 +38,10 @@ export default function PrivateChat() {
         socket.emit("openedPrivateChat");
 
         setMounted(true);
-        // dispatch(clearChatMessages());
     }, []);
 
     useEffect(() => {
         if (privChatsList) {
-            // console.log("privChatsList in useEffect: ", privChatsList);
             emitGetMsgs(privChatsList[0].other_id);
 
             const elems = document.getElementsByClassName(
@@ -69,18 +52,12 @@ export default function PrivateChat() {
     }, [privChatsList]);
 
     useEffect(() => {
-        // console.log("My privChatMessages changed");
-        // console.log("privChatMessages: ", privChatMessages);
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
     }, [privChatMessages]);
 
     useEffect(() => {
         if (newPrivMsg) {
-            // console.log("In newPrivMsg");
-            // console.log("othId in newPrivMsg: ", othId);
-            // console.log("newPrivMsgFrom in newPrivMsg: ", newPrivMsgFrom);
-
             const recId = newPrivMsg[0].receiver_id;
             const senId = newPrivMsg[0].sender_id; //could this cause problems??
             if (recId == othId || senId == othId) {
@@ -105,16 +82,12 @@ export default function PrivateChat() {
         ) {
             const elem = document.getElementsByClassName("priv-chat-list-item");
             const ind = findInd(privChatsList, "other_id", newPrivMsgFrom);
-            // console.log("elem[ind]: ", elem[ind]);
             elem[ind].classList.remove("incoming-msg");
             elem[ind].classList.add("incoming-msg");
-
-            // elem[ind].classList.add("new-msg");
         }
     }, [newPrivMsgFrom]);
 
     useEffect(() => {
-        // console.log("search: ", search);
         let abort;
         (async () => {
             if (search) {
@@ -134,8 +107,6 @@ export default function PrivateChat() {
                         });
                         return x;
                     });
-
-                    // console.log("filteredSearch: ", filteredSearch);
 
                     setUsers(filteredSearch);
                 }
@@ -161,9 +132,6 @@ export default function PrivateChat() {
     useEffect(() => {
         if (newLogin && myId) {
             if (newLogin[0].id != myId) {
-                // console.log("newLogin not me: ", newLogin);
-                // console.log("myIdAndSocket in newLogin: ", myIdAndSocket);
-                // socket.emit("newLogin", newLogin);
                 socket.emit("updateOnlineUsers", [
                     myIdAndSocket[0],
                     newLogin[0],
@@ -177,19 +145,11 @@ export default function PrivateChat() {
             e.preventDefault();
 
             if (e.target.value == "") {
-                console.log("e.target.value: ", e.target.value);
                 return;
             }
 
             const othSock = socketById(othId);
-            console.log("othSock: ", othSock);
             socket.emit("sendPrivMsg", [e.target.value, othId, othSock]);
-            // const indRec = findInd(onlineUsers, "id", othId);
-            // socket.emit("EnteredNewPrivMsg", [
-            //     e.target.value,
-            //     othId,
-            //     onlineUsers[indRec].socket[0],
-            // ]);
 
             e.target.value = "";
 
@@ -208,7 +168,6 @@ export default function PrivateChat() {
         e.stopPropagation();
 
         e.currentTarget.classList.remove("incoming-msg");
-        // e.currentTarget.classList.remove("new-msg");
 
         const elem = document.getElementsByClassName("current-chat")[0];
         elem && elem.classList.remove("current-chat");

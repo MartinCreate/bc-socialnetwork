@@ -6,12 +6,12 @@ https://s3.console.aws.amazon.com/s3/buckets/martinpaul-msg-socialnetwork/
 const express = require("express");
 const app = express();
 //SOCKET.IO setup
-const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that the express still works)
+const server = require("http").Server(app); //socket.io needs a native node server (we can't use express's node server because express altered it a bit, so we use the Server constructor here and pass it "app" so that express still works)
 // const io = require("socket.io")(server, { origins: "localhost:8080" });
 //for heroku:
 const io = require("socket.io")(server, {
     origins: "localhost:8080 bc-socialnetwork.herokuapp.com:*",
-}); //you need to pass socket.io the serv and origins with a list of host-names/ports that you will accept socket io connections from (there will be a http header with 'origin' value in it. it also prevents cross-site attacks. you separate multiple ports by a space)
+}); //list of host-names/ports that to accept socket.io connections from. also prevents cross-site attacks. separate multiple ports by a space
 const db = require("./db");
 const { hash, compare } = require("./bc");
 const compression = require("compression");
@@ -21,7 +21,7 @@ const c = require("crypto-random-string");
 const { sendEmail } = require("./ses");
 const s3 = require("./s3");
 
-//////////////////////// DON'T TOUCH below - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
+//////////////////////// IMAGE UPLOAD BIOLDERPLATE below /////////////////////////////
 //npm packages we installed
 const multer = require("multer"); //saves our files to our harddrive
 const uidSafe = require("uid-safe"); //creates random string to give each file a unique name
@@ -47,7 +47,7 @@ const uploader = multer({
         fileSize: 2097152, //limits uploaded filesize to be 2mb max
     },
 });
-//////////////////////// DON'T TOUCH above - IMAGE UPLOAD BIOLDERPLATE /////////////////////////////
+//////////////////////// IMAGE UPLOAD BIOLDERPLATE above /////////////////////////////
 
 ////------------------------------- MIDDLEWARE ---------------------------------------------- //
 app.use((req, res, next) => {
@@ -157,7 +157,6 @@ app.get("/search-users/:search", async (req, res) => {
 
     const name = req.params.search;
     try {
-        //refactor this so that both queries run simultaneously
         const respFirst = await db.getMatchingUsersFirst(name);
         const respLast = await db.getMatchingUsersLast(name);
 
@@ -375,7 +374,6 @@ app.post("/login", async (req, res) => {
     try {
         const { rows } = await db.login(req.body.email);
         const matchValue = await compare(req.body.password, rows[0].password);
-        // console.log("matchValue: ", matchValue);
 
         if (req.body.password == "") {
             throw Error;
@@ -406,7 +404,7 @@ app.post("/reset-pword/one", async (req, res) => {
         const resp = rows[0];
 
         const newCode = c({ length: 6 });
-        const emailBody = `Dearest ${resp.first} ${resp.last},
+        const emailBody = `Hello ${resp.first} ${resp.last},
 
 Here is your password-reset code.
 
@@ -415,7 +413,7 @@ Code: ${newCode}
 This code expires after 20 minutes.
 Enter the code into the password-reset form along with your new password of choice.
 
-Forever yours,
+Best,
 amJam`;
 
         await sendEmail(email, "Reset-code for amJam", emailBody);
@@ -457,7 +455,6 @@ app.post("/upload-profile", uploader.single("file"), s3.upload, (req, res) => {
 
     if (req.file) {
         db.updateImgUrl(
-            //this url is copied from aws page of image (without the id-characters at the end)
             "https://martinpaul-msg-socialnetwork.s3.eu-central-1.amazonaws.com/" +
                 req.file.filename,
             user_id
@@ -509,6 +506,7 @@ app.get("*", function (req, res) {
 
 ////-------------------------------  Port ---------------------------------------------- //
 
+////----------- local setup
 // app.listen(8080, function () {
 //     console.log("socialnetwork server listening...");
 // });
@@ -523,9 +521,7 @@ server.listen(process.env.PORT || 8080, function () {
 });
 
 ////------------------------------- socket code ---------------------------------------------- //
-//the code in io.on('connection') runs upon connecting
 io.on("connection", function (socket) {
-    //all the socket code we run has to be within this 'connection' event (?? i think that's what andrea meant)
     console.log(`socket with id ${socket.id} is now connected`);
 
     if (!socket.request.session.userId) {
@@ -545,8 +541,6 @@ io.on("connection", function (socket) {
     });
 
     socket.on("Entered newChatMsg", async (newMsg) => {
-        // console.log("from chat.js: ", newMsg);
-
         await db.insertNewMessage(newMsg, userId);
         const { rows } = await db.mostRecentMessage();
         rows[0].created_at = cleanTime(rows[0].created_at);
@@ -556,20 +550,13 @@ io.on("connection", function (socket) {
 
     //// -------------------------- private Chat -------------------------- //
     socket.on("openedPrivateChat", () => {
-        console.log("socket.id: ", socket.id);
         socket.emit("store_myId", userId);
         socket.join(`private-chat room`);
         io.to(`private-chat room`).emit("storeIdAndSocket", {
             id: userId,
             socket: [socket.id],
         });
-
-        // socket.emit("storeIdAndSocket", [userId, socket.id]);
     });
-
-    // socket.on("newLogin", (onlineUsers) => {
-    //     socket.emit("getFullSocketList", onlineUsers);
-    // });
 
     socket.on("updateOnlineUsers", (otherOnliner) => {
         console.log("otherOnliner: ", otherOnliner);
@@ -591,8 +578,6 @@ io.on("connection", function (socket) {
         // //------- NEW. numb of newmsgs
 
         const { rows } = await db.getPrivateChatMsgs(userId, chatterId);
-
-        // console.log("rows from getPrivateChatMsgs: ", rows);
 
         for (let i = 0; i < rows.length; i++) {
             rows[i].created_at = cleanTime(rows[i].created_at);
@@ -637,7 +622,6 @@ io.on("connection", function (socket) {
         // //------- NEW. numb of newmsgs
 
         const { rows } = await db.mostRecentPrivMessage(userId, msgOthrId[1]);
-        // console.log("rows from mostRecentPrivMessage: ", rows);
         rows[0].created_at = cleanTime(rows[0].created_at);
 
         //Emitting to private chat room
@@ -647,12 +631,6 @@ io.on("connection", function (socket) {
             io.to(msgOthrId[2]).emit("newPrivMsg", rows);
             io.to(msgOthrId[2]).emit("newPrivMsgAlert", userId);
         }
-        // const idOne = socket.request.session.privUserOne;
-        // const idTwo = socket.request.session.privUserTwo;
-        // io.to(`room for ${idOne} and ${idTwo}`).emit("newPrivMsg", rows);
-
-        // console.log("userId in EnteredNewPrivMsg: ", userId);
-        // io.to(`private-chat room`).emit("newPrivMsgAlert", userId);
     });
 
     io.on("disconnect", function () {

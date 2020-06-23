@@ -1,11 +1,6 @@
-// import { NoEmitOnErrorsPlugin } from "webpack"; //what is this? how did it get here?
-// import * as io from "socket.io-client";
-
 export default function reducer(state = {}, action) {
     //3 different approaches for the first 3 reducers
     if (action.type === "GET_FRIENDS_WANNABES") {
-        // here is where the code to update Redux global state will go
-
         state = Object.assign({}, state, {
             friendsWannabes: action.friendsWannabes,
         });
@@ -58,7 +53,7 @@ export default function reducer(state = {}, action) {
         };
     }
     if (action.type === "NO_PRIV_CHATS") {
-        //just do nothing, idk
+        //do nothing
     }
     if (action.type === "CLEAR_CHAT_MSGS") {
         state = {
@@ -85,8 +80,6 @@ export default function reducer(state = {}, action) {
         };
     }
     if (action.type === "PRIV_MSG_ALERT") {
-        // console.log("We're in PRIV_MSG_ALERT reducer");
-
         state = {
             ...state,
             newMsgFrom: action.senderId,
@@ -101,8 +94,6 @@ export default function reducer(state = {}, action) {
 
     if (action.type === "STORE_MY_ID_AND_SOCKET") {
         console.log("reducer.js STORE_MY_ID_AND_SOCKET: ", action.idAndSocket);
-        // console.log("state.socketIds: ", state.socketIds);
-        // console.log("state: ", state);
 
         if (!state.socketIds) {
             console.log("reducer.js no state yet");
@@ -112,8 +103,6 @@ export default function reducer(state = {}, action) {
                 newLogin: [action.idAndSocket],
             };
         } else {
-            // console.log("state.socketIds: ", state.socketIds);
-
             const findInd = (arr, prop, val) => {
                 for (var i = 0; i < arr.length; i++) {
                     if (arr[i][prop] === val) {
@@ -126,7 +115,7 @@ export default function reducer(state = {}, action) {
             console.log("ind: ", ind);
 
             if (ind) {
-                //potentially refactor this. I don't think the map is necessary anymore, since we have the index now
+                //refactor this. map is no longer necessary, since we have the index now
                 let socketIds = state.socketIds.map((x) => {
                     if (x.id == action.idAndSocket.id) {
                         x.socket.unshift(action.idAndSocket.socket[0]);
@@ -155,8 +144,6 @@ export default function reducer(state = {}, action) {
     }
 
     if (action.type === "STORE_OTHER_ID_AND_SOCKET") {
-        // console.log("reducer.js store othIS: ", action.idAndSocket);
-
         state = {
             ...state,
             socketIds: [...state.socketIds, action.idAndSocket],
