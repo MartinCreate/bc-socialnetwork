@@ -7,7 +7,7 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
 -   Welcome Page
     -   Register/login
     -   Reset password - receive email with code that allows you to change your account password
-    -   Form Validation - error messages for various scenarios (e.g. missing inputs for any field, duplicate email registration attempt, wrong password at login, etc.)
+    -   Form validation - error messages for various scenarios (e.g. missing inputs for any field, duplicate email registration attempt, wrong password at login, etc.)
 -   Profile Page
     -   Upload profile picture
     -   Create personal bio on profile-page
@@ -29,7 +29,7 @@ A musician-oriented social network for casual/amateur musicians to meet up and o
         -   view all your private chats (organized by most recently chatted with)
         -   search among your friends and start chat
         -   red/green highlight on search-result to indicate whether or not you currently have an active chat with friend
-        -   realtime orange-highlight notification for when friend whose chat window you currently are not in sent you a message
+        -   real time orange-highlight notification for when friend, whose chat window you currently are not in, sends you a message
 
 ## Tech Stack
 
